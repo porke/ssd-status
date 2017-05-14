@@ -7,8 +7,8 @@
     <ProjectGuid>{44FB59B3-0E76-4D81-8491-F54AFC8AD086}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Core</RootNamespace>
-    <AssemblyName>Core</AssemblyName>
+    <RootNamespace>SSD_Status.Core</RootNamespace>
+    <AssemblyName>SSD_Status.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,16 +32,23 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Management" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\IRecordParser.cs" />
+    <Compile Include="Api\IRecordReader.cs" />
+    <Compile Include="Api\Record.cs" />
+    <Compile Include="Api\RecordType.cs" />
+    <Compile Include="Api\ServiceLocator.cs" />
+    <Compile Include="Api\UnitType.cs" />
+    <Compile Include="Implementation\Parsers\PowerOnHoursParser.cs" />
+    <Compile Include="Implementation\Parsers\WrittenGigabytesParser.cs" />
+    <Compile Include="Implementation\RecordReader.cs" />
+    <Compile Include="Implementation\Parsers\WearLevellingParser.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
