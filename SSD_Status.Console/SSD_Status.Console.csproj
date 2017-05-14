@@ -44,7 +44,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\SSD_Status.Core.csproj">
+    <ProjectReference Include="..\SSD_Status.Core\SSD_Status.Core.csproj">
       <Project>{44fb59b3-0e76-4d81-8491-f54afc8ad086}</Project>
       <Name>SSD_Status.Core</Name>
     </ProjectReference>

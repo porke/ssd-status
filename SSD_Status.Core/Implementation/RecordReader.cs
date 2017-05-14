@@ -1,9 +1,8 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections.Generic;
 using SSD_Status.Core.Api;
 using System.Management;
 using SSD_Status.Core.Implementation.Parsers;
-using System.Diagnostics;
 
 namespace SSD_Status.Core.Implementation
 {
@@ -41,7 +40,7 @@ namespace SSD_Status.Core.Implementation
                     }                       
                 }
             }
-            return outputAttributes;
+            return outputAttributes.OrderBy(x => x.Type.SmartCode).ToList();
         }        
     }
 }
