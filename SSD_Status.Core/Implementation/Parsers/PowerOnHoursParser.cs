@@ -19,7 +19,6 @@ namespace SSD_Status.Core.Implementation.Parsers
             {
                 Value = vendordata,
                 Type = new RecordType(AttributeId, "Power on hours", UnitType.Hour),
-                Timestamp = DateTime.Now
             };
         }
     }

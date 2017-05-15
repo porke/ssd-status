@@ -19,7 +19,6 @@ namespace SSD_Status.Core.Implementation.Parsers
             {
                 Value = vendordata,
                 Type = new RecordType(AttributeId, "Wear levelling", UnitType.None),
-                Timestamp = DateTime.Now
             };
         }
     }

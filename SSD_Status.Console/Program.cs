@@ -7,26 +7,27 @@ namespace SSD_Status.Console
     {
         static void Main(string[] args)
         {
-            var records = ServiceLocator.RecordReader.GetRecords();
+            var entry = ServiceLocator.RecordReader.ReadAttributes();
 
             if (args.Length == 1)
             {
-                AppendToFile(records, "test.csv");
+                AppendToFile(entry, "test.csv");
             }
             else
             {
-                PrintToConsole(records); 
+                PrintToConsole(entry); 
             }
         }
 
-        private static void AppendToFile(IReadOnlyList<Record> records, string filename)
+        private static void AppendToFile(Entry smartEntry, string filename)
         {
             // TODO: implement output
         }
 
-        private static void PrintToConsole(IReadOnlyList<Record> records)
+        private static void PrintToConsole(Entry smartEntry)
         {
-            foreach (var record in records)
+            System.Console.WriteLine($"Time: {smartEntry.Timestamp}");
+            foreach (var record in smartEntry.Records)
             {
                 switch (record.Type.Unit)
                 {

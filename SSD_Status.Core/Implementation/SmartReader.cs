@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using SSD_Status.Core.Api;
 using System.Management;
 using SSD_Status.Core.Implementation.Parsers;
+using System;
 
 namespace SSD_Status.Core.Implementation
 {
-    internal class RecordReader : IRecordReader
+    internal class SmartReader : ISmartReader
     {
         private IList<IRecordParser> _recordParsers = new List<IRecordParser>()
         {
@@ -15,7 +16,7 @@ namespace SSD_Status.Core.Implementation
             new WrittenBytesParser()
         };
     
-        public IReadOnlyList<Record> GetRecords()
+        public Entry ReadAttributes()
         {
             var searcher = new ManagementObjectSearcher("Select * from Win32_DiskDrive")
             {
@@ -40,7 +41,12 @@ namespace SSD_Status.Core.Implementation
                     }                       
                 }
             }
-            return outputAttributes.OrderBy(x => x.Type.SmartCode).ToList();
+
+            return new Entry
+            {
+                Timestamp = DateTime.Now,
+                Records = outputAttributes.OrderBy(x => x.Type.SmartCode).ToList()
+            };            
         }        
     }
 }

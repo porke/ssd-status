@@ -4,11 +4,11 @@ namespace SSD_Status.Core.Api
 {
     public static class ServiceLocator
     {
-        public static IRecordReader RecordReader
+        public static ISmartReader RecordReader
         {
             get
             {
-                return new RecordReader();
+                return new SmartReader();
             }
         }
     }

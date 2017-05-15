@@ -28,7 +28,6 @@ namespace SSD_Status.Core.Implementation.Parsers
             {
                 Value = writtenSectors * sectorSizeInBytes,
                 Type = new RecordType(0, "Written bytes", UnitType.Byte),
-                Timestamp = DateTime.Now
             };
         }
     }
