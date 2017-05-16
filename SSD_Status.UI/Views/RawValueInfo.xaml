@@ -8,9 +8,6 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Background="White">
         <TextBlock HorizontalAlignment="Center">Raw values</TextBlock>
-        <ListBox>
-            <ListBoxItem>Test 1</ListBoxItem>
-            <ListBoxItem>Test 2</ListBoxItem>
-        </ListBox>
+        <ListBox ItemsSource="{Binding RawValues}"/>
     </StackPanel>
 </UserControl>

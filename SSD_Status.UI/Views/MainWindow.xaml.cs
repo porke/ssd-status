@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SSD_Status.WPF.Controllers;
+using SSD_Status.WPF.ViewModels;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace SSD_Status.WPF.Views
 {
@@ -19,9 +9,15 @@ namespace SSD_Status.WPF.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainController _controller;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            var mainViewModel = new MainViewModel();
+            DataContext = mainViewModel;
+            _controller = new MainController(mainViewModel);
         }
     }
 }

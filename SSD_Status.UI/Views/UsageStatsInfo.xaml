@@ -20,7 +20,7 @@
         <StackPanel Background="White">
             <DockPanel>
                 <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center">File name</TextBlock>
-                <TextBlock Margin="5" Padding="3" Background="Wheat">Very/Long/Path/To/File</TextBlock>
+                <TextBlock Margin="5" Padding="3" Background="Wheat" Text="{Binding SourceDataFile}"/>
                 <Button DockPanel.Dock="Right" Margin="5" Width="30" Content="..."/>
             </DockPanel>
 
@@ -36,10 +36,7 @@
         
         <StackPanel Background="White" Grid.Column="1">
             <TextBlock HorizontalAlignment="Center">Life estimates</TextBlock>
-            <ListBox>
-                <ListBoxItem>111</ListBoxItem>
-                <ListBoxItem>121</ListBoxItem>
-            </ListBox>
+            <ListBox ItemsSource="{Binding LifeEstimates}"/>
         </StackPanel>
 
         <chartingToolkit:Chart Grid.Row="1" Grid.ColumnSpan="2"
