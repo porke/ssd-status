@@ -1,10 +1,25 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Input;
 
 namespace SSD_Status.WPF.ViewModels
 {
-    internal class UsageStatsInfoViewModel
+    internal class UsageStatsInfoViewModel : ViewModelBase
     {
-        public string SourceDataFile { get; set; } = "SomeFileVeryFarAway.csv";
+        private string _sourceDataFile = "SomeFileVeryFarAway.csv";
+
+        public string SourceDataFile
+        {
+            get
+            {
+                return _sourceDataFile;
+            }
+            set
+            {
+                _sourceDataFile = value;
+                NotifyPropertyChanged(nameof(SourceDataFile));
+            }
+        }
 
         public ObservableCollection<string> LifeEstimates
         {
@@ -13,5 +28,7 @@ namespace SSD_Status.WPF.ViewModels
                 return new ObservableCollection<string> { "Not", "Very", "Long" };
             }
         }
+
+        public ICommand OpenFileCommand { get; set; }      
     }
 }

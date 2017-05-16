@@ -86,10 +86,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="RelayCommand.cs" />
     <Compile Include="ViewModels\DriveInfoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RawValueInfoViewModel.cs" />
     <Compile Include="ViewModels\UsageStatsInfoViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\DriveInfo.xaml.cs">
       <DependentUpon>DriveInfo.xaml</DependentUpon>
     </Compile>
@@ -130,7 +132,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SSD_Status.Core\SSD_Status.Core.csproj">
+      <Project>{44fb59b3-0e76-4d81-8491-f54afc8ad086}</Project>
+      <Name>SSD_Status.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Views\DriveInfo.xaml">
       <SubType>Designer</SubType>

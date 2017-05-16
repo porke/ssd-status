@@ -18,6 +18,7 @@ namespace SSD_Status.WPF.Views
             var mainViewModel = new MainViewModel();
             DataContext = mainViewModel;
             _controller = new MainController(mainViewModel);
+            _controller.LoadRawValuesCommand.Execute(null);
         }
     }
 }

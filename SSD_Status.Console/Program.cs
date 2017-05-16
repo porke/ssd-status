@@ -1,5 +1,4 @@
 ﻿using SSD_Status.Core.Api;
-using System.Collections.Generic;
 
 namespace SSD_Status.Console
 {
@@ -7,7 +6,7 @@ namespace SSD_Status.Console
     {
         static void Main(string[] args)
         {
-            var entry = ServiceLocator.RecordReader.ReadAttributes();
+            var entry = ServiceLocator.SmartEntryReader.ReadAttributes();
 
             if (args.Length == 1)
             {

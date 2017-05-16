@@ -21,7 +21,7 @@
             <DockPanel>
                 <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center">File name</TextBlock>
                 <TextBlock Margin="5" Padding="3" Background="Wheat" Text="{Binding SourceDataFile}"/>
-                <Button DockPanel.Dock="Right" Margin="5" Width="30" Content="..."/>
+                <Button DockPanel.Dock="Right" Command="{Binding OpenFileCommand}" Margin="5" Width="30" Content="..."/>
             </DockPanel>
 
             <DockPanel>
