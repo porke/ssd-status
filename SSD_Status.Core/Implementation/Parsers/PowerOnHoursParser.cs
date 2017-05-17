@@ -7,6 +7,8 @@ namespace SSD_Status.Core.Implementation.Parsers
     {
         private const byte AttributeId = 0x09;
 
+        public string Description => "Power on hours";
+
         public bool CanParse(byte id)
         {
             return AttributeId == id;
@@ -18,7 +20,7 @@ namespace SSD_Status.Core.Implementation.Parsers
             return new Record
             {
                 Value = vendordata,
-                Type = new RecordType(AttributeId, "Power on hours", UnitType.Hour),
+                Type = new RecordType(AttributeId, Description, UnitType.Hour),
             };
         }
     }

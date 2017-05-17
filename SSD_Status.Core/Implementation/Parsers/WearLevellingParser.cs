@@ -7,6 +7,8 @@ namespace SSD_Status.Core.Implementation.Parsers
     {
         private const byte AttributeId = 0xAD;
 
+        public string Description => "Wear levelling";
+
         public bool CanParse(byte id)
         {
             return id == AttributeId;
@@ -18,7 +20,7 @@ namespace SSD_Status.Core.Implementation.Parsers
             return new Record
             {
                 Value = vendordata,
-                Type = new RecordType(AttributeId, "Wear levelling", UnitType.None),
+                Type = new RecordType(AttributeId, Description, UnitType.None),
             };
         }
     }

@@ -9,6 +9,8 @@ namespace SSD_Status.Core.Implementation.Parsers
     {
         private readonly byte AttributeId = 0xF6;
 
+        public string Description => "Written bytes";
+
         public bool CanParse(byte id)
         {
             return AttributeId == id;
@@ -27,7 +29,7 @@ namespace SSD_Status.Core.Implementation.Parsers
             return new Record
             {
                 Value = writtenSectors * sectorSizeInBytes,
-                Type = new RecordType(0, "Written bytes", UnitType.Byte),
+                Type = new RecordType(0, Description, UnitType.Byte),
             };
         }
     }

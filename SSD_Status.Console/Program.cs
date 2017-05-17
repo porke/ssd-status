@@ -1,4 +1,7 @@
 ﻿using SSD_Status.Core.Api;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 
 namespace SSD_Status.Console
 {
@@ -10,7 +13,8 @@ namespace SSD_Status.Console
 
             if (args.Length == 1)
             {
-                AppendToFile(entry, "test.csv");
+                string path = args[0].Replace("\"", "").Split('=')[1];
+                AppendToFile(entry, path);
             }
             else
             {
@@ -18,9 +22,16 @@ namespace SSD_Status.Console
             }
         }
 
-        private static void AppendToFile(Entry smartEntry, string filename)
+        private static void AppendToFile(Entry smartEntry, string path)
         {
-            // TODO: implement output
+            using (var file = new StreamWriter(File.Open(path, FileMode.Append)))
+            {                
+                string dateString = smartEntry.Timestamp.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                decimal bytesWritten = smartEntry.Records.First(x => x.Type.Unit == UnitType.Byte).Value;
+                decimal powerOnHours = smartEntry.Records.First(x => x.Type.Unit == UnitType.Hour).Value;
+                decimal wearLevelling = smartEntry.Records.First(x => x.Type.Unit == UnitType.None).Value;
+                file.WriteLine($"{dateString};{powerOnHours};{wearLevelling};{BytesToGigabytes(bytesWritten).ToString("0.##", CultureInfo.InvariantCulture)}");
+            }
         }
 
         private static void PrintToConsole(Entry smartEntry)
@@ -30,9 +41,8 @@ namespace SSD_Status.Console
             {
                 switch (record.Type.Unit)
                 {
-                    case UnitType.Byte:
-                        const decimal byteToGigabyteDivisor = 1024 * 1024 * 1024;
-                        System.Console.WriteLine($"{record.Type.Name} {(record.Value / byteToGigabyteDivisor).ToString("0.##")} GB");
+                    case UnitType.Byte:                        
+                        System.Console.WriteLine($"{record.Type.Name} {BytesToGigabytes(record.Value).ToString("0.##", CultureInfo.InvariantCulture)} GB");
                         break;
                     case UnitType.Hour:
                         System.Console.WriteLine($"{record.Type.Name} {record.Value} {record.Type.Unit}s");
@@ -43,8 +53,12 @@ namespace SSD_Status.Console
 
                 }                
             }
+        }
 
-            System.Console.ReadKey();
+        private static decimal BytesToGigabytes(decimal bytes)
+        {
+            const decimal byteToGigabyteDivisor = 1024 * 1024 * 1024;
+            return bytes / byteToGigabyteDivisor;
         }
     }
 }
