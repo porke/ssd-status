@@ -5,7 +5,7 @@ using SSD_Status.Core.Api;
 
 namespace SSD_Status.Core.Implementation.Parsers
 {
-    internal class WrittenBytesParser : IRecordParser
+    internal class WrittenGigabytesParser : IRecordParser
     {
         private readonly byte AttributeId = 0xF6;
 
@@ -28,9 +28,15 @@ namespace SSD_Status.Core.Implementation.Parsers
             const int sectorSizeInBytes = 512;
             return new Record
             {
-                Value = writtenSectors * sectorSizeInBytes,
-                Type = new RecordType(0, Description, UnitType.Byte),
+                Value = BytesToGigabytes(writtenSectors * sectorSizeInBytes),
+                Type = new RecordType(0, Description, UnitType.Gigabyte),
             };
+        }
+
+        private static decimal BytesToGigabytes(decimal bytes)
+        {
+            const decimal byteToGigabyteDivisor = 1024 * 1024 * 1024;
+            return bytes / byteToGigabyteDivisor;
         }
     }
 }

@@ -44,7 +44,7 @@
     <Compile Include="Api\ServiceLocator.cs" />
     <Compile Include="Api\UnitType.cs" />
     <Compile Include="Implementation\Parsers\PowerOnHoursParser.cs" />
-    <Compile Include="Implementation\Parsers\WrittenBytesParser.cs" />
+    <Compile Include="Implementation\Parsers\WrittenGigabytesParser.cs" />
     <Compile Include="Implementation\SmartReader.cs" />
     <Compile Include="Implementation\Parsers\WearLevellingParser.cs" />
     <Compile Include="Module.cs" />

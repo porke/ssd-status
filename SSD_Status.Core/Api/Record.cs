@@ -3,6 +3,6 @@
     public class Record
     {        
         public decimal Value { get; set; }
-        public RecordType Type {get; set;}
+        public RecordType Type {get; set; }
     }
 }

@@ -4,6 +4,6 @@
     {
         None,
         Hour,
-        Byte
+        Gigabyte
     }
 }
