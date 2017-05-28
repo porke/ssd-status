@@ -41,7 +41,7 @@ namespace SSD_Status.Console
             {
                 switch (record.Type.Unit)
                 {
-                    case UnitType.Byte:                        
+                    case UnitType.Byte:
                         System.Console.WriteLine($"{record.Type.Name} {BytesToGigabytes(record.Value).ToString("0.##", CultureInfo.InvariantCulture)} GB");
                         break;
                     case UnitType.Hour:
@@ -51,7 +51,7 @@ namespace SSD_Status.Console
                         System.Console.WriteLine($"{record.Type.Name} {record.Value}");
                         break;
 
-                }                
+                }
             }
         }
 

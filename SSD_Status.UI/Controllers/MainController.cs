@@ -1,5 +1,6 @@
 ﻿using SSD_Status.Core.Api;
 using SSD_Status.WPF.ViewModels;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace SSD_Status.WPF.Controllers
@@ -23,11 +24,30 @@ namespace SSD_Status.WPF.Controllers
 
         private void LoadRawValuesCommand_Execute(object obj)
         {
+            _viewModel.RawValueInfo.RawValues.Clear();
             Entry entry = ServiceLocator.SmartEntryReader.ReadAttributes();
             foreach (var record in entry.Records)
             {
-                _viewModel.RawValueInfo.RawValues.Add($"{record.Type.Name} {record.Value}");
-            }
+                switch (record.Type.Unit)
+                {
+                    case UnitType.Byte:
+                        _viewModel.RawValueInfo.RawValues.Add($"{record.Type.Name} {BytesToGigabytes(record.Value).ToString("0.##", CultureInfo.InvariantCulture)} GB");
+                        break;
+                    case UnitType.Hour:
+                        _viewModel.RawValueInfo.RawValues.Add($"{record.Type.Name} {record.Value} {record.Type.Unit}s");
+                        break;
+                    default:
+                        _viewModel.RawValueInfo.RawValues.Add($"{record.Type.Name} {record.Value}");
+                        break;
+
+                }
+            }            
+        }
+
+        private static decimal BytesToGigabytes(decimal bytes)
+        {
+            const decimal byteToGigabyteDivisor = 1024 * 1024 * 1024;
+            return bytes / byteToGigabyteDivisor;
         }
 
         private void OpenFileCommand_Execute(object obj)
