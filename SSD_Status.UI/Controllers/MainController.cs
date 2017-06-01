@@ -20,9 +20,10 @@ namespace SSD_Status.WPF.Controllers
             _viewModel = viewModel;
 
             OpenFileCommand = new RelayCommand(OpenFileCommand_Execute);
-            _viewModel.UsageStatsInfo.OpenFileCommand = OpenFileCommand;
-
             LoadRawValuesCommand = new RelayCommand(LoadRawValuesCommand_Execute);
+
+            _viewModel.UsageStatsInfo.OpenFileCommand = OpenFileCommand;
+            _viewModel.RawValueInfo.RefreshRawValues = LoadRawValuesCommand;            
         }
 
         private void LoadRawValuesCommand_Execute(object obj)
@@ -42,7 +43,6 @@ namespace SSD_Status.WPF.Controllers
                     default:
                         _viewModel.RawValueInfo.RawValues.Add($"{record.Type.Name} {record.Value}");
                         break;
-
                 }
             }            
         }

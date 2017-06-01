@@ -9,5 +9,6 @@
     <StackPanel Background="White">
         <TextBlock HorizontalAlignment="Center">Raw values</TextBlock>
         <ListBox ItemsSource="{Binding RawValues}"/>
+        <Button Command="{Binding RefreshRawValues}">Refresh</Button>
     </StackPanel>
 </UserControl>

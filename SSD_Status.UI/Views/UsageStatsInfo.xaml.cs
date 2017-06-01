@@ -12,12 +12,14 @@ namespace SSD_Status.WPF.Views
         {
             InitializeComponent();
 
-            List<KeyValuePair<string, int>> valueList = new List<KeyValuePair<string, int>>();
-            valueList.Add(new KeyValuePair<string, int>("Developer", 60));
-            valueList.Add(new KeyValuePair<string, int>("Misc", 20));
-            valueList.Add(new KeyValuePair<string, int>("Tester", 50));
-            valueList.Add(new KeyValuePair<string, int>("QA", 30));
-            valueList.Add(new KeyValuePair<string, int>("Project Manager", 40));
+            var valueList = new List<KeyValuePair<int, int>>
+            {
+                new KeyValuePair<int, int>(1, 60),
+                new KeyValuePair<int, int>(2, 20),
+                new KeyValuePair<int, int>(3, 50),
+                new KeyValuePair<int, int>(4, 30),
+                new KeyValuePair<int, int>(5, 40)
+            };
 
             //Setting data for line chart
             UsageChart.DataContext = valueList;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace SSD_Status.WPF.ViewModels
 {
@@ -18,5 +19,7 @@ namespace SSD_Status.WPF.ViewModels
                 NotifyPropertyChanged(nameof(RawValues));
             }
         }
+
+        public ICommand RefreshRawValues { get; set; }
     }
 }
