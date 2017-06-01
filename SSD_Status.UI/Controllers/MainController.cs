@@ -5,6 +5,7 @@ using System.Linq;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace SSD_Status.WPF.Controllers
 {
@@ -54,14 +55,17 @@ namespace SSD_Status.WPF.Controllers
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     _viewModel.UsageStatsInfo.SourceDataFile = openFileDialog.FileName;
+                    _viewModel.UsageStatsInfo.UsageValues.Clear();
 
                     foreach (var line in File.ReadAllLines(openFileDialog.FileName).Skip(1))
                     {
                         var entries = line.Split(';');
-                        DateTime timestamp = DateTime.Parse(entries[0]);
+                        DateTime timestamp = DateTime.ParseExact(entries[0], "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
                         int powerOnHours = int.Parse(entries[1]);
                         int wearLevelling = int.Parse(entries[2]);
                         double writtenGb = double.Parse(entries[3], CultureInfo.InvariantCulture);
+
+                        _viewModel.UsageStatsInfo.UsageValues.Add(new KeyValuePair<DateTime, double>(timestamp, writtenGb));
                     }
                 }
             }

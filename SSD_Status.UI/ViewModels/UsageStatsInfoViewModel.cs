@@ -1,5 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace SSD_Status.WPF.ViewModels
@@ -28,6 +29,8 @@ namespace SSD_Status.WPF.ViewModels
                 return new ObservableCollection<string> { "Not", "Very", "Long" };
             }
         }
+        
+        public ObservableCollection<KeyValuePair<DateTime, double>> UsageValues { get; } = new ObservableCollection<KeyValuePair<DateTime, double>>();
 
         public ICommand OpenFileCommand { get; set; }      
     }

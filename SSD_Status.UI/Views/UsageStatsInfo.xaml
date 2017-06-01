@@ -43,18 +43,21 @@
             Name="UsageChart"
             Background="White" 
             HorizontalAlignment="Stretch"                 
-            Title="Chart Title" 
+            Title="Some Chart" 
             VerticalAlignment="Stretch" >
 
-            <chartingToolkit:Chart.Axes>
-                <chartingToolkit:LinearAxis Orientation="X"></chartingToolkit:LinearAxis>
-                <chartingToolkit:LinearAxis Orientation="Y"></chartingToolkit:LinearAxis>
-            </chartingToolkit:Chart.Axes>
-
-            <chartingToolkit:LineSeries DependentValuePath="Value" 
-		                                IndependentValuePath="Key" ItemsSource="{Binding}" 
-		                                IsSelectionEnabled="True"/>
-            
+            <chartingToolkit:LineSeries Title="Usage Data"
+                                        DependentValueBinding="{Binding Path=Value}"
+		                                IndependentValueBinding="{Binding Path=Key}"
+                                        ItemsSource="{Binding UsageValues}" 
+		                                IsSelectionEnabled="True">
+                <chartingToolkit:LineSeries.IndependentAxis>
+                    <chartingToolkit:DateTimeAxis Title="Date" Orientation="X"/>
+                </chartingToolkit:LineSeries.IndependentAxis>
+                <chartingToolkit:LineSeries.DependentRangeAxis>
+                    <chartingToolkit:LinearAxis Title="AAA" Orientation="Y"/>
+                </chartingToolkit:LineSeries.DependentRangeAxis>
+            </chartingToolkit:LineSeries>
         </chartingToolkit:Chart>
     </Grid>
 </UserControl>
