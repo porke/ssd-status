@@ -8,7 +8,7 @@ namespace SSD_Status.Core.Api
     public class Entry
     {
         public DateTime Timestamp { get; set; }
-        public IList<Record> Records { get; set; }
+        public IList<Record> Records { get; set; } = new List<Record>();
 
         public string Description
         {

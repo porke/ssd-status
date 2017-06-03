@@ -9,7 +9,7 @@ namespace SSD_Status.Core.Implementation.Parsers
     {
         private readonly byte AttributeId = 0xF6;
 
-        public string Description => "Written bytes";
+        public string Description => "Written gigabytes";
 
         public bool CanParse(byte id)
         {
@@ -29,13 +29,13 @@ namespace SSD_Status.Core.Implementation.Parsers
             return new Record
             {
                 Value = BytesToGigabytes(writtenSectors * sectorSizeInBytes),
-                Type = new RecordType(0, Description, UnitType.Gigabyte),
+                Type = new RecordType(Description, UnitType.Gigabyte),
             };
         }
 
-        private static decimal BytesToGigabytes(decimal bytes)
+        private static double BytesToGigabytes(double bytes)
         {
-            const decimal byteToGigabyteDivisor = 1024 * 1024 * 1024;
+            const double byteToGigabyteDivisor = 1024 * 1024 * 1024;
             return bytes / byteToGigabyteDivisor;
         }
     }

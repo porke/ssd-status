@@ -4,6 +4,7 @@
     {
         None,
         Hour,
-        Gigabyte
+        Gigabyte,
+        Percent,
     }
 }

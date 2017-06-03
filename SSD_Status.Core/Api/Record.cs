@@ -2,7 +2,7 @@
 {
     public class Record
     {        
-        public decimal Value { get; set; }
+        public double Value { get; set; }
         public RecordType Type {get; set; }
     }
 }

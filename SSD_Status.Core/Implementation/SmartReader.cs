@@ -46,7 +46,7 @@ namespace SSD_Status.Core.Implementation
             return new Entry
             {
                 Timestamp = DateTime.Now,
-                Records = outputAttributes.OrderBy(x => x.Type.SmartCode).ToList()
+                Records = outputAttributes
             };            
         }        
     }

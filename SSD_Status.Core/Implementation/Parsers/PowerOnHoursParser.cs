@@ -20,7 +20,7 @@ namespace SSD_Status.Core.Implementation.Parsers
             return new Record
             {
                 Value = vendordata,
-                Type = new RecordType(AttributeId, Description, UnitType.Hour),
+                Type = new RecordType(Description, UnitType.Hour),
             };
         }
     }

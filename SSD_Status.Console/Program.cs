@@ -27,9 +27,9 @@ namespace SSD_Status.Console
             using (var file = new StreamWriter(File.Open(path, FileMode.Append)))
             {                
                 string dateString = smartEntry.Timestamp.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                decimal gigabytesWritten = smartEntry.Records.First(x => x.Type.Unit == UnitType.Gigabyte).Value;
-                decimal powerOnHours = smartEntry.Records.First(x => x.Type.Unit == UnitType.Hour).Value;
-                decimal wearLevelling = smartEntry.Records.First(x => x.Type.Unit == UnitType.None).Value;
+                double gigabytesWritten = smartEntry.Records.First(x => x.Type.Unit == UnitType.Gigabyte).Value;
+                double powerOnHours = smartEntry.Records.First(x => x.Type.Unit == UnitType.Hour).Value;
+                double wearLevelling = smartEntry.Records.First(x => x.Type.Unit == UnitType.None).Value;
                 file.WriteLine($"{dateString};{powerOnHours};{wearLevelling};{(gigabytesWritten).ToString("0.##", CultureInfo.InvariantCulture)}");
             }
         }

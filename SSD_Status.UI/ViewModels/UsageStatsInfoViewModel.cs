@@ -22,13 +22,7 @@ namespace SSD_Status.WPF.ViewModels
             }
         }
 
-        public ObservableCollection<string> LifeEstimates
-        {
-            get
-            {
-                return new ObservableCollection<string> { "Not", "Very", "Long" };
-            }
-        }
+        public ObservableCollection<string> LifeEstimates { get; } = new ObservableCollection<string>();
         
         public ObservableCollection<KeyValuePair<DateTime, double>> UsageValues { get; } = new ObservableCollection<KeyValuePair<DateTime, double>>();
 
