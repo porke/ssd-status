@@ -43,6 +43,7 @@
     <Compile Include="Api\RecordType.cs" />
     <Compile Include="Api\ServiceLocator.cs" />
     <Compile Include="Api\UnitType.cs" />
+    <Compile Include="Implementation\Parsers\PercentLifetimeLeft.cs" />
     <Compile Include="Implementation\Parsers\PowerOnHoursParser.cs" />
     <Compile Include="Implementation\Parsers\WrittenGigabytesParser.cs" />
     <Compile Include="Implementation\SmartReader.cs" />

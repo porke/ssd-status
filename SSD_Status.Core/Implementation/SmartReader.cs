@@ -13,7 +13,8 @@ namespace SSD_Status.Core.Implementation
         {
             new WearLevellingParser(),
             new PowerOnHoursParser(),
-            new WrittenGigabytesParser()
+            new WrittenGigabytesParser(),
+            new PercentLifetimeLeft()
         };
     
         public Entry ReadAttributes()
