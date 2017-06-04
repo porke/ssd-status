@@ -3,7 +3,7 @@ using SSD_Status.Core.Api;
 
 namespace SSD_Status.Core.Implementation.Parsers
 {
-    internal class PercentLifetimeLeft : IRecordParser
+    internal class PercentLifetimeLeftParser : IRecordParser
     {
         private const byte AttributeId = 0xCA;
         public string Description => "Percent lifetime left";
