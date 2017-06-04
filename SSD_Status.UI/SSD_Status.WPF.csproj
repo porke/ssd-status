@@ -89,11 +89,15 @@
     <Compile Include="Utilities\SimpleMovingAverageCalculator.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="ViewModels\ChartViewModel.cs" />
     <Compile Include="ViewModels\DriveInfoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RawValueInfoViewModel.cs" />
     <Compile Include="ViewModels\UsageStatsInfoViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\ChartView.xaml.cs">
+      <DependentUpon>ChartView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DriveInfo.xaml.cs">
       <DependentUpon>DriveInfo.xaml</DependentUpon>
     </Compile>
@@ -141,6 +145,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\ChartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DriveInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

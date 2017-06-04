@@ -56,7 +56,7 @@ namespace SSD_Status.WPF.Controllers
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     _viewModel.UsageStatsInfo.SourceDataFile = openFileDialog.FileName;
-                    _viewModel.UsageStatsInfo.UsageValues.Clear();
+                    _viewModel.UsageStatsInfo.ChartViewModel.UsageValues.Clear();
 
                     var entries = new List<Entry>();
                     foreach (var line in File.ReadAllLines(openFileDialog.FileName).Skip(1))
@@ -106,7 +106,7 @@ namespace SSD_Status.WPF.Controllers
             var gigabyteWrittenEntries = entries.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.Records.First(r => r.Type.Unit == UnitType.Gigabyte).Value));            
             foreach (var entry in gigabyteWrittenEntries)
             {
-                _viewModel.UsageStatsInfo.UsageValues.Add(entry);
+                _viewModel.UsageStatsInfo.ChartViewModel.UsageValues.Add(entry);
             }
         }
     }

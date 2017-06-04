@@ -26,11 +26,7 @@
 
             <DockPanel>
                 <TextBlock Margin="5" VerticalAlignment="Center">Chart type</TextBlock>
-                <ComboBox Margin="5" SelectedIndex="0" HorizontalAlignment="Stretch">
-                    <ComboBoxItem>Chart 1</ComboBoxItem>
-                    <ComboBoxItem>Chart 2</ComboBoxItem>
-                    <ComboBoxItem>Chart 3</ComboBoxItem>
-                </ComboBox>
+                <ComboBox Margin="5" SelectedIndex="0" HorizontalAlignment="Stretch" ItemsSource="{Binding ChartTypes}"/>
             </DockPanel>
         </StackPanel>
         
@@ -39,25 +35,6 @@
             <ListBox ItemsSource="{Binding LifeEstimates}"/>
         </StackPanel>
 
-        <chartingToolkit:Chart Grid.Row="1" Grid.ColumnSpan="2"
-            Name="UsageChart"
-            Background="White" 
-            HorizontalAlignment="Stretch"                 
-            Title="Some Chart" 
-            VerticalAlignment="Stretch" >
-
-            <chartingToolkit:LineSeries Title="Usage Data"
-                                        DependentValueBinding="{Binding Path=Value}"
-		                                IndependentValueBinding="{Binding Path=Key}"
-                                        ItemsSource="{Binding UsageValues}" 
-		                                IsSelectionEnabled="True">
-                <chartingToolkit:LineSeries.IndependentAxis>
-                    <chartingToolkit:DateTimeAxis Title="Date" Orientation="X"/>
-                </chartingToolkit:LineSeries.IndependentAxis>
-                <chartingToolkit:LineSeries.DependentRangeAxis>
-                    <chartingToolkit:LinearAxis Title="AAA" Orientation="Y"/>
-                </chartingToolkit:LineSeries.DependentRangeAxis>
-            </chartingToolkit:LineSeries>
-        </chartingToolkit:Chart>
+        <local:ChartView DataContext="{Binding ChartViewModel}" Grid.Row="1" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>
