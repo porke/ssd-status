@@ -42,6 +42,9 @@ namespace SSD_Status.WPF.Controllers
                     case UnitType.Hour:
                         _viewModel.RawValueInfo.RawValues.Add($"{record.Type.Name} {record.Value} {record.Type.Unit}s");
                         break;
+                    case UnitType.Percent:
+                        _viewModel.RawValueInfo.RawValues.Add($"{record.Type.Name} {record.Value}%");
+                        break;
                     default:
                         _viewModel.RawValueInfo.RawValues.Add($"{record.Type.Name} {record.Value}");
                         break;
@@ -89,10 +92,10 @@ namespace SSD_Status.WPF.Controllers
                 return;
             }
 
-            entries = EntryAggregator.AggregateEntriesByDay(entries);            
+            entries = EntryAggregator.AggregateEntriesByDay(entries);
 
-            var lastEntry = entries.Last();
             var firstEntry = entries.First();
+            var lastEntry = entries.Last();            
             double usagePerDay = ServiceLocator.LifeStatsCalculator.CalculateUsagePerDay(firstEntry, lastEntry);
             double hourUsagePerDay = ServiceLocator.LifeStatsCalculator.CalculateHourUsagePerDay(firstEntry, lastEntry);
             double gigabytesPerHour = ServiceLocator.LifeStatsCalculator.CalculateWearPerDay(firstEntry, lastEntry);

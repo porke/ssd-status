@@ -19,7 +19,7 @@ namespace SSD_Status.Core.Implementation.Parsers
             return new Record
             {
                 Value = 100 - vendordata,
-                Type = new RecordType(Description, UnitType.None),
+                Type = new RecordType(Description, UnitType.Percent),
             };
         }
     }

@@ -8,6 +8,7 @@ namespace SSD_Status.WPF.ViewModels
         public ChartViewModel ChartViewModel { get; private set; } = new ChartViewModel();
 
         private string _sourceDataFile = "SomeFileVeryFarAway.csv";
+        private string _selectedChartType = "None";
 
         public string SourceDataFile
         {
@@ -28,13 +29,27 @@ namespace SSD_Status.WPF.ViewModels
             {
                 return new ObservableCollection<string>
                 {
+                    "None",
                     "Gigabytes written in time",
                     "Power on hours in time",
                     "Gigabytes written to power on hours in time",
                     "Wear levelling in time"
                 };
             }
-        }       
+        }
+
+        public string SelectedType
+        {
+            get
+            {
+                return _selectedChartType;
+            }
+            set
+            {
+                _selectedChartType = value;
+                NotifyPropertyChanged(nameof(SelectedType));                
+            }
+        }
 
         public ObservableCollection<string> LifeEstimates { get; } = new ObservableCollection<string>();
 

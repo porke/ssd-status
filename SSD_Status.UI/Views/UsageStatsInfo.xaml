@@ -26,7 +26,9 @@
 
             <DockPanel>
                 <TextBlock Margin="5" VerticalAlignment="Center">Chart type</TextBlock>
-                <ComboBox Margin="5" SelectedIndex="0" HorizontalAlignment="Stretch" ItemsSource="{Binding ChartTypes}"/>
+                <ComboBox Margin="5" SelectedIndex="0" HorizontalAlignment="Stretch"
+                          SelectedItem="{Binding SelectedType}"
+                          ItemsSource="{Binding ChartTypes}"/>
             </DockPanel>
         </StackPanel>
         
@@ -35,6 +37,7 @@
             <ListBox ItemsSource="{Binding LifeEstimates}"/>
         </StackPanel>
 
-        <local:ChartView DataContext="{Binding ChartViewModel}" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <local:ChartView Visibility="{Binding Path=ChartVisibility}"
+                         DataContext="{Binding ChartViewModel}" Grid.Row="1" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>
