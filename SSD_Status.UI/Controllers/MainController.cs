@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using SSD_Status.WPF.Utilities;
 
 namespace SSD_Status.WPF.Controllers
 {
@@ -76,25 +77,33 @@ namespace SSD_Status.WPF.Controllers
                         entries.Add(entry);
                     }
 
-                    UpdateEntries(entries);
+                    UpdateUsageStatsViewModel(entries);
                 }
             }
         }
 
-        private void UpdateEntries(IReadOnlyList<Entry> entries)
+        private void UpdateUsageStatsViewModel(IReadOnlyList<Entry> entries)
         {
             if (!entries.Any())
             {
                 return;
             }
 
+            entries = EntryAggregator.AggregateEntriesByDay(entries);            
+
             var lastEntry = entries.Last();
             var firstEntry = entries.First();
-            var usagePerDay = ServiceLocator.LifeStatsCalculator.CalculateUsagePerDay(firstEntry, lastEntry);
+            double usagePerDay = ServiceLocator.LifeStatsCalculator.CalculateUsagePerDay(firstEntry, lastEntry);
+            double hourUsagePerDay = ServiceLocator.LifeStatsCalculator.CalculateHourUsagePerDay(firstEntry, lastEntry);
+            double gigabytesPerHour = ServiceLocator.LifeStatsCalculator.CalculateWearPerDay(firstEntry, lastEntry);
+            double wearPerDay = ServiceLocator.LifeStatsCalculator.CalculateWearPerDay(firstEntry, lastEntry);
             _viewModel.UsageStatsInfo.LifeEstimates.Clear();
-            _viewModel.UsageStatsInfo.LifeEstimates.Add($"Usage per day {usagePerDay.ToString("0.##", CultureInfo.InvariantCulture)} GB");
+            _viewModel.UsageStatsInfo.LifeEstimates.Add($"Usage per day: {usagePerDay.ToString("0.##", CultureInfo.InvariantCulture)} GB");
+            _viewModel.UsageStatsInfo.LifeEstimates.Add($"Hour usage per day: {hourUsagePerDay.ToString("0.##", CultureInfo.InvariantCulture)} h");
+            _viewModel.UsageStatsInfo.LifeEstimates.Add($"Gigabytes per usage hour: {gigabytesPerHour.ToString("0.##", CultureInfo.InvariantCulture)} GB");
+            _viewModel.UsageStatsInfo.LifeEstimates.Add($"Wear per day: {wearPerDay.ToString("0.####", CultureInfo.InvariantCulture)}");
 
-            var gigabyteWrittenEntries = entries.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.Records.First(r => r.Type.Unit == UnitType.Gigabyte).Value));
+            var gigabyteWrittenEntries = entries.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.Records.First(r => r.Type.Unit == UnitType.Gigabyte).Value));            
             foreach (var entry in gigabyteWrittenEntries)
             {
                 _viewModel.UsageStatsInfo.UsageValues.Add(entry);

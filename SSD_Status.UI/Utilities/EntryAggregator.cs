@@ -16,7 +16,7 @@ namespace SSD_Status.WPF.Utilities
             while (currentMonth <= maxDate)
             {
                 months.Add(new DateTime(currentMonth.Year, currentMonth.Month, 1));
-                currentMonth.AddMonths(1);
+                currentMonth = currentMonth.AddMonths(1);
             }
 
             var aggregatedEntries = new List<Entry>();
@@ -50,10 +50,10 @@ namespace SSD_Status.WPF.Utilities
             DateTime previousDate = minDate;
             while (currentDate <= maxDate)
             {
-                var entryAtDate = entries.FirstOrDefault(x => x.Timestamp == currentDate);                
+                var entryAtDate = entries.FirstOrDefault(x => x.Timestamp.Date == currentDate.Date);                
                 if (entryAtDate == null)
                 {
-                    entryAtDate = entries.FirstOrDefault(x => x.Timestamp == previousDate);
+                    entryAtDate = entries.FirstOrDefault(x => x.Timestamp.Date == previousDate.Date);
                 }
                 else
                 {
@@ -61,7 +61,7 @@ namespace SSD_Status.WPF.Utilities
                 }
 
                 aggregatedEntries.Add(entryAtDate);
-                currentDate.AddDays(1);
+                currentDate = currentDate.AddDays(1);
             }
 
             return aggregatedEntries;
