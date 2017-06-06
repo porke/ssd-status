@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace SSD_Status.WPF.ViewModels
 {
-    internal class UsageStatsInfoViewModel : ViewModelBase
+    internal class HistoricalUsageStatsViewModel : ViewModelBase
     {
         private string _sourceDataFile = "SomeFileVeryFarAway.csv";
         private ChartTypeViewModel _selectedChartType = ChartTypeViewModelSource.GetChartViewModelTypes().First();

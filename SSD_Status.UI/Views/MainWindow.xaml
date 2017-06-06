@@ -21,10 +21,10 @@
             <local:RawValueInfo DataContext="{Binding RawValueInfo}" Grid.Column="1"/>
 
             <TabControl Grid.Row="1" Grid.ColumnSpan="2">
-                <TabItem Header="Historical usage">
+                <TabItem Header="Historical usage chart">
                     <local:UsageStatsInfo DataContext="{Binding UsageStatsInfo}"/>
                 </TabItem>
-                <TabItem Header="Real time usage">
+                <TabItem Header="Real-time usage chart">
                     <local:RealTimeStats DataContext="{Binding RealTimeUsageInfo}"/>
                 </TabItem>
             </TabControl>

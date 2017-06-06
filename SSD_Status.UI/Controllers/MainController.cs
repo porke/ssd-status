@@ -43,7 +43,7 @@ namespace SSD_Status.WPF.Controllers
             var dataEntry = drive.ReadSmartAttributes();
             _viewModel.RawValueInfo.RawValues.Add($"Gb Written: {dataEntry.HostWrittenGb.ToString("0.##", CultureInfo.InvariantCulture)} GB");
             _viewModel.RawValueInfo.RawValues.Add($"Power on time: {dataEntry.PowerOnHours} hours");
-            _viewModel.RawValueInfo.RawValues.Add($"Percent lifetime: {dataEntry.PercentLifetimeLeft}%");
+            _viewModel.RawValueInfo.RawValues.Add($"Percent lifetime left: {dataEntry.PercentLifetimeLeft}%");
             _viewModel.RawValueInfo.RawValues.Add($"Wear levelling: {dataEntry.WearLevellingCount}");
         }
 
