@@ -19,7 +19,15 @@
 
             <local:DriveInfo DataContext="{Binding DriveInfo}"/>
             <local:RawValueInfo DataContext="{Binding RawValueInfo}" Grid.Column="1"/>
-            <local:UsageStatsInfo DataContext="{Binding UsageStatsInfo}" Grid.Row="1" Grid.ColumnSpan="2"/>
+
+            <TabControl Grid.Row="1" Grid.ColumnSpan="2">
+                <TabItem Header="Historical usage">
+                    <local:UsageStatsInfo DataContext="{Binding UsageStatsInfo}"/>
+                </TabItem>
+                <TabItem Header="Real time usage">
+                    <local:RealTimeStats DataContext="{Binding RealTimeUsageInfo}"/>
+                </TabItem>
+            </TabControl>
         </Grid>
     </Grid>
 </Window>

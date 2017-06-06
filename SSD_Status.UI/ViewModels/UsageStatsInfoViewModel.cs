@@ -7,10 +7,10 @@ namespace SSD_Status.WPF.ViewModels
 {
     internal class UsageStatsInfoViewModel : ViewModelBase
     {
-        public ChartViewModel ChartViewModel { get; private set; } = new ChartViewModel();
-
         private string _sourceDataFile = "SomeFileVeryFarAway.csv";
         private ChartTypeViewModel _selectedChartType = ChartTypeViewModelSource.GetChartViewModelTypes().First();
+
+        public ChartViewModel ChartViewModel { get; } = new ChartViewModel();
 
         public string SourceDataFile
         {

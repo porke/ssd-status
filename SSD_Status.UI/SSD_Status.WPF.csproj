@@ -96,6 +96,7 @@
     <Compile Include="ViewModels\DriveInfoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RawValueInfoViewModel.cs" />
+    <Compile Include="ViewModels\RealTimeStatsViewModel.cs" />
     <Compile Include="ViewModels\Sources\ChartType.cs" />
     <Compile Include="ViewModels\Sources\ChartTypeViewModelSource.cs" />
     <Compile Include="ViewModels\UsageStatsInfoViewModel.cs" />
@@ -111,6 +112,9 @@
     </Compile>
     <Compile Include="Views\RawValueInfo.xaml.cs">
       <DependentUpon>RawValueInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RealTimeStats.xaml.cs">
+      <DependentUpon>RealTimeStats.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UsageStatsInfo.xaml.cs">
       <DependentUpon>UsageStatsInfo.xaml</DependentUpon>
@@ -163,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RawValueInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RealTimeStats.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

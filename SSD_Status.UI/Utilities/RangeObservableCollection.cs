@@ -17,7 +17,7 @@ namespace SSD_Status.WPF.Utilities
         }
 
         public void AddRange(IEnumerable<T> list)
-        {            
+        {
             _suppressNotification = true;
 
             foreach (T item in list)

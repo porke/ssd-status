@@ -81,15 +81,19 @@ namespace SSD_Status.WPF.Controllers
             {                
                 case ChartType.PowerOnHoursInTime:                    
                     records = _historicalData.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.PowerOnHours));
+                    _viewModel.UsageStatsInfo.ChartViewModel.YAxisTitle = "Hours";
                     break;
                 case ChartType.WearLevellingInTime:
                     records = _historicalData.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.WearLevellingCount));
+                    _viewModel.UsageStatsInfo.ChartViewModel.YAxisTitle = "Unit";
                     break;
                 case ChartType.HostWrittenGbInTime:
                     records = _historicalData.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.HostWrittenGb));
+                    _viewModel.UsageStatsInfo.ChartViewModel.YAxisTitle = "Gigabytes";
                     break;
                 case ChartType.HostWrittenGbPerPowerOnHoursInTime:
                     records = _historicalData.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.HostWrittenGb / x.PowerOnHours));
+                    _viewModel.UsageStatsInfo.ChartViewModel.YAxisTitle = "Gigabytes per Hour";                    
                     break;
             }
 
