@@ -6,8 +6,6 @@ namespace SSD_Status.Core.Model.Parsers
     {
         public const byte AttributeId = 0xAD;
 
-        public string Description => "Wear levelling";
-
         public bool CanParse(byte id)
         {
             return id == AttributeId;

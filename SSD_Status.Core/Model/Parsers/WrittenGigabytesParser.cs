@@ -7,8 +7,6 @@ namespace SSD_Status.Core.Model.Parsers
     {
         public const byte AttributeId = 0xF6;
 
-        public string Description => "Written gigabytes";
-
         public bool CanParse(byte id)
         {
             return AttributeId == id;

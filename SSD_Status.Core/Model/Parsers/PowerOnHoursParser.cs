@@ -6,8 +6,6 @@ namespace SSD_Status.Core.Model.Parsers
     {
         public const byte AttributeId = 0x09;
 
-        public string Description => "Power on hours";
-
         public bool CanParse(byte id)
         {
             return AttributeId == id;

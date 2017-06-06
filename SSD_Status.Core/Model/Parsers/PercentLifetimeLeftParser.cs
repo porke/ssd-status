@@ -5,7 +5,6 @@ namespace SSD_Status.Core.Model.Parsers
     internal class PercentLifetimeLeftParser : IRecordParser
     {
         public const byte AttributeId = 0xCA;
-        public string Description => "Percent lifetime left";
 
         public bool CanParse(byte id)
         {
