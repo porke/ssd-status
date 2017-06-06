@@ -1,13 +1,13 @@
 ﻿using System.Linq;
-using SSD_Status.Core.Api;
 using System.Collections.Generic;
 using System;
+using SSD_Status.Core.Model;
 
 namespace SSD_Status.WPF.Utilities
 {
     internal static class EntryAggregator
     {
-        public static IReadOnlyList<Entry> AggregateEntriesByMonth(IReadOnlyList<Entry> entries)
+        public static IReadOnlyList<DataEntry> AggregateEntriesByMonth(IReadOnlyList<DataEntry> entries)
         {
             var minDate = entries.Select(x => x.Timestamp).Min();
             var maxDate = entries.Select(x => x.Timestamp).Max();
@@ -19,7 +19,7 @@ namespace SSD_Status.WPF.Utilities
                 currentMonth = currentMonth.AddMonths(1);
             }
 
-            var aggregatedEntries = new List<Entry>();
+            var aggregatedEntries = new List<DataEntry>();
             DateTime previousMonth = months.First();
             foreach (var month in months)
             {
@@ -39,12 +39,12 @@ namespace SSD_Status.WPF.Utilities
             return aggregatedEntries;
         }
 
-        public static IReadOnlyList<Entry> AggregateEntriesByDay(IReadOnlyList<Entry> entries)
+        public static IReadOnlyList<DataEntry> AggregateEntriesByDay(IReadOnlyList<DataEntry> entries)
         {
             var minDate = entries.Select(x => x.Timestamp).Min();
             var maxDate = entries.Select(x => x.Timestamp).Max();
 
-            var aggregatedEntries = new List<Entry>();
+            var aggregatedEntries = new List<DataEntry>();
             var currentDate = new DateTime(minDate.Ticks);
             currentDate.AddDays(1);
             DateTime previousDate = minDate;

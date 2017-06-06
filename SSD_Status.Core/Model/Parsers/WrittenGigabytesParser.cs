@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Linq;
-using SSD_Status.Core.Api;
 
-
-namespace SSD_Status.Core.Implementation.Parsers
+namespace SSD_Status.Core.Model.Parsers
 {
     internal class WrittenGigabytesParser : IRecordParser
     {
-        private readonly byte AttributeId = 0xF6;
+        public const byte AttributeId = 0xF6;
 
         public string Description => "Written gigabytes";
 
@@ -16,7 +14,7 @@ namespace SSD_Status.Core.Implementation.Parsers
             return AttributeId == id;
         }
 
-        public Record Parse(byte[] data, int offset)
+        public double Parse(byte[] data, int offset)
         {
             var fieldBytes = data.Skip(offset * 12 + 7)
                                  .Take(6)
@@ -25,12 +23,8 @@ namespace SSD_Status.Core.Implementation.Parsers
             fieldBytes.Add(0);
             
             long writtenSectors = BitConverter.ToInt64(fieldBytes.ToArray(), 0);
-            const int sectorSizeInBytes = 512;
-            return new Record
-            {
-                Value = BytesToGigabytes(writtenSectors * sectorSizeInBytes),
-                Type = new RecordType(Description, UnitType.Gigabyte),
-            };
+            const int sectorSizeInBytes = 512;            
+            return BytesToGigabytes(writtenSectors * sectorSizeInBytes);            
         }
 
         private static double BytesToGigabytes(double bytes)

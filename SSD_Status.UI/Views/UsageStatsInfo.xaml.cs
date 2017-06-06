@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using SSD_Status.WPF.ViewModels;
+using System.Windows.Controls;
 
 namespace SSD_Status.WPF.Views
 {
@@ -10,6 +11,11 @@ namespace SSD_Status.WPF.Views
         public UsageStatsInfo()
         {
             InitializeComponent();
+        }
+
+        private void ChartType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            (DataContext as UsageStatsInfoViewModel).LoadChartCommand.Execute(e.AddedItems);
         }
     }
 }

@@ -26,9 +26,11 @@
 
             <DockPanel>
                 <TextBlock Margin="5" VerticalAlignment="Center">Chart type</TextBlock>
-                <ComboBox Margin="5" SelectedIndex="0" HorizontalAlignment="Stretch"
+                <ComboBox Margin="5" SelectedIndex="0" HorizontalAlignment="Stretch"                          
                           SelectedItem="{Binding SelectedType}"
-                          ItemsSource="{Binding ChartTypes}"/>
+                          ItemsSource="{Binding ChartTypes}"
+                          SelectionChanged="ChartType_SelectionChanged"/>
+
             </DockPanel>
         </StackPanel>
         

@@ -1,11 +1,10 @@
 ﻿using System;
-using SSD_Status.Core.Api;
 
-namespace SSD_Status.Core.Implementation.Parsers
+namespace SSD_Status.Core.Model.Parsers
 {
     internal class PercentLifetimeLeftParser : IRecordParser
     {
-        private const byte AttributeId = 0xCA;
+        public const byte AttributeId = 0xCA;
         public string Description => "Percent lifetime left";
 
         public bool CanParse(byte id)
@@ -13,14 +12,10 @@ namespace SSD_Status.Core.Implementation.Parsers
             return id == AttributeId;
         }
 
-        public Record Parse(byte[] data, int offset)
+        public double Parse(byte[] data, int offset)
         {
             long vendordata = BitConverter.ToInt32(data, offset * 12 + 7);
-            return new Record
-            {
-                Value = 100 - vendordata,
-                Type = new RecordType(Description, UnitType.Percent),
-            };
+            return 100 - vendordata;
         }
     }
 }

@@ -53,6 +53,7 @@ namespace SSD_Status.WPF.ViewModels
 
         public ObservableCollection<string> LifeEstimates { get; } = new ObservableCollection<string>();
 
-        public ICommand OpenFileCommand { get; set; }      
+        public ICommand OpenFileCommand { get; set; }
+        public ICommand LoadChartCommand { get; set; }
     }
 }
