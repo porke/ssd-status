@@ -18,7 +18,7 @@ namespace SSD_Status.Core.Model
             new PercentLifetimeLeftParser()
         };
 
-        public DataEntry ReadSmartAttributes()
+        public SmartDataEntry ReadSmartAttributes()
         {
             var searcher = new ManagementObjectSearcher("Select * from Win32_DiskDrive")
             {
@@ -45,32 +45,32 @@ namespace SSD_Status.Core.Model
                 }
             }
 
-            return new DataEntry(DateTime.Now,
+            return new SmartDataEntry(DateTime.Now,
                                  outputEntries[WrittenGigabytesParser.AttributeId],
                                  (int)outputEntries[PowerOnHoursParser.AttributeId],
                                  (int)outputEntries[PercentLifetimeLeftParser.AttributeId],
                                  (int)outputEntries[WearLevellingParser.AttributeId]);
         }
 
-        public double CalculateHostWrittenGbPerDay(DataEntry startEntry, DataEntry endEntry)
+        public double CalculateHostWrittenGbPerDay(SmartDataEntry startEntry, SmartDataEntry endEntry)
         {
             int days = (endEntry.Timestamp - startEntry.Timestamp).Days;
             return (endEntry.HostWrittenGb - startEntry.HostWrittenGb) / days;
         }
 
-        public double CalculatePowerOnHoursPerDay(DataEntry startEntry, DataEntry endEntry)
+        public double CalculatePowerOnHoursPerDay(SmartDataEntry startEntry, SmartDataEntry endEntry)
         {
             int days = (endEntry.Timestamp - startEntry.Timestamp).Days;
             return (endEntry.PowerOnHours - startEntry.PowerOnHours) / (double)days;
         }
 
-        public double CalculateHostWrittenGbPerPowerOnHours(DataEntry startEntry, DataEntry endEntry)
+        public double CalculateHostWrittenGbPerPowerOnHours(SmartDataEntry startEntry, SmartDataEntry endEntry)
         {
             int powerOnHourDiff = (endEntry.PowerOnHours - startEntry.PowerOnHours);
             return (endEntry.HostWrittenGb - startEntry.HostWrittenGb) / powerOnHourDiff;
         }
 
-        public double CalculateWearLevellingPerDay(DataEntry startEntry, DataEntry endEntry)
+        public double CalculateWearLevellingPerDay(SmartDataEntry startEntry, SmartDataEntry endEntry)
         {
             int days = (endEntry.Timestamp - startEntry.Timestamp).Days;
             return (endEntry.WearLevellingCount - startEntry.WearLevellingCount) / (double)days;

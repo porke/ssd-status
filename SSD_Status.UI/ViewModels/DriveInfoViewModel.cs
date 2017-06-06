@@ -8,7 +8,7 @@ namespace SSD_Status.WPF.ViewModels
         {
             get
             {
-                return new ObservableCollection<string> { "Type", "Stuff", "OtherStuff" };
+                return new ObservableCollection<string> { "Name", "Capacity", "SerialNo", "Volumes" };
             }
         }
     }

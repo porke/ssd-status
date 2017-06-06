@@ -17,7 +17,7 @@ namespace SSD_Status.WPF.Controllers
         private MainViewModel _viewModel;
 
         private SsdDrive _drive = new SsdDrive();
-        private List<DataEntry> _historicalData = new List<DataEntry>();
+        private List<SmartDataEntry> _historicalData = new List<SmartDataEntry>();
 
         public RelayCommand OpenFileCommand { get; private set; }
         public RelayCommand LoadRawValuesCommand { get; private set; }
@@ -65,7 +65,7 @@ namespace SSD_Status.WPF.Controllers
                         int wearLevelling = int.Parse(fileEntries[2]);
                         double writtenGb = double.Parse(fileEntries[3], CultureInfo.InvariantCulture);
 
-                        _historicalData.Add(new DataEntry(timestamp, writtenGb, powerOnHours, 0, wearLevelling));
+                        _historicalData.Add(new SmartDataEntry(timestamp, writtenGb, powerOnHours, 0, wearLevelling));
                     }
 
                     UpdateUsageStatsViewModel();

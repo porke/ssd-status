@@ -21,7 +21,7 @@ namespace SSD_Status.Console
             }
         }
 
-        private static void AppendToFile(DataEntry smartEntry, string path)
+        private static void AppendToFile(SmartDataEntry smartEntry, string path)
         {
             using (var file = new StreamWriter(File.Open(path, FileMode.Append)))
             {                
@@ -33,7 +33,7 @@ namespace SSD_Status.Console
             }
         }
 
-        private static void PrintToConsole(DataEntry smartEntry)
+        private static void PrintToConsole(SmartDataEntry smartEntry)
         {
             System.Console.WriteLine(smartEntry.ToString());
             System.Console.WriteLine(smartEntry);            
