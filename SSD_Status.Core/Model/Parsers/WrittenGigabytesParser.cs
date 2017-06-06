@@ -22,7 +22,7 @@ namespace SSD_Status.Core.Model.Parsers
             
             long writtenSectors = BitConverter.ToInt64(fieldBytes.ToArray(), 0);
             const int sectorSizeInBytes = 512;            
-            return BytesToGigabytes(writtenSectors * sectorSizeInBytes);            
+            return BytesToGigabytes(writtenSectors * sectorSizeInBytes);
         }
 
         private static double BytesToGigabytes(double bytes)
