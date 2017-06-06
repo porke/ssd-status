@@ -15,7 +15,8 @@ namespace SSD_Status.WPF.Views
 
         private void ChartType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            (DataContext as UsageStatsInfoViewModel).LoadChartCommand.Execute(e.AddedItems);
+            var viewModel = (DataContext as UsageStatsInfoViewModel);
+            viewModel.LoadChartCommand.Execute(viewModel.SelectedChartType);
         }
     }
 }

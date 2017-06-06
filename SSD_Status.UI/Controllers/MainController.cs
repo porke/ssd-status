@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using SSD_Status.WPF.Utilities;
 using SSD_Status.Core.Model;
+using SSD_Status.WPF.ViewModels.Sources;
+using System.Threading;
 
 namespace SSD_Status.WPF.Controllers
 {
@@ -15,6 +17,7 @@ namespace SSD_Status.WPF.Controllers
         private MainViewModel _viewModel;
 
         private SsdDrive _drive = new SsdDrive();
+        private List<DataEntry> _historicalData = new List<DataEntry>();
 
         public RelayCommand OpenFileCommand { get; private set; }
         public RelayCommand LoadRawValuesCommand { get; private set; }
@@ -52,8 +55,8 @@ namespace SSD_Status.WPF.Controllers
                 {
                     _viewModel.UsageStatsInfo.SourceDataFile = openFileDialog.FileName;
                     _viewModel.UsageStatsInfo.ChartViewModel.UsageValues.Clear();
+                    _historicalData.Clear();
 
-                    var entries = new List<DataEntry>();
                     foreach (var line in File.ReadAllLines(openFileDialog.FileName).Skip(1))
                     {
                         var fileEntries = line.Split(';');
@@ -62,30 +65,45 @@ namespace SSD_Status.WPF.Controllers
                         int wearLevelling = int.Parse(fileEntries[2]);
                         double writtenGb = double.Parse(fileEntries[3], CultureInfo.InvariantCulture);
 
-                        entries.Add(new DataEntry(timestamp, writtenGb, powerOnHours, 0, wearLevelling));
+                        _historicalData.Add(new DataEntry(timestamp, writtenGb, powerOnHours, 0, wearLevelling));
                     }
 
-                    UpdateUsageStatsViewModel(entries);
+                    UpdateUsageStatsViewModel();
                 }
             }
         }
 
-        private void LoadChartCommand_Execute(object obj)
+        private void LoadChartCommand_Execute(object chartType)
         {
-            // TODO: implement chart loading
-        }
-
-        private void UpdateUsageStatsViewModel(IReadOnlyList<DataEntry> entries)
-        {
-            if (!entries.Any())
-            {
-                return;
+            var chartTypeVm = chartType as ChartTypeViewModel;
+            IEnumerable<KeyValuePair<DateTime, double>> records = new List<KeyValuePair<DateTime, double>>();
+            switch (chartTypeVm.Type)
+            {                
+                case ChartType.PowerOnHoursInTime:                    
+                    records = _historicalData.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.PowerOnHours));
+                    break;
+                case ChartType.WearLevellingInTime:
+                    records = _historicalData.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.WearLevellingCount));
+                    break;
+                case ChartType.HostWrittenGbInTime:
+                    records = _historicalData.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.HostWrittenGb));
+                    break;
+                case ChartType.HostWrittenGbPerPowerOnHoursInTime:
+                    records = _historicalData.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.HostWrittenGb / x.PowerOnHours));
+                    break;
             }
 
-            entries = EntryAggregator.AggregateEntriesByDay(entries);
+            _viewModel.UsageStatsInfo.ChartViewModel.Title = chartTypeVm.Description;
+            _viewModel.UsageStatsInfo.ChartViewModel.UsageValues.Clear();
+            _viewModel.UsageStatsInfo.ChartViewModel.UsageValues.AddRange(records);
+        }
 
-            var firstEntry = entries.First();
-            var lastEntry = entries.Last();            
+        private void UpdateUsageStatsViewModel()
+        {        
+            _historicalData = EntryAggregator.AggregateEntriesByDay(_historicalData.AsReadOnly()).ToList();
+
+            var firstEntry = _historicalData.First();
+            var lastEntry = _historicalData.Last();            
             double usagePerDay = _drive.CalculateHostWrittenGbPerDay(firstEntry, lastEntry);
             double hourUsagePerDay = _drive.CalculatePowerOnHoursPerDay(firstEntry, lastEntry);
             double gigabytesPerHour = _drive.CalculateHostWrittenGbPerPowerOnHours(firstEntry, lastEntry);
@@ -94,13 +112,7 @@ namespace SSD_Status.WPF.Controllers
             _viewModel.UsageStatsInfo.LifeEstimates.Add($"Usage per day: {usagePerDay.ToString("0.##", CultureInfo.InvariantCulture)} GB");
             _viewModel.UsageStatsInfo.LifeEstimates.Add($"Hour usage per day: {hourUsagePerDay.ToString("0.##", CultureInfo.InvariantCulture)} h");
             _viewModel.UsageStatsInfo.LifeEstimates.Add($"Gigabytes per usage hour: {gigabytesPerHour.ToString("0.##", CultureInfo.InvariantCulture)} GB");
-            _viewModel.UsageStatsInfo.LifeEstimates.Add($"Wear per day: {wearPerDay.ToString("0.####", CultureInfo.InvariantCulture)}");
-
-            var gigabyteWrittenEntries = entries.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.HostWrittenGb));
-            foreach (var entry in gigabyteWrittenEntries)
-            {
-                _viewModel.UsageStatsInfo.ChartViewModel.UsageValues.Add(entry);
-            }
+            _viewModel.UsageStatsInfo.LifeEstimates.Add($"Wear per day: {wearPerDay.ToString("0.####", CultureInfo.InvariantCulture)}");            
         }
     }
 }

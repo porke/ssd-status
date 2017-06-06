@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using SSD_Status.WPF.Utilities;
 
 namespace SSD_Status.WPF.ViewModels
 {
@@ -49,6 +51,10 @@ namespace SSD_Status.WPF.ViewModels
             }
         }
 
-        public ObservableCollection<KeyValuePair<DateTime, double>> UsageValues { get; } = new ObservableCollection<KeyValuePair<DateTime, double>>();
+        public double Minimum => UsageValues.Select(x => x.Value).Min();
+
+        public double Maximum => UsageValues.Select(x => x.Value).Max();
+
+        public RangeObservableCollection<KeyValuePair<DateTime, double>> UsageValues { get; } = new RangeObservableCollection<KeyValuePair<DateTime, double>>();
     }
 }

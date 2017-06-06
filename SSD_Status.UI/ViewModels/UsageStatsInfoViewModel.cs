@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Linq;
+using SSD_Status.WPF.ViewModels.Sources;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace SSD_Status.WPF.ViewModels
@@ -8,7 +10,7 @@ namespace SSD_Status.WPF.ViewModels
         public ChartViewModel ChartViewModel { get; private set; } = new ChartViewModel();
 
         private string _sourceDataFile = "SomeFileVeryFarAway.csv";
-        private string _selectedChartType = "None";
+        private ChartTypeViewModel _selectedChartType = ChartTypeViewModelSource.GetChartViewModelTypes().First();
 
         public string SourceDataFile
         {
@@ -27,18 +29,11 @@ namespace SSD_Status.WPF.ViewModels
         {
             get
             {
-                return new ObservableCollection<string>
-                {
-                    "None",
-                    "Gigabytes written in time",
-                    "Power on hours in time",
-                    "Gigabytes written to power on hours in time",
-                    "Wear levelling in time"
-                };
+                return new ObservableCollection<string>(ChartTypeViewModelSource.GetChartViewModelTypes().Select(x => x.Description));
             }
         }
 
-        public string SelectedType
+        public ChartTypeViewModel SelectedChartType
         {
             get
             {
@@ -47,7 +42,7 @@ namespace SSD_Status.WPF.ViewModels
             set
             {
                 _selectedChartType = value;
-                NotifyPropertyChanged(nameof(SelectedType));                
+                NotifyPropertyChanged(nameof(SelectedChartType));                
             }
         }
 
