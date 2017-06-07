@@ -85,6 +85,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\ChartController.cs" />
+    <Compile Include="Controllers\Chart\HostWritesPerHoursOnSelector.cs" />
+    <Compile Include="Controllers\Chart\HostWritesSelector.cs" />
+    <Compile Include="Controllers\Chart\IChartDataSelector.cs" />
+    <Compile Include="Controllers\Chart\NoneSelector.cs" />
+    <Compile Include="Controllers\Chart\PowerOnHoursSelector.cs" />
+    <Compile Include="Controllers\Chart\WearLevellingSelector.cs" />
     <Compile Include="Persistence\SmartEntryCsvImporter.cs" />
     <Compile Include="Utilities\EntryAggregator.cs" />
     <Compile Include="Utilities\RangeObservableCollection.cs" />

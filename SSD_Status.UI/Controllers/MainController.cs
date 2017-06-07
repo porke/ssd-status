@@ -2,12 +2,10 @@
 using System;
 using System.Linq;
 using System.Globalization;
-using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using SSD_Status.WPF.Utilities;
 using SSD_Status.Core.Model;
-using SSD_Status.WPF.ViewModels.Sources;
 using SSD_Status.WPF.Persistence;
 
 namespace SSD_Status.WPF.Controllers
@@ -15,12 +13,12 @@ namespace SSD_Status.WPF.Controllers
     internal class MainController
     {
         private MainViewModel _viewModel;
-        
+        private ChartController _historicalUsageChartController;
+
         private SsdDrive _drive = new SsdDrive();
         private List<SmartDataEntry> _historicalData = new List<SmartDataEntry>();
-        private List<SmartDataEntry> _transformedHistoricalData = new List<SmartDataEntry>();
         private List<SmartDataEntry> _realTimeData = new List<SmartDataEntry>();
-        private Timer _readTimeModeTimer = new Timer();
+        private Timer _realTimeModeTimer = new Timer();
         private SmartEntryCsvImporter _smartEntryCsvImporter = new SmartEntryCsvImporter();
 
         public RelayCommand OpenFileCommand { get; private set; }
@@ -32,6 +30,7 @@ namespace SSD_Status.WPF.Controllers
         public MainController(MainViewModel viewModel)
         {
             _viewModel = viewModel;
+            _historicalUsageChartController = new ChartController(_viewModel.UsageStatsInfo.ChartViewModel);
 
             OpenFileCommand = new RelayCommand(OpenFileCommand_Execute);            
             LoadChartCommand = new RelayCommand(LoadChartCommand_Execute);
@@ -69,46 +68,25 @@ namespace SSD_Status.WPF.Controllers
                     _historicalData.Clear();
 
                     _historicalData.AddRange(_smartEntryCsvImporter.ImportSmartEntries(openFileDialog.FileName));                    
-                    UpdateUsageStatsViewModel();
+                    CalculateLifeEstimates();
                 }
             }
         }
 
         private void LoadChartCommand_Execute(object chartType)
         {
-            var chartTypeVm = chartType as ChartTypeViewModel;
+            var chartTypeVm = chartType as ChartTypeViewModel;            
             IEnumerable<KeyValuePair<DateTime, double>> records = new List<KeyValuePair<DateTime, double>>();
-            switch (chartTypeVm.Type)
-            {                
-                case ChartType.PowerOnHoursInTime:                    
-                    records = _transformedHistoricalData.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.PowerOnHours));
-                    _viewModel.UsageStatsInfo.ChartViewModel.YAxisTitle = "Hours";
-                    break;
-                case ChartType.WearLevellingInTime:
-                    records = _transformedHistoricalData.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.WearLevellingCount));
-                    _viewModel.UsageStatsInfo.ChartViewModel.YAxisTitle = "Unit";
-                    break;
-                case ChartType.HostWrittenGbInTime:
-                    records = _transformedHistoricalData.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.HostWrittenGb));
-                    _viewModel.UsageStatsInfo.ChartViewModel.YAxisTitle = "Gigabytes";
-                    break;
-                case ChartType.HostWrittenGbPerPowerOnHoursInTime:
-                    records = _transformedHistoricalData.Select(x => new KeyValuePair<DateTime, double>(x.Timestamp, x.HostWrittenGb / x.PowerOnHours));
-                    _viewModel.UsageStatsInfo.ChartViewModel.YAxisTitle = "Gigabytes per Hour";                    
-                    break;
-            }
 
-            _viewModel.UsageStatsInfo.ChartViewModel.Title = chartTypeVm.Description;
-            _viewModel.UsageStatsInfo.ChartViewModel.UsageValues.Clear();
-            _viewModel.UsageStatsInfo.ChartViewModel.UsageValues.AddRange(records);
+            _historicalUsageChartController.SelectChartData(_historicalData, chartTypeVm);            
         }
 
-        private void UpdateUsageStatsViewModel()
+        private void CalculateLifeEstimates()
         {
-            _transformedHistoricalData = EntryAggregator.AggregateEntriesByDay(_historicalData.AsReadOnly()).ToList();
+            _historicalData = EntryAggregator.AggregateEntriesByDay(_historicalData.AsReadOnly()).ToList();
 
-            var firstEntry = _transformedHistoricalData.First();
-            var lastEntry = _transformedHistoricalData.Last();            
+            var firstEntry = _historicalData.First();
+            var lastEntry = _historicalData.Last();            
             double usagePerDay = _drive.CalculateHostWrittenGbPerDay(firstEntry, lastEntry);
             double hourUsagePerDay = _drive.CalculatePowerOnHoursPerDay(firstEntry, lastEntry);
             double gigabytesPerHour = _drive.CalculateHostWrittenGbPerPowerOnHours(firstEntry, lastEntry);
@@ -123,20 +101,20 @@ namespace SSD_Status.WPF.Controllers
 
         private void ToggleMonitoringCommand_Execute(object obj)
         {
-            if (_readTimeModeTimer.Enabled)
+            if (_realTimeModeTimer.Enabled)
             {
-                _readTimeModeTimer.Stop();
-                _readTimeModeTimer.Tick -= _readTimeModeTimer_Tick;
+                _realTimeModeTimer.Stop();
+                _realTimeModeTimer.Tick -= RealTimeModeTimer_Tick;
             }
             else
             {
-                _readTimeModeTimer.Interval = 5 * 1000;
-                _readTimeModeTimer.Tick += _readTimeModeTimer_Tick;
-                _readTimeModeTimer.Start();
+                _realTimeModeTimer.Interval = 5 * 1000;
+                _realTimeModeTimer.Tick += RealTimeModeTimer_Tick;
+                _realTimeModeTimer.Start();
             }
         }
 
-        private void _readTimeModeTimer_Tick(object sender, EventArgs e)
+        private void RealTimeModeTimer_Tick(object sender, EventArgs e)
         {
             SmartDataEntry smartEntry = _drive.ReadSmartAttributes();
             _realTimeData.Add(smartEntry);
