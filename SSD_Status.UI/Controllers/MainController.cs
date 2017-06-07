@@ -8,18 +8,20 @@ using System.Collections.Generic;
 using SSD_Status.WPF.Utilities;
 using SSD_Status.Core.Model;
 using SSD_Status.WPF.ViewModels.Sources;
+using SSD_Status.WPF.Persistence;
 
 namespace SSD_Status.WPF.Controllers
 {
     internal class MainController
     {
         private MainViewModel _viewModel;
-
+        
         private SsdDrive _drive = new SsdDrive();
         private List<SmartDataEntry> _historicalData = new List<SmartDataEntry>();
         private List<SmartDataEntry> _transformedHistoricalData = new List<SmartDataEntry>();
         private List<SmartDataEntry> _realTimeData = new List<SmartDataEntry>();
         private Timer _readTimeModeTimer = new Timer();
+        private SmartEntryCsvImporter _smartEntryCsvImporter = new SmartEntryCsvImporter();
 
         public RelayCommand OpenFileCommand { get; private set; }
         public RelayCommand LoadRawValuesCommand { get; private set; }
@@ -66,17 +68,7 @@ namespace SSD_Status.WPF.Controllers
                     _viewModel.UsageStatsInfo.ChartViewModel.UsageValues.Clear();
                     _historicalData.Clear();
 
-                    foreach (var line in File.ReadAllLines(openFileDialog.FileName).Skip(1))
-                    {
-                        var fileEntries = line.Split(';');
-                        DateTime timestamp = DateTime.ParseExact(fileEntries[0], "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                        int powerOnHours = int.Parse(fileEntries[1]);
-                        int wearLevelling = int.Parse(fileEntries[2]);
-                        double writtenGb = double.Parse(fileEntries[3], CultureInfo.InvariantCulture);
-
-                        _historicalData.Add(new SmartDataEntry(timestamp, writtenGb, powerOnHours, 0, wearLevelling));
-                    }
-
+                    _historicalData.AddRange(_smartEntryCsvImporter.ImportSmartEntries(openFileDialog.FileName));                    
                     UpdateUsageStatsViewModel();
                 }
             }
