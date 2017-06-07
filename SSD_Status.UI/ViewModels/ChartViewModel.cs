@@ -1,5 +1,6 @@
 ﻿using System;
 using LiveCharts;
+using System.Windows;
 
 namespace SSD_Status.WPF.ViewModels
 {
@@ -9,10 +10,10 @@ namespace SSD_Status.WPF.ViewModels
         private double _minimum = 0;
         private double _maximum = 1;        
         private string _seriesTitle = "None";
+        private Visibility _chartVisibility = Visibility.Collapsed;
 
         public string SeriesTitle
         {
-
             get
             {
                 return _seriesTitle;
@@ -60,6 +61,19 @@ namespace SSD_Status.WPF.ViewModels
             {
                 _maximum = value;
                 NotifyPropertyChanged(nameof(Maximum));
+            }
+        }
+
+        public Visibility ChartVisibility
+        {
+            get
+            {
+                return _chartVisibility;
+            }
+            set
+            {
+                _chartVisibility = value;
+                NotifyPropertyChanged(nameof(ChartVisibility));
             }
         }
 

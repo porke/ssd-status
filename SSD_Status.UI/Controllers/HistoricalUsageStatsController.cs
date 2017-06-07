@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using SSD_Status.WPF.Utilities;
 using SSD_Status.WPF.Persistence;
+using System.Windows;
 
 namespace SSD_Status.WPF.Controllers
 {
@@ -91,6 +92,7 @@ namespace SSD_Status.WPF.Controllers
             chartViewModel.SeriesTitle = chartTypeVm.Description;
 
             var selectedData = selector.SelectData(records);
+            chartViewModel.ChartVisibility = chartTypeVm.Type == ChartType.None ? Visibility.Collapsed : Visibility.Visible;
             chartViewModel.Minimum = selectedData.Any() ? selectedData.Select(x => x.Value).Min() : 0;
             chartViewModel.Maximum = selectedData.Any() ? selectedData.Select(x => x.Value).Max() : 1;
             chartViewModel.Timestamps.AddRange(selectedData.Select(x => x.Key.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));

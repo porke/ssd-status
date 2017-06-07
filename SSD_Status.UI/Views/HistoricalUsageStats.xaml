@@ -43,7 +43,7 @@
             <ListBox ItemsSource="{Binding LifeEstimates}"/>
         </StackPanel>
 
-        <local:ChartView Visibility="{Binding Path=ChartVisibility}"
+        <local:ChartView Visibility="{Binding ChartVisibility}"
                          DataContext="{Binding ChartViewModel}" Grid.Row="1" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

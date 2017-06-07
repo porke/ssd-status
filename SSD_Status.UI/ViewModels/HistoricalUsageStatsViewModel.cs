@@ -2,6 +2,7 @@
 using SSD_Status.WPF.ViewModels.Sources;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Windows;
 
 namespace SSD_Status.WPF.ViewModels
 {
