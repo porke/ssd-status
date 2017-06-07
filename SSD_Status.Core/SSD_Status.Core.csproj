@@ -42,6 +42,7 @@
     <Compile Include="Model\Parsers\WrittenGigabytesParser.cs" />
     <Compile Include="Model\Parsers\WearLevellingParser.cs" />
     <Compile Include="Model\DataEntry.cs" />
+    <Compile Include="Model\SmartDataEntryBuilder.cs" />
     <Compile Include="Model\SsdDrive.cs" />
     <Compile Include="Model\DriveContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

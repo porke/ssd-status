@@ -4,7 +4,7 @@ namespace SSD_Status.Core.Model
 {
     public class SmartDataEntry
     {
-        public SmartDataEntry(DateTime timestamp, double hostWrittenGb, int powerOnHours, int percentLifetimeLeft, int wearLevellingCount)
+        internal SmartDataEntry(DateTime timestamp, double hostWrittenGb, int powerOnHours, int percentLifetimeLeft, int wearLevellingCount)
         {
             Timestamp = timestamp;
             HostWrittenGb = hostWrittenGb;

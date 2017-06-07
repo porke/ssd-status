@@ -7,7 +7,7 @@ using System.IO;
 
 namespace SSD_Status.WPF.Persistence
 {
-    internal class SmartEntryCsvImporter : ISmartEntryCsvImporter
+    internal class SmartEntryCsvImporter
     {
         public IList<SmartDataEntry> ImportSmartEntries(string filename)
         {
@@ -20,7 +20,14 @@ namespace SSD_Status.WPF.Persistence
                 int wearLevelling = int.Parse(fileEntries[2]);
                 double writtenGb = double.Parse(fileEntries[3], CultureInfo.InvariantCulture);
 
-                entries.Add(new SmartDataEntry(timestamp, writtenGb, powerOnHours, 0, wearLevelling));
+                var builder = new SmartDataEntryBuilder
+                {
+                    Timestamp = timestamp,
+                    HostWrittenGb = writtenGb,
+                    PowerOnHours = powerOnHours,
+                    WearLevellingCount = wearLevelling
+                };
+                entries.Add(builder.Build());
             }
 
             return entries;
