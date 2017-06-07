@@ -53,29 +53,5 @@ namespace SSD_Status.Core.Model
                                  (int)outputEntries[WearLevellingParser.AttributeId],
                                  (int)outputEntries[PowerCycleCountParser.AttributeId]);
         }
-
-        public double CalculateHostWrittenGbPerDay(SmartDataEntry startEntry, SmartDataEntry endEntry)
-        {
-            int days = (endEntry.Timestamp - startEntry.Timestamp).Days;
-            return (endEntry.HostWrittenGb - startEntry.HostWrittenGb) / days;
-        }
-
-        public double CalculatePowerOnHoursPerDay(SmartDataEntry startEntry, SmartDataEntry endEntry)
-        {
-            int days = (endEntry.Timestamp - startEntry.Timestamp).Days;
-            return (endEntry.PowerOnHours - startEntry.PowerOnHours) / (double)days;
-        }
-
-        public double CalculateHostWrittenGbPerPowerOnHours(SmartDataEntry startEntry, SmartDataEntry endEntry)
-        {
-            int powerOnHourDiff = (endEntry.PowerOnHours - startEntry.PowerOnHours);
-            return (endEntry.HostWrittenGb - startEntry.HostWrittenGb) / powerOnHourDiff;
-        }
-
-        public double CalculateWearLevellingPerDay(SmartDataEntry startEntry, SmartDataEntry endEntry)
-        {
-            int days = (endEntry.Timestamp - startEntry.Timestamp).Days;
-            return (endEntry.WearLevellingCount - startEntry.WearLevellingCount) / (double)days;
-        }
     }
 }

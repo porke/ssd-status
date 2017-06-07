@@ -17,9 +17,15 @@ namespace SSD_Status.WPF.Controllers
         private HistoricalUsageStatsViewModel _usageViewModel;
 
         private SmartEntryCsvImporter _smartEntryCsvImporter = new SmartEntryCsvImporter();
-        private SsdDrive _drive = new SsdDrive();
 
-        private Dictionary<ChartType, IChartDataSelector> _dataSelectors = new Dictionary<ChartType, IChartDataSelector>();
+        private Dictionary<ChartType, IChartDataSelector> _dataSelectors = new Dictionary<ChartType, IChartDataSelector>()
+            {
+                {ChartType.None, new NoneSelector()},
+                {ChartType.HostWrittenGbInTime, new HostWritesSelector()},
+                {ChartType.HostWrittenGbPerPowerOnHoursInTime, new HostWritesPerHoursOnSelector()},
+                {ChartType.WearLevellingInTime, new WearLevellingSelector()},
+                {ChartType.PowerOnHoursInTime, new PowerOnHoursSelector()}
+            };
         private List<SmartDataEntry> _historicalData = new List<SmartDataEntry>();
 
         public RelayCommand OpenFileCommand { get; private set; }
@@ -31,12 +37,6 @@ namespace SSD_Status.WPF.Controllers
 
             LoadChartCommand = new RelayCommand(LoadChartCommand_Execute);
             _usageViewModel.LoadChartCommand = LoadChartCommand;
-
-            _dataSelectors.Add(ChartType.None, new NoneSelector());
-            _dataSelectors.Add(ChartType.HostWrittenGbInTime, new HostWritesSelector());
-            _dataSelectors.Add(ChartType.HostWrittenGbPerPowerOnHoursInTime, new HostWritesPerHoursOnSelector());
-            _dataSelectors.Add(ChartType.WearLevellingInTime, new WearLevellingSelector());
-            _dataSelectors.Add(ChartType.PowerOnHoursInTime, new PowerOnHoursSelector());
 
             OpenFileCommand = new RelayCommand(OpenFileCommand_Execute);
             _usageViewModel.OpenFileCommand = OpenFileCommand;
@@ -69,10 +69,11 @@ namespace SSD_Status.WPF.Controllers
 
             var firstEntry = _historicalData.First();
             var lastEntry = _historicalData.Last();
-            double usagePerDay = _drive.CalculateHostWrittenGbPerDay(firstEntry, lastEntry);
-            double hourUsagePerDay = _drive.CalculatePowerOnHoursPerDay(firstEntry, lastEntry);
-            double gigabytesPerHour = _drive.CalculateHostWrittenGbPerPowerOnHours(firstEntry, lastEntry);
-            double wearPerDay = _drive.CalculateWearLevellingPerDay(firstEntry, lastEntry);
+            int days = (firstEntry.Timestamp - firstEntry.Timestamp).Days;
+            double usagePerDay = (lastEntry.HostWrittenGb - firstEntry.HostWrittenGb) / days;
+            double hourUsagePerDay = (lastEntry.PowerOnHours - firstEntry.PowerOnHours) / (double)days;            
+            double gigabytesPerHour = (lastEntry.HostWrittenGb - firstEntry.HostWrittenGb) / (lastEntry.PowerOnHours - firstEntry.PowerOnHours);
+            double wearPerDay = (lastEntry.WearLevellingCount - firstEntry.WearLevellingCount) / (double)days;
 
             _usageViewModel.LifeEstimates.Clear();
             _usageViewModel.LifeEstimates.Add($"Usage per day: {usagePerDay.ToString("0.##", CultureInfo.InvariantCulture)} GB");
@@ -97,6 +98,6 @@ namespace SSD_Status.WPF.Controllers
             chartViewModel.Maximum = selectedData.Any() ? selectedData.Select(x => x.Value).Max() : 1;
             chartViewModel.Timestamps.AddRange(selectedData.Select(x => x.Key.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));
             chartViewModel.SeriesValues.AddRange(selectedData.Select(x => x.Value));
-        }
+        }             
     }
 }
