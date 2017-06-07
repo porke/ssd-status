@@ -18,10 +18,14 @@ namespace SSD_Status.WPF.Controllers
         private SsdDrive _drive = new SsdDrive();
         private List<SmartDataEntry> _historicalData = new List<SmartDataEntry>();
         private List<SmartDataEntry> _transformedHistoricalData = new List<SmartDataEntry>();
+        private List<SmartDataEntry> _realTimeData = new List<SmartDataEntry>();
+        private Timer _readTimeModeTimer = new Timer();
 
         public RelayCommand OpenFileCommand { get; private set; }
         public RelayCommand LoadRawValuesCommand { get; private set; }
         public RelayCommand LoadChartCommand { get; private set; }
+        public RelayCommand ToggleMonitoringCommand { get; private set; }
+        public RelayCommand ExportReadingsCommand { get; private set; }
 
         public MainController(MainViewModel viewModel)
         {
@@ -32,14 +36,18 @@ namespace SSD_Status.WPF.Controllers
             _viewModel.UsageStatsInfo.OpenFileCommand = OpenFileCommand;
             _viewModel.UsageStatsInfo.LoadChartCommand = LoadChartCommand;
 
+            ToggleMonitoringCommand = new RelayCommand(ToggleMonitoringCommand_Execute);
+            ExportReadingsCommand = new RelayCommand(ExportReadingsCommand_Execute);
+            _viewModel.RealTimeUsageInfo.ToggleMonitoringCommand = ToggleMonitoringCommand;
+            _viewModel.RealTimeUsageInfo.ExportReadingsCommand = ExportReadingsCommand;
+
             LoadRawValuesCommand = new RelayCommand(LoadRawValuesCommand_Execute);
             _viewModel.RawValueInfo.RefreshRawValues = LoadRawValuesCommand;            
         }
 
         private void LoadRawValuesCommand_Execute(object obj)
         {            
-            var drive = new SsdDrive();
-            SmartDataEntry dataEntry = drive.ReadSmartAttributes();
+            SmartDataEntry dataEntry = _drive.ReadSmartAttributes();
 
             _viewModel.RawValueInfo.RawValues.Clear();
             _viewModel.RawValueInfo.RawValues.Add($"Gb Written: {dataEntry.HostWrittenGb.ToString("0.##", CultureInfo.InvariantCulture)} GB");
@@ -120,5 +128,32 @@ namespace SSD_Status.WPF.Controllers
             _viewModel.UsageStatsInfo.LifeEstimates.Add($"Gigabytes per usage hour: {gigabytesPerHour.ToString("0.##", CultureInfo.InvariantCulture)} GB");
             _viewModel.UsageStatsInfo.LifeEstimates.Add($"Wear per day: {wearPerDay.ToString("0.####", CultureInfo.InvariantCulture)}");            
         }
+
+        private void ToggleMonitoringCommand_Execute(object obj)
+        {
+            if (_readTimeModeTimer.Enabled)
+            {
+                _readTimeModeTimer.Stop();
+                _readTimeModeTimer.Tick -= _readTimeModeTimer_Tick;
+            }
+            else
+            {
+                _readTimeModeTimer.Interval = 5 * 1000;
+                _readTimeModeTimer.Tick += _readTimeModeTimer_Tick;
+                _readTimeModeTimer.Start();
+            }
+        }
+
+        private void _readTimeModeTimer_Tick(object sender, EventArgs e)
+        {
+            SmartDataEntry smartEntry = _drive.ReadSmartAttributes();
+            _realTimeData.Add(smartEntry);
+            _viewModel.RealTimeUsageInfo.ChartViewModel.UsageValues.Add(new KeyValuePair<DateTime, double>(smartEntry.Timestamp, smartEntry.HostWrittenGb));
+        }
+
+        private void ExportReadingsCommand_Execute(object obj)
+        {
+
+        }        
     }
 }
