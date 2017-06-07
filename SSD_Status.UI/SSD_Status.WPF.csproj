@@ -87,6 +87,7 @@
     <Compile Include="Controllers\Chart\PowerOnHoursSelector.cs" />
     <Compile Include="Controllers\Chart\WearLevellingSelector.cs" />
     <Compile Include="Controllers\RawValueInfoController.cs" />
+    <Compile Include="Controllers\RealTimeUsageController.cs" />
     <Compile Include="Persistence\SmartEntryCsvImporter.cs" />
     <Compile Include="Utilities\EntryAggregator.cs" />
     <Compile Include="Utilities\RangeObservableCollection.cs" />
