@@ -30,6 +30,7 @@ namespace SSD_Status.WPF.Controllers
             _viewModel.RawValues.Add($"Power on time: {dataEntry.PowerOnHours} hours");
             _viewModel.RawValues.Add($"Percent lifetime left: {dataEntry.PercentLifetimeLeft}%");
             _viewModel.RawValues.Add($"Wear levelling: {dataEntry.WearLevellingCount}");
+            _viewModel.RawValues.Add($"Power cycle count: {dataEntry.PowerCycleCount}");
         }
     }
 }

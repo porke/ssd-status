@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Model\IRecordParser.cs" />
     <Compile Include="Model\Parsers\PercentLifetimeLeftParser.cs" />
+    <Compile Include="Model\Parsers\PowerCycleCountParser.cs" />
     <Compile Include="Model\Parsers\PowerOnHoursParser.cs" />
     <Compile Include="Model\Parsers\WrittenGigabytesParser.cs" />
     <Compile Include="Model\Parsers\WearLevellingParser.cs" />

@@ -15,7 +15,8 @@ namespace SSD_Status.Core.Model
             new WearLevellingParser(),
             new PowerOnHoursParser(),
             new WrittenGigabytesParser(),
-            new PercentLifetimeLeftParser()
+            new PercentLifetimeLeftParser(),
+            new PowerCycleCountParser()
         };
 
         public SmartDataEntry ReadSmartAttributes()
@@ -49,7 +50,8 @@ namespace SSD_Status.Core.Model
                                  outputEntries[WrittenGigabytesParser.AttributeId],
                                  (int)outputEntries[PowerOnHoursParser.AttributeId],
                                  (int)outputEntries[PercentLifetimeLeftParser.AttributeId],
-                                 (int)outputEntries[WearLevellingParser.AttributeId]);
+                                 (int)outputEntries[WearLevellingParser.AttributeId],
+                                 (int)outputEntries[PowerCycleCountParser.AttributeId]);
         }
 
         public double CalculateHostWrittenGbPerDay(SmartDataEntry startEntry, SmartDataEntry endEntry)
