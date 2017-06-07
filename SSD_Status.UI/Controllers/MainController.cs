@@ -14,6 +14,7 @@ namespace SSD_Status.WPF.Controllers
     {
         private MainViewModel _viewModel;
         private HistoricalUsageStatsController _historicalUsageChartController;
+        private RawValueInfoController _rawValueInfoController;
 
         private SsdDrive _drive = new SsdDrive();
         private List<SmartDataEntry> _historicalData = new List<SmartDataEntry>();
@@ -21,8 +22,7 @@ namespace SSD_Status.WPF.Controllers
         private Timer _realTimeModeTimer = new Timer();
         private SmartEntryCsvImporter _smartEntryCsvImporter = new SmartEntryCsvImporter();
 
-        public RelayCommand OpenFileCommand { get; private set; }
-        public RelayCommand LoadRawValuesCommand { get; private set; }
+        public RelayCommand OpenFileCommand { get; private set; }        
         public RelayCommand LoadChartCommand { get; private set; }
         public RelayCommand ToggleMonitoringCommand { get; private set; }
         public RelayCommand ExportReadingsCommand { get; private set; }
@@ -31,6 +31,7 @@ namespace SSD_Status.WPF.Controllers
         {
             _viewModel = viewModel;
             _historicalUsageChartController = new HistoricalUsageStatsController(_viewModel.UsageStatsInfo.ChartViewModel);
+            _rawValueInfoController = new RawValueInfoController(_viewModel.RawValueInfo);
 
             OpenFileCommand = new RelayCommand(OpenFileCommand_Execute);            
             LoadChartCommand = new RelayCommand(LoadChartCommand_Execute);
@@ -40,21 +41,7 @@ namespace SSD_Status.WPF.Controllers
             ToggleMonitoringCommand = new RelayCommand(ToggleMonitoringCommand_Execute);
             ExportReadingsCommand = new RelayCommand(ExportReadingsCommand_Execute);
             _viewModel.RealTimeUsageInfo.ToggleMonitoringCommand = ToggleMonitoringCommand;
-            _viewModel.RealTimeUsageInfo.ExportReadingsCommand = ExportReadingsCommand;
-
-            LoadRawValuesCommand = new RelayCommand(LoadRawValuesCommand_Execute);
-            _viewModel.RawValueInfo.RefreshRawValues = LoadRawValuesCommand;            
-        }
-
-        private void LoadRawValuesCommand_Execute(object obj)
-        {            
-            SmartDataEntry dataEntry = _drive.ReadSmartAttributes();
-
-            _viewModel.RawValueInfo.RawValues.Clear();
-            _viewModel.RawValueInfo.RawValues.Add($"Gb Written: {dataEntry.HostWrittenGb.ToString("0.##", CultureInfo.InvariantCulture)} GB");
-            _viewModel.RawValueInfo.RawValues.Add($"Power on time: {dataEntry.PowerOnHours} hours");
-            _viewModel.RawValueInfo.RawValues.Add($"Percent lifetime left: {dataEntry.PercentLifetimeLeft}%");
-            _viewModel.RawValueInfo.RawValues.Add($"Wear levelling: {dataEntry.WearLevellingCount}");
+            _viewModel.RealTimeUsageInfo.ExportReadingsCommand = ExportReadingsCommand;            
         }
 
         private void OpenFileCommand_Execute(object obj)
