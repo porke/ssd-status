@@ -90,7 +90,6 @@
     <Compile Include="Controllers\RealTimeUsageController.cs" />
     <Compile Include="Persistence\SmartEntryCsvImporter.cs" />
     <Compile Include="Utilities\EntryAggregator.cs" />
-    <Compile Include="Utilities\RangeObservableCollection.cs" />
     <Compile Include="Utilities\SimpleMovingAverageCalculator.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="RelayCommand.cs" />
