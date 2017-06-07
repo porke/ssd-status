@@ -1,18 +1,20 @@
-﻿using SSD_Status.Core.Model;
+﻿using System.Linq;
+using SSD_Status.Core.Model;
 using SSD_Status.WPF.Controllers.Chart;
 using SSD_Status.WPF.ViewModels;
 using SSD_Status.WPF.ViewModels.Sources;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace SSD_Status.WPF.Controllers
 {
-    public class ChartController
+    public class HistoricalUsageStatsController
     {
         private ChartViewModel _viewModel;
 
         private Dictionary<ChartType, IChartDataSelector> _dataSelectors = new Dictionary<ChartType, IChartDataSelector>();
 
-        internal ChartController(ChartViewModel chartViewModel)
+        internal HistoricalUsageStatsController(ChartViewModel chartViewModel)
         {
             _viewModel = chartViewModel;
 
@@ -25,12 +27,18 @@ namespace SSD_Status.WPF.Controllers
 
         internal void SelectChartData(IReadOnlyList<SmartDataEntry> records, ChartTypeViewModel chartTypeVm)
         {
-            _viewModel.UsageValues.Clear();
+            _viewModel.SeriesValues.Clear();
+            _viewModel.Timestamps.Clear();
 
             IChartDataSelector selector = _dataSelectors[chartTypeVm.Type];
             _viewModel.YAxisTitle = selector.YAxisDescription;
-            _viewModel.Title = chartTypeVm.Description;
-            _viewModel.UsageValues.AddRange(selector.SelectData(records));
+            _viewModel.SeriesTitle = chartTypeVm.Description;
+
+            var selectedData = selector.SelectData(records);
+            _viewModel.Minimum = selectedData.Any() ? selectedData.Select(x => x.Value).Min() : 0;
+            _viewModel.Maximum = selectedData.Any() ? selectedData.Select(x => x.Value).Max() : 1;
+            _viewModel.Timestamps.AddRange(selectedData.Select(x => x.Key.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));
+            _viewModel.SeriesValues.AddRange(selectedData.Select(x => x.Value));
         }
     }
 }

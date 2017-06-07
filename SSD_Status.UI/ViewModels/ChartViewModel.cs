@@ -1,27 +1,26 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using SSD_Status.WPF.Utilities;
+using LiveCharts;
 
 namespace SSD_Status.WPF.ViewModels
 {
     internal class ChartViewModel : ViewModelBase
-    {
-        private string _title = "Usage chart";
+    {        
         private string _YAxisTitle = "Gigabytes";
+        private double _minimum = 0;
+        private double _maximum = 1;        
+        private string _seriesTitle = "None";
 
-        public string SeriesTitle => "Usage";
-
-        public string Title
+        public string SeriesTitle
         {
+
             get
             {
-                return _title;
+                return _seriesTitle;
             }
             set
             {
-                _title = value;
-                NotifyPropertyChanged(nameof(Title));
+                _seriesTitle = value;
+                NotifyPropertyChanged(nameof(SeriesTitle));
             }
         }
 
@@ -38,10 +37,34 @@ namespace SSD_Status.WPF.ViewModels
             }
         }
 
-        public double Minimum => UsageValues.Select(x => x.Value).Min();
+        public double Minimum
+        {
+            get
+            {
+                return _minimum;
+            }
+            set
+            {
+                _minimum = value;
+                NotifyPropertyChanged(nameof(Minimum));
+            }
+        }
 
-        public double Maximum => UsageValues.Select(x => x.Value).Max();
+        public double Maximum
+        {
+            get
+            {
+                return _maximum;
+            }
+            set
+            {
+                _maximum = value;
+                NotifyPropertyChanged(nameof(Maximum));
+            }
+        }
 
-        public RangeObservableCollection<KeyValuePair<DateTime, double>> UsageValues { get; } = new RangeObservableCollection<KeyValuePair<DateTime, double>>();
+        public ChartValues<double> SeriesValues { get; } = new ChartValues<double>();
+
+        public ChartValues<string> Timestamps { get; } = new ChartValues<string>();
     }
 }

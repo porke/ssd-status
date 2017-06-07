@@ -13,7 +13,7 @@ namespace SSD_Status.WPF.Controllers
     internal class MainController
     {
         private MainViewModel _viewModel;
-        private ChartController _historicalUsageChartController;
+        private HistoricalUsageStatsController _historicalUsageChartController;
 
         private SsdDrive _drive = new SsdDrive();
         private List<SmartDataEntry> _historicalData = new List<SmartDataEntry>();
@@ -30,7 +30,7 @@ namespace SSD_Status.WPF.Controllers
         public MainController(MainViewModel viewModel)
         {
             _viewModel = viewModel;
-            _historicalUsageChartController = new ChartController(_viewModel.UsageStatsInfo.ChartViewModel);
+            _historicalUsageChartController = new HistoricalUsageStatsController(_viewModel.UsageStatsInfo.ChartViewModel);
 
             OpenFileCommand = new RelayCommand(OpenFileCommand_Execute);            
             LoadChartCommand = new RelayCommand(LoadChartCommand_Execute);
@@ -64,7 +64,6 @@ namespace SSD_Status.WPF.Controllers
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     _viewModel.UsageStatsInfo.SourceDataFile = openFileDialog.FileName;
-                    _viewModel.UsageStatsInfo.ChartViewModel.UsageValues.Clear();
                     _historicalData.Clear();
 
                     _historicalData.AddRange(_smartEntryCsvImporter.ImportSmartEntries(openFileDialog.FileName));                    
@@ -118,7 +117,11 @@ namespace SSD_Status.WPF.Controllers
         {
             SmartDataEntry smartEntry = _drive.ReadSmartAttributes();
             _realTimeData.Add(smartEntry);
-            _viewModel.RealTimeUsageInfo.ChartViewModel.UsageValues.Add(new KeyValuePair<DateTime, double>(smartEntry.Timestamp, smartEntry.HostWrittenGb));
+            
+            _viewModel.RealTimeUsageInfo.ChartViewModel.SeriesValues.Add(smartEntry.HostWrittenGb);
+            _viewModel.RealTimeUsageInfo.ChartViewModel.Timestamps.Add(smartEntry.Timestamp.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
+            _viewModel.RealTimeUsageInfo.ChartViewModel.Minimum = _viewModel.RealTimeUsageInfo.ChartViewModel.SeriesValues.Min();
+            _viewModel.RealTimeUsageInfo.ChartViewModel.Maximum = smartEntry.HostWrittenGb;
         }
 
         private void ExportReadingsCommand_Execute(object obj)
