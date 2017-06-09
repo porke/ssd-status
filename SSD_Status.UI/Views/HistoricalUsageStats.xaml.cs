@@ -1,4 +1,6 @@
 ﻿using SSD_Status.WPF.ViewModels;
+using System;
+using System.Reactive.Linq;
 using System.Windows.Controls;
 
 namespace SSD_Status.WPF.Views
@@ -11,12 +13,10 @@ namespace SSD_Status.WPF.Views
         public UsageStatsInfo()
         {
             InitializeComponent();
-        }
-
-        private void ChartType_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var viewModel = (DataContext as HistoricalUsageStatsViewModel);
-            viewModel.LoadChartCommand.Execute(viewModel.SelectedChartType);
+            
+            var subscription = Observable.FromEventPattern<SelectionChangedEventArgs>(chartType, nameof(ComboBox.SelectionChanged))
+                                         .Subscribe(x => (DataContext as HistoricalUsageStatsViewModel).LoadChartCommand.Execute(null));
+            Unloaded += (s, e) => subscription.Dispose();
         }
     }
 }

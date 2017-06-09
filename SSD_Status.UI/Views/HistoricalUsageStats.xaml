@@ -30,10 +30,9 @@
 
             <DockPanel>
                 <TextBlock Margin="5" VerticalAlignment="Center" Text="{x:Static resx:Resources.ChartType}"/>
-                <ComboBox Margin="5" SelectedIndex="0" HorizontalAlignment="Stretch"                          
+                <ComboBox Name="chartType" Margin="5" SelectedIndex="0" HorizontalAlignment="Stretch"                          
                           SelectedItem="{Binding SelectedChartType, Converter={StaticResource ChartTypeToStringConverter}}"
-                          ItemsSource="{Binding ChartTypes}"
-                          SelectionChanged="ChartType_SelectionChanged"/>
+                          ItemsSource="{Binding ChartTypes}"/>
 
             </DockPanel>
         </StackPanel>

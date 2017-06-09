@@ -41,9 +41,8 @@ namespace SSD_Status.WPF.Controllers
         }
 
         private void LoadChartCommand_Execute(object chartType)
-        {
-            var chartTypeVm = chartType as ChartTypeViewModel;            
-            UpdateChart(_historicalData, chartTypeVm);
+        {            
+            UpdateChart(_historicalData);
         }
 
         private void OpenFileCommand_Execute(object obj)
@@ -68,7 +67,7 @@ namespace SSD_Status.WPF.Controllers
 
             var firstEntry = _historicalData.First();
             var lastEntry = _historicalData.Last();
-            int days = (firstEntry.Timestamp - firstEntry.Timestamp).Days;
+            int days = (lastEntry.Timestamp - firstEntry.Timestamp).Days;
             double usagePerDay = (lastEntry.HostWrittenGb - firstEntry.HostWrittenGb) / days;
             double hourUsagePerDay = (lastEntry.PowerOnHours - firstEntry.PowerOnHours) / (double)days;            
             double gigabytesPerHour = (lastEntry.HostWrittenGb - firstEntry.HostWrittenGb) / (lastEntry.PowerOnHours - firstEntry.PowerOnHours);
@@ -81,9 +80,10 @@ namespace SSD_Status.WPF.Controllers
             _usageViewModel.LifeEstimates.Add($"Wear per day: {wearPerDay.ToString("0.####", CultureInfo.InvariantCulture)}");
         }
 
-        internal void UpdateChart(IReadOnlyList<SmartDataEntry> records, ChartTypeViewModel chartTypeVm)
+        internal void UpdateChart(IReadOnlyList<SmartDataEntry> records)
         {
-            var chartViewModel = _usageViewModel.ChartViewModel;
+            ChartViewModel chartViewModel = _usageViewModel.ChartViewModel;
+            ChartTypeViewModel chartTypeVm = _usageViewModel.SelectedChartType;
             chartViewModel.SeriesValues.Clear();
             chartViewModel.Timestamps.Clear();
 
