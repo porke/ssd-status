@@ -3,9 +3,10 @@ using SSD_Status.Core.Model;
 using SSD_Status.WPF.ViewModels;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Timers;
 using System.Windows.Forms;
 using SSD_Status.WPF.Persistence;
+using System;
+using System.Reactive.Linq;
 
 namespace SSD_Status.WPF.Controllers
 {
@@ -14,8 +15,8 @@ namespace SSD_Status.WPF.Controllers
         private RealTimeUsageViewModel _viewModel;
 
         private SsdDrive _drive = new SsdDrive();
-        private List<SmartDataEntry> _realTimeData = new List<SmartDataEntry>();
-        private System.Timers.Timer _realTimeModeTimer = new System.Timers.Timer();
+        private List<SmartDataEntry> _realTimeData = new List<SmartDataEntry>();        
+        private IDisposable _realTimeSubscription;
 
         public RelayCommand ToggleMonitoringCommand { get; private set; }
         public RelayCommand ExportReadingsCommand { get; private set; }
@@ -32,20 +33,20 @@ namespace SSD_Status.WPF.Controllers
 
         private void ToggleMonitoringCommand_Execute(object obj)
         {
-            if (_realTimeModeTimer.Enabled)
+            if (_realTimeSubscription == null)
             {
-                _realTimeModeTimer.Stop();
-                _realTimeModeTimer.Elapsed -= RealTimeModeTimer_Elapsed;
+                ReadSmartEntry();
+                _realTimeSubscription = Observable.Interval(TimeSpan.FromSeconds(5))
+                                                  .Subscribe((x) => ReadSmartEntry(), () => { });
             }
             else
             {
-                _realTimeModeTimer.Interval = 5 * 1000;
-                _realTimeModeTimer.Elapsed += RealTimeModeTimer_Elapsed;
-                _realTimeModeTimer.Start();
+                _realTimeSubscription.Dispose();
+                _realTimeSubscription = null;
             }
         }
 
-        private void RealTimeModeTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void ReadSmartEntry()
         {
             SmartDataEntry smartEntry = _drive.ReadSmartAttributes();
             _realTimeData.Add(smartEntry);
