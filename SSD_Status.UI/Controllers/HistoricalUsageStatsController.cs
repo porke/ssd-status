@@ -16,8 +16,6 @@ namespace SSD_Status.WPF.Controllers
     {
         private HistoricalUsageStatsViewModel _usageViewModel;
 
-        private SmartEntryCsvImporter _smartEntryCsvImporter = new SmartEntryCsvImporter();
-
         private Dictionary<ChartType, IChartDataSelector> _dataSelectors = new Dictionary<ChartType, IChartDataSelector>()
             {
                 {ChartType.None, new NoneSelector()},
@@ -57,7 +55,8 @@ namespace SSD_Status.WPF.Controllers
                     _usageViewModel.SourceDataFile = openFileDialog.FileName;
                     _historicalData.Clear();
 
-                    _historicalData.AddRange(_smartEntryCsvImporter.ImportSmartEntries(openFileDialog.FileName));
+                    var importer = new SmartEntryCsvImporter();
+                    _historicalData.AddRange(importer.ImportSmartEntries(openFileDialog.FileName));
                     CalculateLifeEstimates();
                 }
             }

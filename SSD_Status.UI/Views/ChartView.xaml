@@ -21,7 +21,7 @@
                 <lvc:Axis MinValue="{Binding Minimum}" MaxValue="{Binding Maximum}" Title="{Binding YAxisTitle}" />
             </lvc:CartesianChart.AxisY>
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Date" Labels="{Binding Timestamps}"/>
+                <lvc:Axis Title="Timestamp" Labels="{Binding Timestamps}"/>
             </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
     </Grid>

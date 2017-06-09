@@ -4,6 +4,8 @@ using SSD_Status.WPF.ViewModels;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Timers;
+using System.Windows.Forms;
+using SSD_Status.WPF.Persistence;
 
 namespace SSD_Status.WPF.Controllers
 {
@@ -13,7 +15,7 @@ namespace SSD_Status.WPF.Controllers
 
         private SsdDrive _drive = new SsdDrive();
         private List<SmartDataEntry> _realTimeData = new List<SmartDataEntry>();
-        private Timer _realTimeModeTimer = new Timer();
+        private System.Timers.Timer _realTimeModeTimer = new System.Timers.Timer();
 
         public RelayCommand ToggleMonitoringCommand { get; private set; }
         public RelayCommand ExportReadingsCommand { get; private set; }
@@ -56,7 +58,15 @@ namespace SSD_Status.WPF.Controllers
 
         private void ExportReadingsCommand_Execute(object obj)
         {
-
+            using (var saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "Comma separated values (*.csv)|*.csv";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    var exporter = new SmartEntryCsvExporter();
+                    exporter.ExportSmartEntries(saveFileDialog.FileName, _realTimeData);
+                }
+            }
         }
     }
 }
