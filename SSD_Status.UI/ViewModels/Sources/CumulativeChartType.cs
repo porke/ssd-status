@@ -1,6 +1,6 @@
 ﻿namespace SSD_Status.WPF.ViewModels.Sources
 {
-    internal enum ChartType
+    internal enum CumulativeChartType
     {
         None,
         HostWrittenGbInTime,

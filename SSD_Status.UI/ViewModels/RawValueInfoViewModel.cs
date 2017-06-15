@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace SSD_Status.WPF.ViewModels
 {
-    internal class RawValueInfoViewModel : ViewModelBase
+    internal class RawValueInfoViewModel
     {        
         public ObservableCollection<string> RawValues { get; } = new ObservableCollection<string>();
         

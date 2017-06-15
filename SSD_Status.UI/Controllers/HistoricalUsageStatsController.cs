@@ -16,13 +16,13 @@ namespace SSD_Status.WPF.Controllers
     {
         private HistoricalUsageStatsViewModel _usageViewModel;
 
-        private Dictionary<ChartType, IChartDataSelector> _dataSelectors = new Dictionary<ChartType, IChartDataSelector>()
+        private Dictionary<CumulativeChartType, IChartDataSelector> _dataSelectors = new Dictionary<CumulativeChartType, IChartDataSelector>()
             {
-                {ChartType.None, new NoneSelector()},
-                {ChartType.HostWrittenGbInTime, new HostWritesSelector()},
-                {ChartType.HostWrittenGbPerPowerOnHoursInTime, new HostWritesPerHoursOnSelector()},
-                {ChartType.WearLevellingInTime, new WearLevellingSelector()},
-                {ChartType.PowerOnHoursInTime, new PowerOnHoursSelector()}
+                {CumulativeChartType.None, new NoneSelector()},
+                {CumulativeChartType.HostWrittenGbInTime, new HostWritesSelector()},
+                {CumulativeChartType.HostWrittenGbPerPowerOnHoursInTime, new HostWritesPerHoursOnSelector()},
+                {CumulativeChartType.WearLevellingInTime, new WearLevellingSelector()},
+                {CumulativeChartType.PowerOnHoursInTime, new PowerOnHoursSelector()}
             };
         private List<SmartDataEntry> _historicalData = new List<SmartDataEntry>();
 
@@ -92,7 +92,7 @@ namespace SSD_Status.WPF.Controllers
             chartViewModel.SeriesTitle = chartTypeVm.Description;
 
             var selectedData = selector.SelectData(records);
-            chartViewModel.ChartVisibility = chartTypeVm.Type == ChartType.None ? Visibility.Collapsed : Visibility.Visible;
+            chartViewModel.ChartVisibility = chartTypeVm.Type == CumulativeChartType.None ? Visibility.Collapsed : Visibility.Visible;
             chartViewModel.Minimum = selectedData.Any() ? selectedData.Select(x => x.Value).Min() : 0;
             chartViewModel.Maximum = selectedData.Any() ? selectedData.Select(x => x.Value).Max() : 1;
             chartViewModel.Timestamps.AddRange(selectedData.Select(x => x.Key.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));

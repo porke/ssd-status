@@ -2,7 +2,7 @@
 
 namespace SSD_Status.WPF.ViewModels
 {
-    internal class RealTimeUsageViewModel : ViewModelBase
+    internal class RealTimeUsageViewModel
     {
         public ChartViewModel ChartViewModel { get; } = new ChartViewModel();
 

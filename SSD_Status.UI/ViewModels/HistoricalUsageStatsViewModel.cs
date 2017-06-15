@@ -2,16 +2,33 @@
 using SSD_Status.WPF.ViewModels.Sources;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using System.Windows;
+using System.Windows.Markup;
+using ReactiveUI;
+using System.Reactive.Linq;
 
 namespace SSD_Status.WPF.ViewModels
 {
-    internal class HistoricalUsageStatsViewModel : ViewModelBase
+    internal class HistoricalUsageStatsViewModel : ReactiveObject
     {
         private string _sourceDataFile = "SomeFileVeryFarAway.csv";
         private ChartTypeViewModel _selectedChartType = ChartTypeViewModelSource.GetChartViewModelTypes().First();
+        private ChartCategory _chartCategory = ChartCategory.Cumulative;
+
+        private ObservableAsPropertyHelper<bool> _isCumulativeChartCategoryActive;
+        private ObservableAsPropertyHelper<bool> _isDistributedChartCategoryActive;
 
         public ChartViewModel ChartViewModel { get; } = new ChartViewModel();
+
+        public HistoricalUsageStatsViewModel()
+        {
+            _isCumulativeChartCategoryActive = this.ObservableForProperty(vm => vm.ChartCategory, skipInitial: false)
+                                                   .Select(prop => prop.Value == ChartCategory.Cumulative)
+                                                   .ToProperty(this, vm => vm.IsCumulativeChartCategoryActive);
+
+            _isDistributedChartCategoryActive = this.ObservableForProperty(vm => vm.ChartCategory, skipInitial: false)
+                                                   .Select(prop => prop.Value == ChartCategory.Distributed)
+                                                   .ToProperty(this, vm => vm.IsDistributedChartCategoryActive);
+        }
 
         public string SourceDataFile
         {
@@ -20,11 +37,26 @@ namespace SSD_Status.WPF.ViewModels
                 return _sourceDataFile;
             }
             set
-            {
-                _sourceDataFile = value;
-                NotifyPropertyChanged(nameof(SourceDataFile));
+            {                
+                this.RaiseAndSetIfChanged(ref _sourceDataFile, value);
             }
         }
+
+        public ChartCategory ChartCategory
+        {
+            get
+            {
+                return _chartCategory;
+            }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _chartCategory, value);
+            }
+        }
+
+        public bool IsCumulativeChartCategoryActive => _isCumulativeChartCategoryActive.Value;
+
+        public bool IsDistributedChartCategoryActive => _isDistributedChartCategoryActive.Value;
 
         public ObservableCollection<string> ChartTypes
         {
@@ -42,8 +74,7 @@ namespace SSD_Status.WPF.ViewModels
             }
             set
             {
-                _selectedChartType = value;
-                NotifyPropertyChanged(nameof(SelectedChartType));                
+                this.RaiseAndSetIfChanged(ref _selectedChartType, value);
             }
         }
 

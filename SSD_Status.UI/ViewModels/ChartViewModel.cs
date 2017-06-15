@@ -1,10 +1,11 @@
 ﻿using System;
 using LiveCharts;
 using System.Windows;
+using ReactiveUI;
 
 namespace SSD_Status.WPF.ViewModels
 {
-    internal class ChartViewModel : ViewModelBase
+    internal class ChartViewModel : ReactiveObject
     {        
         private string _YAxisTitle = "Gigabytes";
         private double _minimum = 0;
@@ -20,8 +21,7 @@ namespace SSD_Status.WPF.ViewModels
             }
             set
             {
-                _seriesTitle = value;
-                NotifyPropertyChanged(nameof(SeriesTitle));
+                this.RaiseAndSetIfChanged(ref _seriesTitle, value);
             }
         }
 
@@ -33,8 +33,7 @@ namespace SSD_Status.WPF.ViewModels
             }
             set
             {
-                _YAxisTitle = value;
-                NotifyPropertyChanged(nameof(YAxisTitle));
+                this.RaiseAndSetIfChanged(ref _YAxisTitle, value);                
             }
         }
 
@@ -46,8 +45,7 @@ namespace SSD_Status.WPF.ViewModels
             }
             set
             {
-                _minimum = value;
-                NotifyPropertyChanged(nameof(Minimum));
+                this.RaiseAndSetIfChanged(ref _minimum, value);
             }
         }
 
@@ -59,8 +57,7 @@ namespace SSD_Status.WPF.ViewModels
             }
             set
             {
-                _maximum = value;
-                NotifyPropertyChanged(nameof(Maximum));
+                this.RaiseAndSetIfChanged(ref _maximum, value);                
             }
         }
 
@@ -72,8 +69,7 @@ namespace SSD_Status.WPF.ViewModels
             }
             set
             {
-                _chartVisibility = value;
-                NotifyPropertyChanged(nameof(ChartVisibility));
+                this.RaiseAndSetIfChanged(ref _chartVisibility, value);
             }
         }
 

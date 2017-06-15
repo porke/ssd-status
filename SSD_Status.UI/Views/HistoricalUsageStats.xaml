@@ -10,6 +10,7 @@
              d:DesignHeight="300" d:DesignWidth="500">
     <UserControl.Resources>
         <converters:ChartTypeViewModelToStringConverter x:Key="ChartTypeToStringConverter"/>
+        <converters:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
     </UserControl.Resources>    
     <Grid>
         <Grid.RowDefinitions>
@@ -28,12 +29,26 @@
                 <Button DockPanel.Dock="Right" Command="{Binding OpenFileCommand}" Margin="5" Width="30" Content="..."/>
             </DockPanel>
 
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Content="Cumulative" IsChecked="{Binding Path=ChartCategory, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Cumulative}"/>
+                <RadioButton Content="Distributed" IsChecked="{Binding Path=ChartCategory, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Distributed}"/>
+            </StackPanel>
+
             <DockPanel>
                 <TextBlock Margin="5" VerticalAlignment="Center" Text="{x:Static resx:Resources.ChartType}"/>
-                <ComboBox Name="chartType" Margin="5" SelectedIndex="0" HorizontalAlignment="Stretch"                          
+                <ComboBox Name="chartType" Margin="5" SelectedIndex="0"
                           SelectedItem="{Binding SelectedChartType, Converter={StaticResource ChartTypeToStringConverter}}"
                           ItemsSource="{Binding ChartTypes}"/>
+            </DockPanel>
 
+            <DockPanel>
+                <TextBlock Margin="5" VerticalAlignment="Center" Text="Aggregation"/>
+                <ComboBox IsEnabled="{Binding IsCumulativeChartCategoryActive}" Margin="5" SelectedIndex="0"/>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock Margin="5" VerticalAlignment="Center" Text="Moving average period"/>
+                <TextBox IsEnabled="{Binding IsDistributedChartCategoryActive}" TextAlignment="Right" VerticalAlignment="Center" Text="30"/>
             </DockPanel>
         </StackPanel>
         
