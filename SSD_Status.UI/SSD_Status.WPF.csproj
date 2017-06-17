@@ -121,8 +121,9 @@
     <Compile Include="Utilities\SimpleMovingAverageCalculator.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="RelayCommand.cs" />
-    <Compile Include="ViewModels\ChartTypeViewModel.cs" />
+    <Compile Include="ViewModels\EnumerableViewModel.cs" />
     <Compile Include="ViewModels\ChartViewModel.cs" />
+    <Compile Include="ViewModels\Converters\AggregationTypeToStringConverter.cs" />
     <Compile Include="ViewModels\Converters\ChartTypeViewModelToStringConverter.cs" />
     <Compile Include="ViewModels\Converters\EnumBooleanConverter.cs" />
     <Compile Include="ViewModels\DriveInfoViewModel.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="ViewModels\RawValueInfoViewModel.cs" />
     <Compile Include="ViewModels\RealTimeUsageViewModel.cs" />
     <Compile Include="ViewModels\Sources\AggregationType.cs" />
+    <Compile Include="ViewModels\Sources\AggregationTypeViewModelSource.cs" />
     <Compile Include="ViewModels\Sources\ChartCategory.cs" />
     <Compile Include="ViewModels\Sources\ChartType.cs" />
     <Compile Include="ViewModels\Sources\ChartTypeViewModelSource.cs" />

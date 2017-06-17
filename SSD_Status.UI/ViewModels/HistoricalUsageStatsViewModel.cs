@@ -10,7 +10,8 @@ namespace SSD_Status.WPF.ViewModels
     internal class HistoricalUsageStatsViewModel : ReactiveObject
     {
         private string _sourceDataFile = "SomeFileVeryFarAway.csv";
-        private ChartTypeViewModel _selectedChartType = ChartTypeViewModelSource.GetCumulativeChartViewModels().First();
+        private EnumerableViewModel<ChartType> _selectedChartType = ChartTypeViewModelSource.GetCumulativeChartViewModels().First();
+        private EnumerableViewModel<AggregationType> _selectedAggregationType = AggregationTypeViewModelSource.GetAggregationTypes().First();
         private ChartCategory _chartCategory = ChartCategory.Cumulative;
 
         private ObservableAsPropertyHelper<bool> _isCumulativeChartCategoryActive;
@@ -28,6 +29,7 @@ namespace SSD_Status.WPF.ViewModels
             _isDistributedChartCategoryActive = this.ObservableForProperty(vm => vm.ChartCategory, skipInitial: false)
                                                    .Select(prop => prop.Value == ChartCategory.Distributed)
                                                    .ToProperty(this, vm => vm.IsDistributedChartCategoryActive);
+
             _chartTypes = this.ObservableForProperty(vm => vm.ChartCategory, skipInitial: false)
                                                    .Select(prop => prop.Value == ChartCategory.Cumulative
                                                             ? new ObservableCollection<string>(ChartTypeViewModelSource.GetCumulativeChartViewModels().Select(x => x.Description))
@@ -65,7 +67,7 @@ namespace SSD_Status.WPF.ViewModels
 
         public ObservableCollection<string> ChartTypes => _chartTypes.Value;
 
-        public ChartTypeViewModel SelectedChartType
+        public EnumerableViewModel<ChartType> SelectedChartType
         {
             get
             {
@@ -74,6 +76,26 @@ namespace SSD_Status.WPF.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref _selectedChartType, value);
+            }
+        }
+
+        public EnumerableViewModel<AggregationType> SelectedAggregationType
+        {
+            get
+            {
+                return _selectedAggregationType;
+            }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _selectedAggregationType, value);
+            }
+        }
+
+        public ObservableCollection<string> AggregationTypes
+        {
+            get
+            {
+                return new ObservableCollection<string>(AggregationTypeViewModelSource.GetAggregationTypes().Select(x => x.Description));
             }
         }
 
