@@ -18,7 +18,6 @@ namespace SSD_Status.WPF.ViewModels.Sources
         {
             yield return new EnumerableViewModel<ChartType>(ChartType.None, "None");
             yield return new EnumerableViewModel<ChartType>(ChartType.DistributedHostWrittenGbInTime, "Gigabytes written in time");
-            yield return new EnumerableViewModel<ChartType>(ChartType.DistributedHostWrittenGbPerPowerOnHoursInTime, "Gigabytes written to power on hours in time");
             yield return new EnumerableViewModel<ChartType>(ChartType.DistributedPowerOnHoursInTime, "Power on hours in time");
         }
     }

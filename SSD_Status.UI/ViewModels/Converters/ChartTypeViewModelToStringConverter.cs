@@ -18,9 +18,11 @@ namespace SSD_Status.WPF.ViewModels.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var desc = value as string;
-            return ChartTypeViewModelSource.GetCumulativeChartViewModels()
+            var returnValue = ChartTypeViewModelSource.GetCumulativeChartViewModels()
                 .Concat(ChartTypeViewModelSource.GetDistributedChartViewModels())
-                .First(x => x.Description == desc);
+                .FirstOrDefault(x => x.Description == desc);
+
+            return returnValue ?? ChartTypeViewModelSource.GetDistributedChartViewModels().First();
         }
     }
 }

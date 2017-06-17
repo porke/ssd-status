@@ -103,7 +103,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\Chart\Smoothers\IChartDataSmoother.cs" />
+    <Compile Include="Controllers\Chart\Smoothers\SimpleMovingAverageSmoother.cs" />
     <Compile Include="Controllers\Chart\Transformers\DayAggregationTransformer.cs" />
+    <Compile Include="Controllers\Chart\Transformers\DifferentialDataTransformer.cs" />
     <Compile Include="Controllers\Chart\Transformers\IChartDataTransformer.cs" />
     <Compile Include="Controllers\Chart\Transformers\IdentityDataTransformer.cs" />
     <Compile Include="Controllers\Chart\Transformers\MonthAggregationTransformer.cs" />

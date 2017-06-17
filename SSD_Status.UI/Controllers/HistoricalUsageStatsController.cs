@@ -98,17 +98,23 @@ namespace SSD_Status.WPF.Controllers
             IChartDataSelector selector = _dataSelectors[_usageViewModel.SelectedChartType.Type];
             _chartViewModel.SeriesTitle = _usageViewModel.SelectedChartType.Description;                                            
             _chartViewModel.YAxisTitle = selector.YAxisDescription;           
-            IEnumerable<KeyValuePair<DateTime, double>> chartableData = selector.SelectData(records);
+            IEnumerable<KeyValuePair<DateTime, double>> chartableData = selector.SelectData(records);            
             
-            if (_usageViewModel.ChartCategory == ChartCategory.Cumulative)
+            if (chartableData.Any())
             {
-                if (chartableData.Any())
+                IChartDataTransformer transformer;
+                if (_usageViewModel.ChartCategory == ChartCategory.Cumulative)
                 {
-                    IChartDataTransformer transformer = _dataTransformers[_usageViewModel.SelectedAggregationType.Type];
-                    chartableData = transformer.Transform(chartableData);
-                }                
+                    transformer = _dataTransformers[_usageViewModel.SelectedAggregationType.Type];
+                }
+                else
+                {
+                    transformer = new DifferentialDataTransformer();
+                }
+                
+                chartableData = transformer.Transform(chartableData);
             }
-
+            
             _chartViewModel.ChartVisibility = _usageViewModel.SelectedChartType.Type == ChartType.None ? Visibility.Collapsed : Visibility.Visible;
             _chartViewModel.Minimum = chartableData.Any() ? chartableData.Select(x => x.Value).Min() : 0;
             _chartViewModel.Maximum = chartableData.Any() ? chartableData.Select(x => x.Value).Max() : 1;

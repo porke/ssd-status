@@ -8,7 +8,6 @@
         CumulativeHostWrittenGbPerPowerOnHoursInTime,
         CumulativeWearLevellingInTime,
         DistributedHostWrittenGbInTime,
-        DistributedHostWrittenGbPerPowerOnHoursInTime,
         DistributedPowerOnHoursInTime
     }
 }
