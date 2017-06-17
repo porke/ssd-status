@@ -2,6 +2,7 @@
 {
     enum AggregationType
     {
+        None,
         Day,
         Week,
         Fortnight,

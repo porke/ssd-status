@@ -27,7 +27,8 @@ namespace SSD_Status.WPF.Controllers.Chart.Transformers
                 var entryAtDate = data.FirstOrDefault(x => x.Key.Date == currentDate.Date);
                 if (entryAtDate.Equals(default(KeyValuePair<DateTime, double>)))
                 {
-                    entryAtDate = data.FirstOrDefault(x => x.Key.Date == previousDate.Date);
+                    entryAtDate = new KeyValuePair<DateTime, double>(currentDate,
+                        data.LastOrDefault(x => x.Key.Date == previousDate.Date).Value);
                 }
                 else
                 {

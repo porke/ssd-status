@@ -4,7 +4,6 @@ using SSD_Status.WPF.ViewModels;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
-using SSD_Status.WPF.Utilities;
 using SSD_Status.WPF.Persistence;
 using System.Windows;
 using SSD_Status.WPF.Controllers.Chart.Selectors;
@@ -20,16 +19,17 @@ namespace SSD_Status.WPF.Controllers
         private ChartViewModel _chartViewModel;        
 
         private Dictionary<ChartType, IChartDataSelector> _dataSelectors = new Dictionary<ChartType, IChartDataSelector>()
-            {
-                {ChartType.None, new NoneSelector()},
-                {ChartType.CumulativeHostWrittenGbInTime, new HostWritesSelector()},
-                {ChartType.CumulativeHostWrittenGbPerPowerOnHoursInTime, new HostWritesPerHoursOnSelector()},
-                {ChartType.CumulativeWearLevellingInTime, new WearLevellingSelector()},
-                {ChartType.CumulativePowerOnHoursInTime, new PowerOnHoursSelector()}
-            };
+          {
+            {ChartType.None, new NoneSelector()},
+            {ChartType.CumulativeHostWrittenGbInTime, new HostWritesSelector()},
+            {ChartType.CumulativeHostWrittenGbPerPowerOnHoursInTime, new HostWritesPerHoursOnSelector()},
+            {ChartType.CumulativeWearLevellingInTime, new WearLevellingSelector()},
+            {ChartType.CumulativePowerOnHoursInTime, new PowerOnHoursSelector()}
+        };
         private Dictionary<AggregationType, IChartDataTransformer> _dataTransformers = new Dictionary<AggregationType, IChartDataTransformer>()
         {
-            { AggregationType.Day, new IdentityDataTransformer()},
+            { AggregationType.None, new IdentityDataTransformer()},
+            { AggregationType.Day, new DayAggregationTransformer(1)},
             { AggregationType.Week, new DayAggregationTransformer(7)},
             { AggregationType.Fortnight, new DayAggregationTransformer(14)},
             { AggregationType.Month, new MonthAggregationTransformer()}
@@ -44,7 +44,7 @@ namespace SSD_Status.WPF.Controllers
             _usageViewModel = usageViewModel;
             _chartViewModel = _usageViewModel.ChartViewModel;
 
-        LoadChartCommand = new RelayCommand(LoadChartCommand_Execute);
+            LoadChartCommand = new RelayCommand(LoadChartCommand_Execute);
             _usageViewModel.LoadChartCommand = LoadChartCommand;
 
             OpenFileCommand = new RelayCommand(OpenFileCommand_Execute);
@@ -74,9 +74,7 @@ namespace SSD_Status.WPF.Controllers
         }
 
         private void CalculateLifeEstimates()
-        {
-            _historicalData = EntryAggregator.AggregateEntriesByDay(_historicalData.AsReadOnly()).ToList();
-
+        {            
             var firstEntry = _historicalData.First();
             var lastEntry = _historicalData.Last();
             int days = (lastEntry.Timestamp - firstEntry.Timestamp).Days;
