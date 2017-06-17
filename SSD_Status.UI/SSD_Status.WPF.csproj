@@ -103,6 +103,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\Chart\IChartDataTransformer.cs" />
+    <Compile Include="Controllers\Chart\IdentityTransformer.cs" />
+    <Compile Include="Controllers\Chart\MonthAggregationTransformer.cs" />
     <Compile Include="Controllers\HistoricalUsageStatsController.cs" />
     <Compile Include="Controllers\Chart\HostWritesPerHoursOnSelector.cs" />
     <Compile Include="Controllers\Chart\HostWritesSelector.cs" />

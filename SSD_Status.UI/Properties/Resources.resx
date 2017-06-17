@@ -138,6 +138,9 @@
   <data name="LifeEstimates" xml:space="preserve">
     <value>Life estimates</value>
   </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
   <data name="RawValues" xml:space="preserve">
     <value>Raw values</value>
   </data>

@@ -9,12 +9,14 @@ using System.Windows.Forms;
 using SSD_Status.WPF.Utilities;
 using SSD_Status.WPF.Persistence;
 using System.Windows;
+using SSD_Status.WPF.Properties;
 
 namespace SSD_Status.WPF.Controllers
 {
     public class HistoricalUsageStatsController
     {
         private HistoricalUsageStatsViewModel _usageViewModel;
+        private ChartViewModel _chartViewModel;        
 
         private Dictionary<ChartType, IChartDataSelector> _dataSelectors = new Dictionary<ChartType, IChartDataSelector>()
             {
@@ -24,6 +26,10 @@ namespace SSD_Status.WPF.Controllers
                 {ChartType.CumulativeWearLevellingInTime, new WearLevellingSelector()},
                 {ChartType.CumulativePowerOnHoursInTime, new PowerOnHoursSelector()}
             };
+        private Dictionary<ChartType, IChartDataTransformer> _dataTransformers = new Dictionary<ChartType, IChartDataTransformer>()
+        {
+
+        };
         private List<SmartDataEntry> _historicalData = new List<SmartDataEntry>();
 
         public RelayCommand OpenFileCommand { get; private set; }
@@ -32,12 +38,14 @@ namespace SSD_Status.WPF.Controllers
         internal HistoricalUsageStatsController(HistoricalUsageStatsViewModel usageViewModel)
         {
             _usageViewModel = usageViewModel;
+            _chartViewModel = _usageViewModel.ChartViewModel;
 
-            LoadChartCommand = new RelayCommand(LoadChartCommand_Execute);
+        LoadChartCommand = new RelayCommand(LoadChartCommand_Execute);
             _usageViewModel.LoadChartCommand = LoadChartCommand;
 
             OpenFileCommand = new RelayCommand(OpenFileCommand_Execute);
             _usageViewModel.OpenFileCommand = OpenFileCommand;
+
         }
 
         private void LoadChartCommand_Execute(object chartType)
@@ -81,22 +89,23 @@ namespace SSD_Status.WPF.Controllers
         }
 
         internal void UpdateChart(IReadOnlyList<SmartDataEntry> records)
-        {
-            ChartViewModel chartViewModel = _usageViewModel.ChartViewModel;
-            ChartTypeViewModel chartTypeVm = _usageViewModel.SelectedChartType;
-            chartViewModel.SeriesValues.Clear();
-            chartViewModel.Timestamps.Clear();
+        {            
+            _chartViewModel.SeriesValues.Clear();
+            _chartViewModel.Timestamps.Clear();
+            
+            IChartDataSelector selector = _dataSelectors[_usageViewModel.SelectedChartType.Type];
+            _chartViewModel.SeriesTitle = _usageViewModel.SelectedChartType.Description;                                            
+            _chartViewModel.YAxisTitle = selector.YAxisDescription;
 
-            IChartDataSelector selector = _dataSelectors[chartTypeVm.Type];
-            chartViewModel.YAxisTitle = selector.YAxisDescription;
-            chartViewModel.SeriesTitle = chartTypeVm.Description;
-
+            IChartDataTransformer transformer = new IdentityDataTransformer();
             var selectedData = selector.SelectData(records);
-            chartViewModel.ChartVisibility = chartTypeVm.Type == ChartType.None ? Visibility.Collapsed : Visibility.Visible;
-            chartViewModel.Minimum = selectedData.Any() ? selectedData.Select(x => x.Value).Min() : 0;
-            chartViewModel.Maximum = selectedData.Any() ? selectedData.Select(x => x.Value).Max() : 1;
-            chartViewModel.Timestamps.AddRange(selectedData.Select(x => x.Key.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));
-            chartViewModel.SeriesValues.AddRange(selectedData.Select(x => x.Value));
+            var transformedData = transformer.Transform(selectedData);
+
+            _chartViewModel.ChartVisibility = _usageViewModel.SelectedChartType.Type == ChartType.None ? Visibility.Collapsed : Visibility.Visible;
+            _chartViewModel.Minimum = selectedData.Any() ? selectedData.Select(x => x.Value).Min() : 0;
+            _chartViewModel.Maximum = selectedData.Any() ? selectedData.Select(x => x.Value).Max() : 1;
+            _chartViewModel.Timestamps.AddRange(selectedData.Select(x => x.Key.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));
+            _chartViewModel.SeriesValues.AddRange(selectedData.Select(x => x.Value));
         }             
     }
 }
