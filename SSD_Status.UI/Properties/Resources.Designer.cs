@@ -70,6 +70,15 @@ namespace SSD_Status.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disable.
+        /// </summary>
+        public static string Disable {
+            get {
+                return ResourceManager.GetString("Disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Drive info.
         /// </summary>
         public static string DriveInfo {

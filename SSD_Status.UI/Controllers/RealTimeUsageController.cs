@@ -33,7 +33,8 @@ namespace SSD_Status.WPF.Controllers
 
         private void ToggleMonitoringCommand_Execute(object obj)
         {
-            if (_realTimeSubscription == null)
+            _viewModel.IsEnabled = !_viewModel.IsEnabled;
+            if (_viewModel.IsEnabled)
             {
                 ReadSmartEntry();
                 _realTimeSubscription = Observable.Interval(TimeSpan.FromSeconds(5))

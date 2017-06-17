@@ -120,6 +120,9 @@
   <data name="ChartType" xml:space="preserve">
     <value>Chart type</value>
   </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
   <data name="DriveInfo" xml:space="preserve">
     <value>Drive info</value>
   </data>
