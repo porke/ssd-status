@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ReactiveUI;
 using System.Reactive.Linq;
+using SSD_Status.WPF.ViewModels.Enums;
 
 namespace SSD_Status.WPF.ViewModels
 {

@@ -30,7 +30,7 @@ namespace SSD_Status.WPF.Persistence
                 entries.Add(builder.Build());
             }
 
-            return entries;
+            return entries.OrderBy(x => x.Timestamp).ToList();
         }
     }
 }

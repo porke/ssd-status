@@ -1,5 +1,4 @@
-﻿using System;
-using LiveCharts;
+﻿using LiveCharts;
 using System.Windows;
 using ReactiveUI;
 

@@ -44,7 +44,7 @@
 
             <DockPanel>
                 <TextBlock Margin="5" VerticalAlignment="Center" Text="Aggregation"/>
-                <ComboBox Margin="5" SelectedIndex="0"
+                <ComboBox Name="aggregationType" Margin="5" SelectedIndex="0"
                           IsEnabled="{Binding IsCumulativeChartCategoryActive}" 
                           SelectedItem="{Binding SelectedAggregationType, Converter={StaticResource AggregationTypeToStringConverter}}"
                           ItemsSource="{Binding AggregationTypes}"/>

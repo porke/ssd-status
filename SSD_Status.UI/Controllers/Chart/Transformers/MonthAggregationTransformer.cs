@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace SSD_Status.WPF.Controllers.Chart
+namespace SSD_Status.WPF.Controllers.Chart.Transformers
 {
     internal class MonthAggregationTransformer : IChartDataTransformer
     {

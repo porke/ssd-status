@@ -103,16 +103,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\Chart\IChartDataTransformer.cs" />
-    <Compile Include="Controllers\Chart\IdentityTransformer.cs" />
-    <Compile Include="Controllers\Chart\MonthAggregationTransformer.cs" />
+    <Compile Include="Controllers\Chart\Transformers\DayAggregationTransformer.cs" />
+    <Compile Include="Controllers\Chart\Transformers\IChartDataTransformer.cs" />
+    <Compile Include="Controllers\Chart\Transformers\IdentityDataTransformer.cs" />
+    <Compile Include="Controllers\Chart\Transformers\MonthAggregationTransformer.cs" />
     <Compile Include="Controllers\HistoricalUsageStatsController.cs" />
-    <Compile Include="Controllers\Chart\HostWritesPerHoursOnSelector.cs" />
-    <Compile Include="Controllers\Chart\HostWritesSelector.cs" />
-    <Compile Include="Controllers\Chart\IChartDataSelector.cs" />
-    <Compile Include="Controllers\Chart\NoneSelector.cs" />
-    <Compile Include="Controllers\Chart\PowerOnHoursSelector.cs" />
-    <Compile Include="Controllers\Chart\WearLevellingSelector.cs" />
+    <Compile Include="Controllers\Chart\Selectors\HostWritesPerHoursOnSelector.cs" />
+    <Compile Include="Controllers\Chart\Selectors\HostWritesSelector.cs" />
+    <Compile Include="Controllers\Chart\Selectors\IChartDataSelector.cs" />
+    <Compile Include="Controllers\Chart\Selectors\NoneSelector.cs" />
+    <Compile Include="Controllers\Chart\Selectors\PowerOnHoursSelector.cs" />
+    <Compile Include="Controllers\Chart\Selectors\WearLevellingSelector.cs" />
     <Compile Include="Controllers\RawValueInfoController.cs" />
     <Compile Include="Controllers\RealTimeUsageController.cs" />
     <Compile Include="Persistence\SmartEntryCsvExporter.cs" />
@@ -130,10 +131,10 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RawValueInfoViewModel.cs" />
     <Compile Include="ViewModels\RealTimeUsageViewModel.cs" />
-    <Compile Include="ViewModels\Sources\AggregationType.cs" />
+    <Compile Include="ViewModels\Enums\AggregationType.cs" />
     <Compile Include="ViewModels\Sources\AggregationTypeViewModelSource.cs" />
-    <Compile Include="ViewModels\Sources\ChartCategory.cs" />
-    <Compile Include="ViewModels\Sources\ChartType.cs" />
+    <Compile Include="ViewModels\Enums\ChartCategory.cs" />
+    <Compile Include="ViewModels\Enums\ChartType.cs" />
     <Compile Include="ViewModels\Sources\ChartTypeViewModelSource.cs" />
     <Compile Include="ViewModels\HistoricalUsageStatsViewModel.cs" />
     <Compile Include="Views\ChartView.xaml.cs">

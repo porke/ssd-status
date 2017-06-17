@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Globalization;
 using System.Windows.Data;
+using SSD_Status.WPF.ViewModels.Enums;
 
 namespace SSD_Status.WPF.ViewModels.Converters
 {

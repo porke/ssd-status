@@ -1,4 +1,4 @@
-﻿namespace SSD_Status.WPF.ViewModels.Sources
+﻿namespace SSD_Status.WPF.ViewModels.Enums
 {
     enum AggregationType
     {

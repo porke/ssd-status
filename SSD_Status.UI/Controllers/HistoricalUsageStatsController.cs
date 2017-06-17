@@ -1,15 +1,16 @@
 ﻿using System.Linq;
 using SSD_Status.Core.Model;
-using SSD_Status.WPF.Controllers.Chart;
 using SSD_Status.WPF.ViewModels;
-using SSD_Status.WPF.ViewModels.Sources;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
 using SSD_Status.WPF.Utilities;
 using SSD_Status.WPF.Persistence;
 using System.Windows;
-using SSD_Status.WPF.Properties;
+using SSD_Status.WPF.Controllers.Chart.Selectors;
+using SSD_Status.WPF.Controllers.Chart.Transformers;
+using SSD_Status.WPF.ViewModels.Enums;
+using System;
 
 namespace SSD_Status.WPF.Controllers
 {
@@ -26,9 +27,12 @@ namespace SSD_Status.WPF.Controllers
                 {ChartType.CumulativeWearLevellingInTime, new WearLevellingSelector()},
                 {ChartType.CumulativePowerOnHoursInTime, new PowerOnHoursSelector()}
             };
-        private Dictionary<ChartType, IChartDataTransformer> _dataTransformers = new Dictionary<ChartType, IChartDataTransformer>()
+        private Dictionary<AggregationType, IChartDataTransformer> _dataTransformers = new Dictionary<AggregationType, IChartDataTransformer>()
         {
-
+            { AggregationType.Day, new IdentityDataTransformer()},
+            { AggregationType.Week, new DayAggregationTransformer(7)},
+            { AggregationType.Fortnight, new DayAggregationTransformer(14)},
+            { AggregationType.Month, new MonthAggregationTransformer()}
         };
         private List<SmartDataEntry> _historicalData = new List<SmartDataEntry>();
 
@@ -95,17 +99,23 @@ namespace SSD_Status.WPF.Controllers
             
             IChartDataSelector selector = _dataSelectors[_usageViewModel.SelectedChartType.Type];
             _chartViewModel.SeriesTitle = _usageViewModel.SelectedChartType.Description;                                            
-            _chartViewModel.YAxisTitle = selector.YAxisDescription;
-
-            IChartDataTransformer transformer = new IdentityDataTransformer();
-            var selectedData = selector.SelectData(records);
-            var transformedData = transformer.Transform(selectedData);
+            _chartViewModel.YAxisTitle = selector.YAxisDescription;           
+            IEnumerable<KeyValuePair<DateTime, double>> chartableData = selector.SelectData(records);
+            
+            if (_usageViewModel.ChartCategory == ChartCategory.Cumulative)
+            {
+                if (chartableData.Any())
+                {
+                    IChartDataTransformer transformer = _dataTransformers[_usageViewModel.SelectedAggregationType.Type];
+                    chartableData = transformer.Transform(chartableData);
+                }                
+            }
 
             _chartViewModel.ChartVisibility = _usageViewModel.SelectedChartType.Type == ChartType.None ? Visibility.Collapsed : Visibility.Visible;
-            _chartViewModel.Minimum = selectedData.Any() ? selectedData.Select(x => x.Value).Min() : 0;
-            _chartViewModel.Maximum = selectedData.Any() ? selectedData.Select(x => x.Value).Max() : 1;
-            _chartViewModel.Timestamps.AddRange(selectedData.Select(x => x.Key.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));
-            _chartViewModel.SeriesValues.AddRange(selectedData.Select(x => x.Value));
+            _chartViewModel.Minimum = chartableData.Any() ? chartableData.Select(x => x.Value).Min() : 0;
+            _chartViewModel.Maximum = chartableData.Any() ? chartableData.Select(x => x.Value).Max() : 1;
+            _chartViewModel.Timestamps.AddRange(chartableData.Select(x => x.Key.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));
+            _chartViewModel.SeriesValues.AddRange(chartableData.Select(x => x.Value));
         }             
     }
 }

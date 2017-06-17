@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SSD_Status.Core.Model;
 
-namespace SSD_Status.WPF.Controllers.Chart
+namespace SSD_Status.WPF.Controllers.Chart.Selectors
 {
     internal class WearLevellingSelector : IChartDataSelector
     {

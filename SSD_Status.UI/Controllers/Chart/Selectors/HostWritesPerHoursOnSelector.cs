@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using SSD_Status.Core.Model;
 
-namespace SSD_Status.WPF.Controllers.Chart
+namespace SSD_Status.WPF.Controllers.Chart.Selectors
 {
     internal class HostWritesPerHoursOnSelector : IChartDataSelector
     {

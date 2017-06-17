@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SSD_Status.WPF.ViewModels.Enums;
+using System.Collections.Generic;
 
 namespace SSD_Status.WPF.ViewModels.Sources
 {
