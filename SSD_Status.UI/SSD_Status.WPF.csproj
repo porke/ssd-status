@@ -126,11 +126,11 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RawValueInfoViewModel.cs" />
     <Compile Include="ViewModels\RealTimeUsageViewModel.cs" />
+    <Compile Include="ViewModels\Sources\AggregationType.cs" />
     <Compile Include="ViewModels\Sources\ChartCategory.cs" />
-    <Compile Include="ViewModels\Sources\CumulativeChartType.cs" />
+    <Compile Include="ViewModels\Sources\ChartType.cs" />
     <Compile Include="ViewModels\Sources\ChartTypeViewModelSource.cs" />
     <Compile Include="ViewModels\HistoricalUsageStatsViewModel.cs" />
-    <Compile Include="ViewModels\Sources\DistributedChartType.cs" />
     <Compile Include="Views\ChartView.xaml.cs">
       <DependentUpon>ChartView.xaml</DependentUpon>
     </Compile>

@@ -10,11 +10,12 @@ namespace SSD_Status.WPF.ViewModels
     internal class HistoricalUsageStatsViewModel : ReactiveObject
     {
         private string _sourceDataFile = "SomeFileVeryFarAway.csv";
-        private ChartTypeViewModel _selectedChartType = ChartTypeViewModelSource.GetChartViewModelTypes().First();
+        private ChartTypeViewModel _selectedChartType = ChartTypeViewModelSource.GetCumulativeChartViewModels().First();
         private ChartCategory _chartCategory = ChartCategory.Cumulative;
 
         private ObservableAsPropertyHelper<bool> _isCumulativeChartCategoryActive;
         private ObservableAsPropertyHelper<bool> _isDistributedChartCategoryActive;
+        private ObservableAsPropertyHelper<ObservableCollection<string>> _chartTypes;
 
         public ChartViewModel ChartViewModel { get; } = new ChartViewModel();
 
@@ -27,6 +28,11 @@ namespace SSD_Status.WPF.ViewModels
             _isDistributedChartCategoryActive = this.ObservableForProperty(vm => vm.ChartCategory, skipInitial: false)
                                                    .Select(prop => prop.Value == ChartCategory.Distributed)
                                                    .ToProperty(this, vm => vm.IsDistributedChartCategoryActive);
+            _chartTypes = this.ObservableForProperty(vm => vm.ChartCategory, skipInitial: false)
+                                                   .Select(prop => prop.Value == ChartCategory.Cumulative
+                                                            ? new ObservableCollection<string>(ChartTypeViewModelSource.GetCumulativeChartViewModels().Select(x => x.Description))
+                                                            : new ObservableCollection<string>(ChartTypeViewModelSource.GetDistributedChartViewModels().Select(x => x.Description)))
+                                                   .ToProperty(this, vm => vm.ChartTypes);
         }
 
         public string SourceDataFile
@@ -57,13 +63,7 @@ namespace SSD_Status.WPF.ViewModels
 
         public bool IsDistributedChartCategoryActive => _isDistributedChartCategoryActive.Value;
 
-        public ObservableCollection<string> ChartTypes
-        {
-            get
-            {
-                return new ObservableCollection<string>(ChartTypeViewModelSource.GetChartViewModelTypes().Select(x => x.Description));
-            }
-        }
+        public ObservableCollection<string> ChartTypes => _chartTypes.Value;
 
         public ChartTypeViewModel SelectedChartType
         {

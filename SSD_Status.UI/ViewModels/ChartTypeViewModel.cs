@@ -4,13 +4,13 @@ namespace SSD_Status.WPF.ViewModels
 {
     internal class ChartTypeViewModel
     {
-        internal ChartTypeViewModel(CumulativeChartType type, string description)
+        internal ChartTypeViewModel(ChartType type, string description)
         {
             Type = type;
             Description = description;
         }
 
-        public CumulativeChartType Type { get; private set; }
+        public ChartType Type { get; private set; }
         public string Description { get; private set; }
     }
 }
