@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ReactiveUI;
 using System.Reactive.Linq;
+using System.Reactive;
 using SSD_Status.WPF.ViewModels.Enums;
+using System;
 
 namespace SSD_Status.WPF.ViewModels
 {
@@ -18,8 +20,9 @@ namespace SSD_Status.WPF.ViewModels
         private ObservableAsPropertyHelper<bool> _isCumulativeChartCategoryActive;
         private ObservableAsPropertyHelper<bool> _isDistributedChartCategoryActive;
         private ObservableAsPropertyHelper<ObservableCollection<string>> _chartTypes;
+        private IDisposable _chartUpdateBinding;
 
-        public ChartViewModel ChartViewModel { get; } = new ChartViewModel();
+        public ChartViewModel ChartViewModel { get; } = new ChartViewModel();        
 
         public HistoricalUsageStatsViewModel()
         {
@@ -36,6 +39,9 @@ namespace SSD_Status.WPF.ViewModels
                                                             ? new ObservableCollection<string>(ChartTypeViewModelSource.GetCumulativeChartViewModels().Select(x => x.Description))
                                                             : new ObservableCollection<string>(ChartTypeViewModelSource.GetDistributedChartViewModels().Select(x => x.Description)))
                                                    .ToProperty(this, vm => vm.ChartTypes);
+
+            _chartUpdateBinding = this.WhenAnyValue(x => x.SelectedChartType)
+                .Subscribe(_ => LoadChartCommand?.Execute(null));
         }
 
         public string SourceDataFile

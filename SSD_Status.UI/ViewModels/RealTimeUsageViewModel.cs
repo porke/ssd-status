@@ -9,6 +9,7 @@ namespace SSD_Status.WPF.ViewModels
     {
         private ObservableAsPropertyHelper<string> _toggleButtonCaption;
         private bool _isEnabled = false;
+        private bool _startFromZero = true;
 
         public ChartViewModel ChartViewModel { get; } = new ChartViewModel();
 
@@ -25,8 +26,15 @@ namespace SSD_Status.WPF.ViewModels
             set { this.RaiseAndSetIfChanged(ref _isEnabled, value); }
         }
 
+        public bool StartFromZero
+        {
+            get { return _startFromZero; }
+            set { this.RaiseAndSetIfChanged(ref _startFromZero, value); }
+        }
+
         public string ToggleButtonCaption => _toggleButtonCaption.Value;
-        
+
+        public ICommand ToggleStartFromZero { get; set; }
         public ICommand ExportReadingsCommand { get; set; }
         public ICommand ToggleMonitoringCommand { get; set; }
     }

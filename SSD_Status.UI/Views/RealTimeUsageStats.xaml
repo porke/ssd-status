@@ -17,13 +17,15 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
                 <ColumnDefinition Width="60"/>
                 <ColumnDefinition Width="60"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5" VerticalAlignment="Center" Text="{x:Static resx:Resources.UpdateFrequencyInSeconds}"/>
             <ComboBox Grid.Column="1" Margin="5" SelectedIndex="0" HorizontalAlignment="Stretch"/>
-            <Button Grid.Column="2" Command="{Binding ToggleMonitoringCommand}" Content="{Binding ToggleButtonCaption}"/>
-            <Button Grid.Column="3" Command="{Binding ExportReadingsCommand}" Content="{x:Static resx:Resources.Export}"/>
+            <CheckBox Grid.Column="2" VerticalAlignment="Center" Content="Start from 0" IsChecked="{Binding StartFromZero}" Command="{Binding ToggleStartFromZero}"/>
+            <Button Grid.Column="3" Command="{Binding ToggleMonitoringCommand}" Content="{Binding ToggleButtonCaption}"/>
+            <Button Grid.Column="4" Command="{Binding ExportReadingsCommand}" Content="{x:Static resx:Resources.Export}"/>
         </Grid>
         
         <local:ChartView DataContext="{Binding ChartViewModel}" Grid.Row="1"/>

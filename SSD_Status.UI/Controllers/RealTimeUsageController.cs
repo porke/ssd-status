@@ -20,6 +20,7 @@ namespace SSD_Status.WPF.Controllers
 
         public RelayCommand ToggleMonitoringCommand { get; private set; }
         public RelayCommand ExportReadingsCommand { get; private set; }
+        public RelayCommand ToggleStartFromZeroCommand { get; private set; }
 
         internal RealTimeUsageController(RealTimeUsageViewModel viewModel)
         {
@@ -27,8 +28,10 @@ namespace SSD_Status.WPF.Controllers
 
             ToggleMonitoringCommand = new RelayCommand(ToggleMonitoringCommand_Execute);
             ExportReadingsCommand = new RelayCommand(ExportReadingsCommand_Execute);
+            ToggleStartFromZeroCommand = new RelayCommand(ToggleStartFromZero_Execute);
             _viewModel.ToggleMonitoringCommand = ToggleMonitoringCommand;
             _viewModel.ExportReadingsCommand = ExportReadingsCommand;
+            _viewModel.ToggleStartFromZero = ToggleStartFromZeroCommand;
         }
 
         private void ToggleMonitoringCommand_Execute(object obj)
@@ -52,10 +55,14 @@ namespace SSD_Status.WPF.Controllers
             SmartDataEntry smartEntry = _drive.ReadSmartAttributes();
             _realTimeData.Add(smartEntry);
 
-            _viewModel.ChartViewModel.SeriesValues.Add(smartEntry.HostWrittenGb);
+            double newValue = smartEntry.HostWrittenGb;
+            if (_viewModel.StartFromZero)
+            {
+                newValue -= _realTimeData.First().HostWrittenGb;
+            }
+            _viewModel.ChartViewModel.SeriesValues.Add(newValue);
             _viewModel.ChartViewModel.Timestamps.Add(smartEntry.Timestamp.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
-            _viewModel.ChartViewModel.Minimum = _viewModel.ChartViewModel.SeriesValues.Min();
-            _viewModel.ChartViewModel.Maximum = smartEntry.HostWrittenGb;
+            UpdateChartMinMax();
         }        
 
         private void ExportReadingsCommand_Execute(object obj)
@@ -69,6 +76,21 @@ namespace SSD_Status.WPF.Controllers
                     exporter.ExportSmartEntries(saveFileDialog.FileName, _realTimeData);
                 }
             }
+        }
+
+        private void ToggleStartFromZero_Execute(object obj)
+        {            
+            double minimumValue = _realTimeData.First().HostWrittenGb;
+            var hostWriteValues = _realTimeData.Select(x => _viewModel.StartFromZero ? x.HostWrittenGb - minimumValue : x.HostWrittenGb);
+            _viewModel.ChartViewModel.SeriesValues.Clear();
+            _viewModel.ChartViewModel.SeriesValues.AddRange(hostWriteValues);
+            UpdateChartMinMax();
+        }
+
+        private void UpdateChartMinMax()
+        {
+            _viewModel.ChartViewModel.Minimum = _viewModel.ChartViewModel.SeriesValues.Min();
+            _viewModel.ChartViewModel.Maximum = _viewModel.ChartViewModel.SeriesValues.Max();
         }
     }
 }
