@@ -49,12 +49,33 @@ namespace SSD_Status.WPF.Controllers
 
             OpenFileCommand = new RelayCommand(OpenFileCommand_Execute);
             _usageViewModel.OpenFileCommand = OpenFileCommand;
-
         }
 
         private void LoadChartCommand_Execute(object chartType)
-        {            
-            UpdateChart(_historicalData);
+        {
+            _chartViewModel.SeriesValues.Clear();
+            _chartViewModel.Timestamps.Clear();
+
+            IChartDataSelector selector = _dataSelectors[_usageViewModel.SelectedChartType.Type];
+            _chartViewModel.SeriesTitle = _usageViewModel.SelectedChartType.Description;
+            _chartViewModel.YAxisTitle = selector.YAxisDescription;
+            IEnumerable<KeyValuePair<DateTime, double>> chartableData = selector.SelectData(_historicalData);
+
+            if (chartableData.Any())
+            {
+                IChartDataTransformer transformer = _usageViewModel.ChartCategory == ChartCategory.Cumulative
+                    ? _dataTransformers[_usageViewModel.SelectedAggregationType.Type]
+                    : new DifferentialDataTransformer();
+                
+                chartableData = transformer.Transform(chartableData);
+            }
+
+            _chartViewModel.ChartVisibility = _usageViewModel.SelectedChartType.Type == ChartType.None ? Visibility.Collapsed : Visibility.Visible;
+            _chartViewModel.Minimum = chartableData.Any() ? chartableData.Select(x => x.Value).Min() : 0;
+            _chartViewModel.Maximum = chartableData.Any() ? chartableData.Select(x => x.Value).Max() : 1;
+            _chartViewModel.Timestamps.AddRange(chartableData.Select(x => x.Key.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));
+            _chartViewModel.LabelFormatter = x => x.ToString("0.##", CultureInfo.InvariantCulture);
+            _chartViewModel.SeriesValues.AddRange(chartableData.Select(x => x.Value));
         }
 
         private void OpenFileCommand_Execute(object obj)
@@ -88,38 +109,6 @@ namespace SSD_Status.WPF.Controllers
             _usageViewModel.LifeEstimates.Add($"Hour usage per day: {hourUsagePerDay.ToString("0.##", CultureInfo.InvariantCulture)} h");
             _usageViewModel.LifeEstimates.Add($"Gigabytes per usage hour: {gigabytesPerHour.ToString("0.##", CultureInfo.InvariantCulture)} GB");
             _usageViewModel.LifeEstimates.Add($"Wear per day: {wearPerDay.ToString("0.####", CultureInfo.InvariantCulture)}");
-        }
-
-        internal void UpdateChart(IReadOnlyList<SmartDataEntry> records)
-        {            
-            _chartViewModel.SeriesValues.Clear();
-            _chartViewModel.Timestamps.Clear();
-            
-            IChartDataSelector selector = _dataSelectors[_usageViewModel.SelectedChartType.Type];
-            _chartViewModel.SeriesTitle = _usageViewModel.SelectedChartType.Description;                                            
-            _chartViewModel.YAxisTitle = selector.YAxisDescription;           
-            IEnumerable<KeyValuePair<DateTime, double>> chartableData = selector.SelectData(records);            
-            
-            if (chartableData.Any())
-            {
-                IChartDataTransformer transformer;
-                if (_usageViewModel.ChartCategory == ChartCategory.Cumulative)
-                {
-                    transformer = _dataTransformers[_usageViewModel.SelectedAggregationType.Type];
-                }
-                else
-                {
-                    transformer = new DifferentialDataTransformer();
-                }
-                
-                chartableData = transformer.Transform(chartableData);
-            }
-            
-            _chartViewModel.ChartVisibility = _usageViewModel.SelectedChartType.Type == ChartType.None ? Visibility.Collapsed : Visibility.Visible;
-            _chartViewModel.Minimum = chartableData.Any() ? chartableData.Select(x => x.Value).Min() : 0;
-            _chartViewModel.Maximum = chartableData.Any() ? chartableData.Select(x => x.Value).Max() : 1;
-            _chartViewModel.Timestamps.AddRange(chartableData.Select(x => x.Key.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));
-            _chartViewModel.SeriesValues.AddRange(chartableData.Select(x => x.Value));
         }             
     }
 }

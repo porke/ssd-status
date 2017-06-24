@@ -39,6 +39,7 @@ namespace SSD_Status.WPF.Controllers
             _viewModel.IsEnabled = !_viewModel.IsEnabled;
             if (_viewModel.IsEnabled)
             {
+                _viewModel.ChartViewModel.LabelFormatter = x => x.ToString("0.###", CultureInfo.InvariantCulture);
                 ReadSmartEntry();
                 _realTimeSubscription = Observable.Interval(TimeSpan.FromSeconds(5))
                                                   .Subscribe((x) => ReadSmartEntry(), () => { });
