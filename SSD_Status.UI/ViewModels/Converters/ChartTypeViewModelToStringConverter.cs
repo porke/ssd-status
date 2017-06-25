@@ -22,7 +22,7 @@ namespace SSD_Status.WPF.ViewModels.Converters
                 .Concat(ChartTypeViewModelSource.GetDistributedChartViewModels())
                 .FirstOrDefault(x => x.Description == desc);
 
-            return returnValue ?? ChartTypeViewModelSource.GetDistributedChartViewModels().First();
+            return returnValue ?? new EnumerableViewModel<ChartType>(ChartType.None, "None");
         }
     }
 }

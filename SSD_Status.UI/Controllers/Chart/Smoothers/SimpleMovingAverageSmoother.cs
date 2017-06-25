@@ -15,14 +15,19 @@ namespace SSD_Status.WPF.Controllers.Chart.Smoothers
 
         public IEnumerable<KeyValuePair<DateTime, double>> Smooth(IEnumerable<KeyValuePair<DateTime, double>> data)
         {
-            if (data.Count() < _period)
+            if (data.Count() < _period || _period <= 1)
             {
                 return data;
             }
 
-            // TODO
+            var returnList = new List<KeyValuePair<DateTime, double>>();
+            for (int i = _period; i < data.Count(); ++i)
+            {
+                double average = data.Skip(i).Take(_period).Select(x => x.Value).Average();
+                returnList.Add(new KeyValuePair<DateTime, double>(data.Skip(i).First().Key, average));
+            }
 
-            return data;
+            return returnList;
         }
     }
 }

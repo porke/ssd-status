@@ -15,6 +15,7 @@ namespace SSD_Status.WPF.ViewModels
         private EnumerableViewModel<ChartType> _selectedChartType = ChartTypeViewModelSource.GetCumulativeChartViewModels().First();
         private EnumerableViewModel<AggregationType> _selectedAggregationType = AggregationTypeViewModelSource.GetAggregationTypes().First();
         private ChartCategory _chartCategory = ChartCategory.Cumulative;
+        private int _movingAveragePeriod = 30;
 
         private ObservableAsPropertyHelper<bool> _isCumulativeChartCategoryActive;
         private ObservableAsPropertyHelper<bool> _isDistributedChartCategoryActive;
@@ -39,8 +40,12 @@ namespace SSD_Status.WPF.ViewModels
                                                             : new ObservableCollection<string>(ChartTypeViewModelSource.GetDistributedChartViewModels().Select(x => x.Description)))
                                                    .ToProperty(this, vm => vm.ChartTypes);
 
-            _chartUpdateBinding = this.WhenAnyValue(x => x.SelectedChartType)
-                .Subscribe(_ => LoadChartCommand?.Execute(null));
+            _chartUpdateBinding = this.WhenAnyValue(x => x.SelectedChartType,
+                                                    x => x.SourceDataFile,
+                                                    x => x.ChartCategory,
+                                                    x => x.MovingAveragePeriod,
+                                                    x => x.SelectedAggregationType)
+                                      .Subscribe(_ => RefreshChartCommand?.Execute(null));
         }
 
         public string SourceDataFile
@@ -52,6 +57,18 @@ namespace SSD_Status.WPF.ViewModels
             set
             {                
                 this.RaiseAndSetIfChanged(ref _sourceDataFile, value);
+            }
+        }
+
+        public int MovingAveragePeriod
+        {
+            get
+            {
+                return _movingAveragePeriod;
+            }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _movingAveragePeriod, value);
             }
         }
 
@@ -108,6 +125,6 @@ namespace SSD_Status.WPF.ViewModels
         public ObservableCollection<string> LifeEstimates { get; } = new ObservableCollection<string>();
 
         public ICommand OpenFileCommand { get; set; }
-        public ICommand LoadChartCommand { get; set; }
+        public ICommand RefreshChartCommand { get; set; }
     }
 }

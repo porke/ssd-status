@@ -10,6 +10,7 @@ using SSD_Status.WPF.Controllers.Chart.Selectors;
 using SSD_Status.WPF.Controllers.Chart.Transformers;
 using SSD_Status.WPF.ViewModels.Enums;
 using System;
+using SSD_Status.WPF.Controllers.Chart.Smoothers;
 
 namespace SSD_Status.WPF.Controllers
 {
@@ -37,21 +38,21 @@ namespace SSD_Status.WPF.Controllers
         private List<SmartDataEntry> _historicalData = new List<SmartDataEntry>();
 
         public RelayCommand OpenFileCommand { get; private set; }
-        public RelayCommand LoadChartCommand { get; private set; }
+        public RelayCommand RefreshChartCommand { get; private set; }
 
         internal HistoricalUsageStatsController(HistoricalUsageStatsViewModel usageViewModel)
         {
             _usageViewModel = usageViewModel;
             _chartViewModel = _usageViewModel.ChartViewModel;
 
-            LoadChartCommand = new RelayCommand(LoadChartCommand_Execute);
-            _usageViewModel.LoadChartCommand = LoadChartCommand;
+            RefreshChartCommand = new RelayCommand(RefreshChartCommand_Execute);
+            _usageViewModel.RefreshChartCommand = RefreshChartCommand;
 
             OpenFileCommand = new RelayCommand(OpenFileCommand_Execute);
             _usageViewModel.OpenFileCommand = OpenFileCommand;
         }
 
-        private void LoadChartCommand_Execute(object chartType)
+        private void RefreshChartCommand_Execute(object chartType)
         {
             _chartViewModel.SeriesValues.Clear();
             _chartViewModel.Timestamps.Clear();
@@ -63,11 +64,21 @@ namespace SSD_Status.WPF.Controllers
 
             if (chartableData.Any())
             {
-                IChartDataTransformer transformer = _usageViewModel.ChartCategory == ChartCategory.Cumulative
-                    ? _dataTransformers[_usageViewModel.SelectedAggregationType.Type]
-                    : new DifferentialDataTransformer();
-                
+                IChartDataTransformer transformer;
+                IChartDataSmoother smoother;                
+                if (_usageViewModel.ChartCategory == ChartCategory.Cumulative)
+                {
+                    transformer = _dataTransformers[_usageViewModel.SelectedAggregationType.Type];
+                    smoother = new SimpleMovingAverageSmoother(1);
+                }
+                else
+                {
+                    transformer = new DifferentialDataTransformer();
+                    smoother = new SimpleMovingAverageSmoother(14);
+                }
+
                 chartableData = transformer.Transform(chartableData);
+                chartableData = smoother.Smooth(chartableData);
             }
 
             _chartViewModel.ChartVisibility = _usageViewModel.SelectedChartType.Type == ChartType.None ? Visibility.Collapsed : Visibility.Visible;
