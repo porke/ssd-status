@@ -7,8 +7,9 @@ namespace SSD_Status.Core.Model
 {
     public class SsdDrive
     {
-        public string Name { get; private set; }
-        public double CapacityInGb { get; private set; }
+        public string Name { get; set; }
+        public double CapacityInGb { get; set; }
+        public string SerialNo { get; set; }
 
         private IList<IRecordParser> _recordParsers = new List<IRecordParser>()
         {

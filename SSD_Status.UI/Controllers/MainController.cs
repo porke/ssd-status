@@ -7,7 +7,8 @@ namespace SSD_Status.WPF.Controllers
         private MainViewModel _viewModel;
         private HistoricalUsageStatsController _historicalUsageChartController;
         private RealTimeUsageController _realTimeUsageController;
-        private RawValueInfoController _rawValueInfoController;        
+        private RawValueInfoController _rawValueInfoController;
+        private DriveInfoController _driveInfoController;
 
         public MainController(MainViewModel viewModel)
         {
@@ -15,6 +16,7 @@ namespace SSD_Status.WPF.Controllers
             _historicalUsageChartController = new HistoricalUsageStatsController(_viewModel.UsageStatsInfo);
             _rawValueInfoController = new RawValueInfoController(_viewModel.RawValueInfo);
             _realTimeUsageController = new RealTimeUsageController(_viewModel.RealTimeUsageInfo);
+            _driveInfoController = new DriveInfoController(_viewModel.DriveInfo);
         }               
     }
 }

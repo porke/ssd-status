@@ -110,6 +110,7 @@
     <Compile Include="Controllers\Chart\Transformers\IChartDataTransformer.cs" />
     <Compile Include="Controllers\Chart\Transformers\IdentityDataTransformer.cs" />
     <Compile Include="Controllers\Chart\Transformers\MonthAggregationTransformer.cs" />
+    <Compile Include="Controllers\DriveInfoController.cs" />
     <Compile Include="Controllers\HistoricalUsageStatsController.cs" />
     <Compile Include="Controllers\Chart\Selectors\HostWritesPerHoursOnSelector.cs" />
     <Compile Include="Controllers\Chart\Selectors\HostWritesSelector.cs" />

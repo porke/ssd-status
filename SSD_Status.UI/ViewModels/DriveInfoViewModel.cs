@@ -4,12 +4,6 @@ namespace SSD_Status.WPF.ViewModels
 {
     internal class DriveInfoViewModel
     {
-        public ObservableCollection<string> DriveInfo
-        {
-            get
-            {
-                return new ObservableCollection<string> { "Name", "Capacity", "SerialNo", "Volumes" };
-            }
-        }
+        public ObservableCollection<string> DriveInfo { get; set; } = new ObservableCollection<string>();
     }
 }
