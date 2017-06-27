@@ -116,10 +116,11 @@ namespace SSD_Status.WPF.Controllers
             double wearPerDay = (lastEntry.WearLevellingCount - firstEntry.WearLevellingCount) / (double)days;
 
             _usageViewModel.LifeEstimates.Clear();
-            _usageViewModel.LifeEstimates.Add($"Usage per day: {usagePerDay.ToString("0.##", CultureInfo.InvariantCulture)} GB");
-            _usageViewModel.LifeEstimates.Add($"Hour usage per day: {hourUsagePerDay.ToString("0.##", CultureInfo.InvariantCulture)} h");
-            _usageViewModel.LifeEstimates.Add($"Gigabytes per usage hour: {gigabytesPerHour.ToString("0.##", CultureInfo.InvariantCulture)} GB");
-            _usageViewModel.LifeEstimates.Add($"Wear per day: {wearPerDay.ToString("0.####", CultureInfo.InvariantCulture)}");
+            _usageViewModel.LifeEstimates.Add(new GridPropertyViewModel("Total days recorded", days.ToString()));
+            _usageViewModel.LifeEstimates.Add(new GridPropertyViewModel("Usage per day", $"{usagePerDay.ToString("0.##", CultureInfo.InvariantCulture)} GB"));
+            _usageViewModel.LifeEstimates.Add(new GridPropertyViewModel("Hour usage per day", $"{hourUsagePerDay.ToString("0.##", CultureInfo.InvariantCulture)} h"));
+            _usageViewModel.LifeEstimates.Add(new GridPropertyViewModel("Gigabytes per usage hour", $"{gigabytesPerHour.ToString("0.##", CultureInfo.InvariantCulture)} GB"));
+            _usageViewModel.LifeEstimates.Add(new GridPropertyViewModel("Wear per day", $"{wearPerDay.ToString("0.####", CultureInfo.InvariantCulture)}"));
         }             
     }
 }

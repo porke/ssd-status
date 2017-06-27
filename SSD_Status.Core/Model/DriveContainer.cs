@@ -21,6 +21,8 @@ namespace SSD_Status.Core.Model
                     {
                         Name = drive["Model"] as string,
                         SerialNo = (drive["SerialNumber"] as string).Trim(),
+                        InterfaceType = (drive["InterfaceType"] as string).Trim(),
+                        FirmwareVersion = (drive["FirmwareRevision"] as string).Trim(),
                         CapacityInGb = BytesToGigabytes(totalSectors * bytesPerSector)
                     };                    
 

@@ -37,14 +37,14 @@
 
             <DockPanel>
                 <TextBlock Margin="5" VerticalAlignment="Center" Text="{x:Static resx:Resources.ChartType}"/>
-                <ComboBox Name="chartType" Margin="5" SelectedIndex="0"
+                <ComboBox Margin="5" SelectedIndex="0"
                           SelectedItem="{Binding SelectedChartType, Converter={StaticResource ChartTypeToStringConverter}}"
                           ItemsSource="{Binding ChartTypes}"/>
             </DockPanel>
 
             <DockPanel>
                 <TextBlock Margin="5" VerticalAlignment="Center" Text="Aggregation"/>
-                <ComboBox Name="aggregationType" Margin="5" SelectedIndex="0"
+                <ComboBox Margin="5" SelectedIndex="0"
                           IsEnabled="{Binding IsCumulativeChartCategoryActive}" 
                           SelectedItem="{Binding SelectedAggregationType, Converter={StaticResource AggregationTypeToStringConverter}}"
                           ItemsSource="{Binding AggregationTypes}"/>
@@ -58,8 +58,14 @@
         </StackPanel>
         
         <StackPanel Background="White" Grid.Column="1">
-            <TextBlock HorizontalAlignment="Center" Text="{x:Static resx:Resources.LifeEstimates}"/> 
-            <ListBox ItemsSource="{Binding LifeEstimates}"/>
+            <TextBlock HorizontalAlignment="Center" Text="{x:Static resx:Resources.LifeEstimates}"/>
+            <DataGrid HeadersVisibility="None" IsReadOnly="True" CanUserAddRows="false" 
+                  ItemsSource="{Binding LifeEstimates}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="Auto" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Width="*" Binding="{Binding Value}"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
 
         <local:ChartView Visibility="{Binding ChartVisibility}"

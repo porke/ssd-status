@@ -10,6 +10,8 @@ namespace SSD_Status.Core.Model
         public string Name { get; set; }
         public double CapacityInGb { get; set; }
         public string SerialNo { get; set; }
+        public string InterfaceType { get; set; }
+        public string FirmwareVersion { get; set; }
 
         private IList<IRecordParser> _recordParsers = new List<IRecordParser>()
         {
