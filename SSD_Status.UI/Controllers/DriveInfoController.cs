@@ -20,9 +20,9 @@ namespace SSD_Status.WPF.Controllers
         private void LoadDriveInfo()
         {
             var first = DriveContainer.Drives[0];
-            _viewModel.DriveInfo.Add($"Model: {first.Name}");
-            _viewModel.DriveInfo.Add($"Serial number: {first.SerialNo}");
-            _viewModel.DriveInfo.Add($"Capacity: {first.CapacityInGb.ToString("#.00", CultureInfo.InvariantCulture)} GB");
+            _viewModel.DriveInfo.Add(new GridPropertyViewModel { Name = "Model", Value = first.Name });
+            _viewModel.DriveInfo.Add(new GridPropertyViewModel { Name = "Serial number", Value = first.SerialNo });
+            _viewModel.DriveInfo.Add(new GridPropertyViewModel { Name = "Capacity", Value = $"{first.CapacityInGb.ToString("#.00", CultureInfo.InvariantCulture)} GB" });
         }
     }
 }

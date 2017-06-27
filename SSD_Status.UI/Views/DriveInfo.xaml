@@ -8,6 +8,12 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Background="White">
         <TextBlock HorizontalAlignment="Center" Text="{x:Static resx:Resources.DriveInfo}"/>
-        <ListBox ItemsSource="{Binding DriveInfo}"/>
+        <DataGrid HeadersVisibility="None" IsReadOnly="True" CanUserAddRows="false" 
+                  ItemsSource="{Binding DriveInfo}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="Auto" Binding="{Binding Name}"/>
+                <DataGridTextColumn Width="*" Binding="{Binding Value}"/>
+            </DataGrid.Columns>
+        </DataGrid>        
     </StackPanel>
 </UserControl>
