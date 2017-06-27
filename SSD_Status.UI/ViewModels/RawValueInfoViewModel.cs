@@ -5,7 +5,7 @@ namespace SSD_Status.WPF.ViewModels
 {
     internal class RawValueInfoViewModel
     {        
-        public ObservableCollection<string> RawValues { get; } = new ObservableCollection<string>();
+        public ObservableCollection<GridPropertyViewModel> RawValues { get; } = new ObservableCollection<GridPropertyViewModel>();
         
         public ICommand RefreshRawValues { get; set; }
     }

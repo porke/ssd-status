@@ -8,7 +8,14 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Background="White">
         <TextBlock HorizontalAlignment="Center" Text="{x:Static resx:Resources.RawValues}"/>
-        <ListBox ItemsSource="{Binding RawValues}"/>
+        <DataGrid HeadersVisibility="None" IsReadOnly="True" CanUserAddRows="false" 
+                  ItemsSource="{Binding RawValues}" AutoGenerateColumns="False">
+        <DataGrid.Columns>
+            <DataGridTextColumn Width="Auto" Binding="{Binding Name}"/>
+            <DataGridTextColumn Width="*" Binding="{Binding Value}"/>
+        </DataGrid.Columns>
+        </DataGrid>
+
         <Button Command="{Binding RefreshRawValues}" Content="{x:Static resx:Resources.Refresh}"/>
     </StackPanel>
 </UserControl>
