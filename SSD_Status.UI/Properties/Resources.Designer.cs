@@ -61,6 +61,15 @@ namespace SSD_Status.WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chart group.
+        /// </summary>
+        public static string ChartGroup {
+            get {
+                return ResourceManager.GetString("ChartGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Chart type.
         /// </summary>
         public static string ChartType {

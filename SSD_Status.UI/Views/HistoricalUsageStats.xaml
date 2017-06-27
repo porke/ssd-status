@@ -31,8 +31,9 @@
             </DockPanel>
 
             <StackPanel Orientation="Horizontal">
-                <RadioButton Content="Cumulative" IsChecked="{Binding Path=ChartCategory, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Cumulative}"/>
-                <RadioButton Content="Distributed" IsChecked="{Binding Path=ChartCategory, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Distributed}"/>
+                <TextBlock Margin="5" VerticalAlignment="Center" Text="{x:Static resx:Resources.ChartGroup}"/>
+                <RadioButton VerticalAlignment="Center" Content="Cumulative" IsChecked="{Binding Path=ChartCategory, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Cumulative}"/>
+                <RadioButton VerticalAlignment="Center" Content="Distributed" IsChecked="{Binding Path=ChartCategory, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Distributed}"/>
             </StackPanel>
 
             <DockPanel>
