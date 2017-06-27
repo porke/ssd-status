@@ -37,6 +37,7 @@ namespace SSD_Status.WPF.Controllers
         private void ToggleMonitoringCommand_Execute(object obj)
         {
             _viewModel.IsEnabled = !_viewModel.IsEnabled;
+            _viewModel.ChartViewModel.SeriesTitle = "Gigabytes written in time";
             if (_viewModel.IsEnabled)
             {
                 _viewModel.ChartViewModel.LabelFormatter = x => x.ToString("0.###", CultureInfo.InvariantCulture);

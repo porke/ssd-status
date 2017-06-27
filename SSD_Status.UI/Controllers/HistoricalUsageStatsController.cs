@@ -74,7 +74,7 @@ namespace SSD_Status.WPF.Controllers
                 else
                 {
                     transformer = new DifferentialDataTransformer();
-                    smoother = new SimpleMovingAverageSmoother(14);
+                    smoother = new SimpleMovingAverageSmoother(_usageViewModel.MovingAveragePeriod);
                 }
 
                 chartableData = transformer.Transform(chartableData);
