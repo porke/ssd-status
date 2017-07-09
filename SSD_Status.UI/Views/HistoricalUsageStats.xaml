@@ -70,7 +70,8 @@
         </Grid>
         
         <StackPanel Grid.Column="1">
-            <TextBlock HorizontalAlignment="Center" Text="{x:Static resx:Resources.LifeEstimates}"/>
+            <TextBlock Text="{x:Static resx:Resources.LifeEstimates}"
+                       Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
             <DataGrid HeadersVisibility="None" IsReadOnly="True" CanUserAddRows="false" 
                   ItemsSource="{Binding LifeEstimates}" AutoGenerateColumns="False">
                 <DataGrid.Columns>

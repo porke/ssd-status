@@ -3,15 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SSD_Status.WPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="500">
     <DataGrid IsReadOnly="True" AutoGenerateColumns="False">
         <DataGrid.Columns>
-            <DataGridTextColumn Header="First Name"  Binding="{Binding FirstName}"/>
-            <DataGridTextColumn Header="First Name"  Binding="{Binding FirstName}"/>
-            <DataGridTextColumn Header="First Name"  Binding="{Binding FirstName}"/>
-            <DataGridTextColumn Header="First Name"  Binding="{Binding FirstName}"/>
+            <DataGridTextColumn Header="#"  Binding="{Binding EntryId}"/>
+            <DataGridTextColumn Header="Timestamp"  Binding="{Binding Timestamp}"/>
+            <DataGridTextColumn Header="Written GB"  Binding="{Binding HostWrittenGb}"/>
+            <DataGridTextColumn Header="Power on Hours" Binding="{Binding PowerOnHours}"/>
+            <DataGridTextColumn Header="Wear levelling"  Binding="{Binding WearLevelling}"/>
+            <DataGridTextColumn Header="Percent lifetime left"  Binding="{Binding PercentLifetimeLeft}"/>
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>
