@@ -21,11 +21,11 @@ namespace SSD_Status.WPF.Controllers
 
         private Dictionary<ChartType, IChartDataSelector> _dataSelectors = new Dictionary<ChartType, IChartDataSelector>()
           {
-            {ChartType.None, new NoneSelector()},
-            {ChartType.CumulativeHostWrittenGbInTime, new HostWritesSelector()},
-            {ChartType.CumulativeHostWrittenGbPerPowerOnHoursInTime, new HostWritesPerHoursOnSelector()},
-            {ChartType.CumulativeWearLevellingInTime, new WearLevellingSelector()},
-            {ChartType.CumulativePowerOnHoursInTime, new PowerOnHoursSelector()}
+            { ChartType.None, new NoneSelector() },
+            { ChartType.CumulativeHostWrittenGbInTime, new HostWritesSelector() },
+            { ChartType.CumulativeHostWrittenGbPerPowerOnHoursInTime, new HostWritesPerHoursOnSelector() },
+            { ChartType.CumulativeWearLevellingInTime, new WearLevellingSelector() },
+            { ChartType.CumulativePowerOnHoursInTime, new PowerOnHoursSelector() }
         };
         private Dictionary<AggregationType, IChartDataTransformer> _dataTransformers = new Dictionary<AggregationType, IChartDataTransformer>()
         {

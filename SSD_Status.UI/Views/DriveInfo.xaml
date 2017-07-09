@@ -9,6 +9,15 @@
     <StackPanel>
         <Label Content="{x:Static resx:Resources.DriveInfo}"
                    Height="24" HorizontalAlignment="Center" FontWeight="Bold"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Select drive"/>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding Drives}" SelectedItem="{Binding SelectedDrive}" 
+                      Margin="4" />
+        </Grid>
         <DataGrid HeadersVisibility="None" IsReadOnly="True" CanUserAddRows="false" 
                   ItemsSource="{Binding DriveInfo}" AutoGenerateColumns="False">
             <DataGrid.Columns>
