@@ -23,6 +23,7 @@ namespace SSD_Status.WPF.Controllers
 
         private void LoadRawValuesCommand_Execute(object obj)
         {
+            _drive = DriveContainer.Drives[0];
             SmartDataEntry dataEntry = _drive.ReadSmartAttributes();
 
             _viewModel.LastRefreshed = dataEntry.Timestamp;

@@ -24,7 +24,7 @@ namespace SSD_Status.Core.Model
 
         public SmartDataEntry ReadSmartAttributes()
         {
-            var searcher = new ManagementObjectSearcher("Select * from Win32_DiskDrive")
+            var searcher = new ManagementObjectSearcher($"Select * from Win32_DiskDrive Where Model={Name}")
             {
                 Scope = new ManagementScope(@"\root\wmi"),
                 Query = new ObjectQuery("Select * from MSStorageDriver_FailurePredictData")
