@@ -142,7 +142,7 @@ namespace SSD_Status.WPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Raw values.
+        ///   Looks up a localized string similar to Raw values (last refreshed: {0}).
         /// </summary>
         public static string RawValues {
             get {

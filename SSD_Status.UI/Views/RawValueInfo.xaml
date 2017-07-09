@@ -15,8 +15,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{x:Static resx:Resources.RawValues}"
-                Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+            <Label Content="{Binding LastRefreshedCaption}"
+                Height="24" HorizontalAlignment="Center" FontWeight="Bold"/>
             <Button Grid.Column="1" Command="{Binding RefreshRawValues}">
                 <Image Source="{StaticResource RefreshIcon}"/>
             </Button>

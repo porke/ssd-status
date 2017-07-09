@@ -6,9 +6,9 @@
              xmlns:resx="clr-namespace:SSD_Status.WPF.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Background="White">
-        <TextBlock Text="{x:Static resx:Resources.DriveInfo}"
-                   Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+    <StackPanel>
+        <Label Content="{x:Static resx:Resources.DriveInfo}"
+                   Height="24" HorizontalAlignment="Center" FontWeight="Bold"/>
         <DataGrid HeadersVisibility="None" IsReadOnly="True" CanUserAddRows="false" 
                   ItemsSource="{Binding DriveInfo}" AutoGenerateColumns="False">
             <DataGrid.Columns>

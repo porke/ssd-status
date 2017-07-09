@@ -39,39 +39,39 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="{x:Static resx:Resources.FileName}"/>
-            <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SourceDataFile}"/>
-            <Button Grid.Column="3" Command="{Binding OpenFileCommand}"  Width="25" Content="..."/>
+            <Label Content="{x:Static resx:Resources.FileName}"/>
+            <Label Grid.Column="1" Grid.ColumnSpan="2" Content="{Binding SourceDataFile}"/>
+            <Button Grid.Column="3" Command="{Binding OpenFileCommand}" Width="25" Margin="4" Content="..."/>
 
-            <TextBlock Grid.Row="1" Text="{x:Static resx:Resources.ChartGroup}"/>
-            <RadioButton Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Content="Cumulative" IsChecked="{Binding Path=ChartCategory, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Cumulative}"/>
-            <RadioButton Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Content="Distributed" IsChecked="{Binding Path=ChartCategory, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Distributed}"/>
+            <Label Grid.Row="1" Content="{x:Static resx:Resources.ChartGroup}"/>
+            <RadioButton Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="4" Content="Cumulative" IsChecked="{Binding Path=ChartCategory, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Cumulative}"/>
+            <RadioButton Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Margin="4" Content="Distributed" IsChecked="{Binding Path=ChartCategory, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Distributed}"/>
 
-            <TextBlock Grid.Row="2" VerticalAlignment="Center" Text="{x:Static resx:Resources.ChartType}"/>
-            <ComboBox Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2"
+            <Label Grid.Row="2" Content="{x:Static resx:Resources.ChartType}"/>
+            <ComboBox Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2" Margin="4"
                           SelectedItem="{Binding SelectedChartType, Converter={StaticResource ChartTypeToStringConverter}}"
                           ItemsSource="{Binding ChartTypes}"/>
 
 
-            <TextBlock Grid.Row="3" VerticalAlignment="Center" Text="Aggregation"/>
-            <ComboBox Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3"
+            <Label Grid.Row="3" Content="Aggregation"/>
+            <ComboBox Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" Margin="4"
                           IsEnabled="{Binding IsCumulativeChartCategoryActive}" 
                           SelectedItem="{Binding SelectedAggregationType, Converter={StaticResource AggregationTypeToStringConverter}}"
                           ItemsSource="{Binding AggregationTypes}"/>
 
-            <TextBlock Grid.Row="4" Text="SMA period"/>
-            <Slider Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
+            <Label Grid.Row="4" Content="SMA period"/>
+            <Slider Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="4"
                     Minimum="1" Maximum="30" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"
                     Value="{Binding MovingAveragePeriod}"
                     IsEnabled="{Binding IsDistributedChartCategoryActive}"/>
-            <TextBox Grid.Row="4" Grid.Column="3"
+            <TextBox Grid.Row="4" Grid.Column="3" Margin="4"
                      Text="{Binding MovingAveragePeriod}" IsReadOnly="True"
                 IsEnabled="{Binding IsDistributedChartCategoryActive}" TextAlignment="Right" VerticalAlignment="Center"/>
         </Grid>
         
         <StackPanel Grid.Column="1">
-            <TextBlock Text="{x:Static resx:Resources.LifeEstimates}"
-                       Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+            <Label Content="{x:Static resx:Resources.LifeEstimates}"
+                       Height="24" HorizontalAlignment="Center" FontWeight="Bold"/>
             <DataGrid HeadersVisibility="None" IsReadOnly="True" CanUserAddRows="false" 
                   ItemsSource="{Binding LifeEstimates}" AutoGenerateColumns="False">
                 <DataGrid.Columns>

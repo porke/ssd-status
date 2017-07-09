@@ -25,6 +25,7 @@ namespace SSD_Status.WPF.Controllers
         {
             SmartDataEntry dataEntry = _drive.ReadSmartAttributes();
 
+            _viewModel.LastRefreshed = dataEntry.Timestamp;
             _viewModel.RawValues.Clear();
             _viewModel.RawValues.Add(new GridPropertyViewModel("Total gigabytes written", $"{dataEntry.HostWrittenGb.ToString("0.##", CultureInfo.InvariantCulture)} GB"));
             _viewModel.RawValues.Add(new GridPropertyViewModel("Power on time", $"{dataEntry.PowerOnHours} hours" ));

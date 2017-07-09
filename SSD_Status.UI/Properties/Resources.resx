@@ -145,7 +145,7 @@
     <value>None</value>
   </data>
   <data name="RawValues" xml:space="preserve">
-    <value>Raw values</value>
+    <value>Raw values (last refreshed: {0})</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
