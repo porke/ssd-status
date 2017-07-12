@@ -17,8 +17,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <local:DriveInfo DataContext="{Binding DriveInfo}"/>
-            <local:RawValueInfo DataContext="{Binding RawValueInfo}" Grid.Column="1"/>
+            <local:DriveInfo Grid.ColumnSpan="2" DataContext="{Binding DriveInfo}"/>
 
             <TabControl Grid.Row="1" Grid.ColumnSpan="2">
                 <TabItem Header="Historical usage chart">
@@ -26,9 +25,6 @@
                 </TabItem>
                 <TabItem Header="Real-time usage chart">
                     <local:RealTimeStats DataContext="{Binding RealTimeUsageInfo}"/>
-                </TabItem>
-                <TabItem Header="Real-time usage table">
-                    
                 </TabItem>
             </TabControl>
         </Grid>

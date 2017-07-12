@@ -118,7 +118,6 @@
     <Compile Include="Controllers\Chart\Selectors\NoneSelector.cs" />
     <Compile Include="Controllers\Chart\Selectors\PowerOnHoursSelector.cs" />
     <Compile Include="Controllers\Chart\Selectors\WearLevellingSelector.cs" />
-    <Compile Include="Controllers\RawValueInfoController.cs" />
     <Compile Include="Controllers\RealTimeUsageController.cs" />
     <Compile Include="Persistence\SmartEntryCsvExporter.cs" />
     <Compile Include="Persistence\SmartEntryCsvImporter.cs" />
@@ -132,7 +131,6 @@
     <Compile Include="ViewModels\Converters\EnumBooleanConverter.cs" />
     <Compile Include="ViewModels\DriveInfoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\RawValueInfoViewModel.cs" />
     <Compile Include="ViewModels\RealTimeUsageViewModel.cs" />
     <Compile Include="ViewModels\Enums\AggregationType.cs" />
     <Compile Include="ViewModels\Sources\AggregationTypeViewModelSource.cs" />
@@ -151,9 +149,6 @@
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RawValueInfo.xaml.cs">
-      <DependentUpon>RawValueInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RealTimeUsageStats.xaml.cs">
       <DependentUpon>RealTimeUsageStats.xaml</DependentUpon>
@@ -209,10 +204,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\RawValueInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

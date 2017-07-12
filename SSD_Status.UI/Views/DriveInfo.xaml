@@ -6,24 +6,58 @@
              xmlns:resx="clr-namespace:SSD_Status.WPF.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <BitmapImage x:Key="RefreshIcon" UriSource="pack://application:,,,/SSD_Status.WPF;component/Images/Refresh.png"/>
+    </UserControl.Resources>
     <StackPanel>
-        <Label Content="{x:Static resx:Resources.DriveInfo}"
-                   Height="24" HorizontalAlignment="Center" FontWeight="Bold"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
+                <ColumnDefinition MaxWidth="24"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
             <Label Content="Select drive"/>
             <ComboBox Grid.Column="1" ItemsSource="{Binding Drives}" SelectedItem="{Binding SelectedDrive}" 
                       Margin="4" />
+            <Button Grid.Column="2" Command="{Binding RefreshRawValues}" MaxHeight="24">
+                <Image Source="{StaticResource RefreshIcon}"/>
+            </Button>
         </Grid>
-        <DataGrid HeadersVisibility="None" IsReadOnly="True" CanUserAddRows="false" 
-                  ItemsSource="{Binding DriveInfo}" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Width="Auto" Binding="{Binding Name}"/>
-                <DataGridTextColumn Width="*" Binding="{Binding Value}"/>
-            </DataGrid.Columns>
-        </DataGrid>        
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label Content="{x:Static resx:Resources.DriveInfo}"
+                   Height="24" HorizontalAlignment="Center" FontWeight="Bold"/>
+            <DataGrid Grid.Row="1" HeadersVisibility="None" IsReadOnly="True" CanUserAddRows="false" 
+                      ItemsSource="{Binding DriveInfo}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="Auto" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Width="*" Binding="{Binding Value}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Label Grid.Column="1" Content="{Binding LastRefreshedCaption}"
+                Height="24" HorizontalAlignment="Center" FontWeight="Bold"/>
+            <DataGrid Grid.Column="1" Grid.Row="1"
+                      HeadersVisibility="None" IsReadOnly="True" CanUserAddRows="false" 
+                  ItemsSource="{Binding RawValues}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="Auto" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Width="*" Binding="{Binding Value}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </StackPanel>
 </UserControl>
