@@ -26,6 +26,9 @@
                 <TabItem Header="Real-time usage chart">
                     <local:RealTimeStats DataContext="{Binding RealTimeUsageInfo}"/>
                 </TabItem>
+                <TabItem Header="Real-time data entries">
+                    <local:EntryDataTable DataContext="{Binding RealTimeUsageInfo}"/>
+                </TabItem>
             </TabControl>
         </Grid>
     </Grid>

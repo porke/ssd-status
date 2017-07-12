@@ -5,13 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
-    <DataGrid IsReadOnly="True" AutoGenerateColumns="False">
+    <DataGrid ItemsSource="{Binding DataEntries}" IsReadOnly="True" AutoGenerateColumns="False">
+        <DataGrid.Resources>
+            <Style TargetType="DataGridCell">
+                <Style.Setters>
+                    <Setter Property="TextBlock.TextAlignment" Value="Right"/>
+                </Style.Setters>
+            </Style>
+        </DataGrid.Resources>
         <DataGrid.Columns>
-            <DataGridTextColumn Header="#"  Binding="{Binding EntryId}"/>
-            <DataGridTextColumn Header="Timestamp"  Binding="{Binding Timestamp}"/>
-            <DataGridTextColumn Header="Written GB"  Binding="{Binding HostWrittenGb}"/>
+            <DataGridTextColumn Header="#" Binding="{Binding EntryId}"/>
+            <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp}"/>
+            <DataGridTextColumn Header="Written GB" Binding="{Binding HostWrittenGb, StringFormat=F2}"/>
             <DataGridTextColumn Header="Power on Hours" Binding="{Binding PowerOnHours}"/>
-            <DataGridTextColumn Header="Wear levelling"  Binding="{Binding WearLevelling}"/>
+            <DataGridTextColumn Header="Wear levelling" Binding="{Binding WearLevelling}"/>
             <DataGridTextColumn Header="Percent lifetime left"  Binding="{Binding PercentLifetimeLeft}"/>
         </DataGrid.Columns>
     </DataGrid>

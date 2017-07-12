@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using System.Reactive.Linq;
 using SSD_Status.WPF.Properties;
+using System.Collections.ObjectModel;
 
 namespace SSD_Status.WPF.ViewModels
 {
@@ -31,6 +32,8 @@ namespace SSD_Status.WPF.ViewModels
             get { return _startFromZero; }
             set { this.RaiseAndSetIfChanged(ref _startFromZero, value); }
         }
+
+        public ObservableCollection<EntryViewModel> DataEntries { get; } = new ObservableCollection<EntryViewModel>();
 
         public string ToggleButtonCaption => _toggleButtonCaption.Value;
 

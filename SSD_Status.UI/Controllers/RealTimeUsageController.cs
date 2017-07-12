@@ -43,7 +43,8 @@ namespace SSD_Status.WPF.Controllers
                 _viewModel.ChartViewModel.LabelFormatter = x => x.ToString("0.###", CultureInfo.InvariantCulture);
                 ReadSmartEntry();
                 _realTimeSubscription = Observable.Interval(TimeSpan.FromSeconds(5))
-                                                  .Subscribe((x) => ReadSmartEntry(), () => { });
+                                                  .ObserveOnDispatcher()
+                                                  .Subscribe((x) => ReadSmartEntry(), () => { });                
             }
             else
             {
@@ -56,6 +57,7 @@ namespace SSD_Status.WPF.Controllers
         {
             SmartDataEntry smartEntry = _drive.ReadSmartAttributes();
             _realTimeData.Add(smartEntry);
+            AppendDataEntry();
 
             double newValue = smartEntry.HostWrittenGb;
             if (_viewModel.StartFromZero)
@@ -64,8 +66,23 @@ namespace SSD_Status.WPF.Controllers
             }
             _viewModel.ChartViewModel.SeriesValues.Add(newValue);
             _viewModel.ChartViewModel.Timestamps.Add(smartEntry.Timestamp.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
-            UpdateChartMinMax();
+            UpdateChartMinMax();            
         }        
+
+        private void AppendDataEntry()
+        {
+            SmartDataEntry lastEntry = _realTimeData.Last();
+            int lastId = _viewModel.DataEntries.LastOrDefault()?.EntryId ?? 0;
+            _viewModel.DataEntries.Add(new EntryViewModel
+            {
+                EntryId = lastId + 1,
+                Timestamp = lastEntry.Timestamp,
+                HostWrittenGb = lastEntry.HostWrittenGb,
+                PowerOnHours = lastEntry.PowerOnHours,
+                WearLevelling = lastEntry.WearLevellingCount,
+                PercentLifetimeLeft = lastEntry.PercentLifetimeLeft
+            });
+        }
 
         private void ExportReadingsCommand_Execute(object obj)
         {
