@@ -170,11 +170,11 @@ namespace SSD_Status.WPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Update frequency in seconds.
+        ///   Looks up a localized string similar to Update frequency.
         /// </summary>
-        public static string UpdateFrequencyInSeconds {
+        public static string UpdateFrequency {
             get {
-                return ResourceManager.GetString("UpdateFrequencyInSeconds", resourceCulture);
+                return ResourceManager.GetString("UpdateFrequency", resourceCulture);
             }
         }
     }

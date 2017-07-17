@@ -57,7 +57,7 @@ namespace SSD_Status.WPF.Controllers
             _chartViewModel.SeriesValues.Clear();
             _chartViewModel.Timestamps.Clear();
 
-            IChartDataSelector selector = _dataSelectors[_usageViewModel.SelectedChartType.Type];
+            IChartDataSelector selector = _dataSelectors[_usageViewModel.SelectedChartType.Value];
             _chartViewModel.SeriesTitle = _usageViewModel.SelectedChartType.Description;
             _chartViewModel.YAxisTitle = selector.YAxisDescription;
             IEnumerable<KeyValuePair<DateTime, double>> chartableData = selector.SelectData(_historicalData);
@@ -68,7 +68,7 @@ namespace SSD_Status.WPF.Controllers
                 IChartDataSmoother smoother;                
                 if (_usageViewModel.ChartCategory == ChartCategory.Cumulative)
                 {
-                    transformer = _dataTransformers[_usageViewModel.SelectedAggregationType.Type];
+                    transformer = _dataTransformers[_usageViewModel.SelectedAggregationType.Value];
                     smoother = new SimpleMovingAverageSmoother(1);
                 }
                 else
@@ -81,7 +81,7 @@ namespace SSD_Status.WPF.Controllers
                 chartableData = smoother.Smooth(chartableData);
             }
 
-            _chartViewModel.ChartVisibility = _usageViewModel.SelectedChartType.Type == ChartType.None ? Visibility.Collapsed : Visibility.Visible;
+            _chartViewModel.ChartVisibility = _usageViewModel.SelectedChartType.Value == ChartType.None ? Visibility.Collapsed : Visibility.Visible;
             _chartViewModel.Minimum = chartableData.Any() ? chartableData.Select(x => x.Value).Min() : 0;
             _chartViewModel.Maximum = chartableData.Any() ? chartableData.Select(x => x.Value).Max() : 1;
             _chartViewModel.Timestamps.AddRange(chartableData.Select(x => x.Key.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));

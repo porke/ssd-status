@@ -4,10 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SSD_Status.WPF.Views"
+             xmlns:converters="clr-namespace:SSD_Status.WPF.ViewModels.Converters"
              xmlns:resx="clr-namespace:SSD_Status.WPF.Properties"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="400" d:DesignWidth="600">
     <Grid>
+        <Grid.Resources>
+            <converters:RealTimeIntervalTypeToStringConverter x:Key="RealTimeIntervalTypeToStringConverter"/>
+            <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
@@ -15,17 +20,24 @@
 
         <Grid Grid.Row="0" Background="White">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="60"/>
                 <ColumnDefinition Width="60"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Margin="5" VerticalAlignment="Center" Text="{x:Static resx:Resources.UpdateFrequencyInSeconds}"/>
-            <ComboBox Grid.Column="1" Margin="5" SelectedIndex="0" HorizontalAlignment="Stretch"/>
-            <CheckBox Grid.Column="2" VerticalAlignment="Center" Content="Start from 0" IsChecked="{Binding StartFromZero}" Command="{Binding ToggleStartFromZero}"/>
-            <Button Grid.Column="3" Command="{Binding ToggleMonitoringCommand}" Content="{Binding ToggleButtonCaption}"/>
-            <Button Grid.Column="4" Command="{Binding ExportReadingsCommand}" Content="{x:Static resx:Resources.Export}"/>
+            <TextBlock Margin="5" VerticalAlignment="Center" Text="{x:Static resx:Resources.UpdateFrequency}"/>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding RealTimeIntervals}"
+                      IsEnabled ="{Binding Path=IsEnabled, Converter={StaticResource BooleanNegationConverter}}"
+                      SelectedItem="{Binding Path=SelectedIntervalType, Converter={StaticResource RealTimeIntervalTypeToStringConverter}}"
+                      Margin="5" HorizontalAlignment="Stretch"/>
+            <CheckBox Grid.Column="2" VerticalAlignment="Center" Content="Start from 0"
+                      IsEnabled ="{Binding Path=IsEnabled, Converter={StaticResource BooleanNegationConverter}}"
+                      IsChecked="{Binding StartFromZero}" Command="{Binding ToggleStartFromZero}"/>
+            <Button Grid.Column="3" Margin="4"
+                    Command="{Binding ToggleMonitoringCommand}" Content="{Binding ToggleButtonCaption}"/>
+            <Button Grid.Column="4" Margin="4"
+                    Command="{Binding ExportReadingsCommand}" Content="{x:Static resx:Resources.Export}"/>
         </Grid>
         
         <local:ChartView DataContext="{Binding ChartViewModel}" Grid.Row="1"/>

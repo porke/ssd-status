@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
@@ -6,8 +7,7 @@ namespace SSD_Status.WPF.ViewModels.Converters
 {
     internal class EnumBooleanConverter : IValueConverter
     {
-        #region IValueConverter Members
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string parameterString = parameter as string;
             if (parameterString == null)
@@ -24,7 +24,7 @@ namespace SSD_Status.WPF.ViewModels.Converters
             return parameterValue.Equals(value);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string parameterString = parameter as string;
             if (parameterString == null)
@@ -34,6 +34,5 @@ namespace SSD_Status.WPF.ViewModels.Converters
 
             return Enum.Parse(targetType, parameterString);
         }
-        #endregion
     }
 }

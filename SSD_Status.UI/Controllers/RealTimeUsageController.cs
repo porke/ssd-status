@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using SSD_Status.WPF.Persistence;
 using System;
 using System.Reactive.Linq;
+using SSD_Status.WPF.Controllers.Converters;
 
 namespace SSD_Status.WPF.Controllers
 {
@@ -42,7 +43,9 @@ namespace SSD_Status.WPF.Controllers
             {
                 _viewModel.ChartViewModel.LabelFormatter = x => x.ToString("0.###", CultureInfo.InvariantCulture);
                 ReadSmartEntry();
-                _realTimeSubscription = Observable.Interval(TimeSpan.FromSeconds(5))
+
+                int seconds = RealTimeIntervalToSecondCountConverter.Convert(_viewModel.SelectedIntervalType.Value);
+                _realTimeSubscription = Observable.Interval(TimeSpan.FromSeconds(seconds))
                                                   .ObserveOnDispatcher()
                                                   .Subscribe((x) => ReadSmartEntry(), () => { });                
             }
