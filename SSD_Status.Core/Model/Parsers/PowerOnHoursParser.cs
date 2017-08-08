@@ -4,7 +4,7 @@ namespace SSD_Status.Core.Model.Parsers
 {
     internal class PowerOnHoursParser : IRecordParser
     {
-        public const byte AttributeId = 0x09;
+        public byte AttributeId => 0x09;
 
         public bool CanParse(byte id)
         {

@@ -4,7 +4,7 @@ namespace SSD_Status.Core.Model.Parsers
 {
     internal class WearLevellingParser : IRecordParser
     {
-        public const byte AttributeId = 0xAD;
+        public byte AttributeId => 0xAD;
 
         public bool CanParse(byte id)
         {

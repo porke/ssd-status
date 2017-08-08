@@ -20,7 +20,7 @@ namespace SSD_Status.WPF.Controllers
             _viewModel = viewModel;
 
             _refreshDriveCommand = new RelayCommand(RefreshDriveInfo_Execute);
-            _viewModel.RefreshDriveInfoCommand = _refreshDriveCommand;
+            _viewModel.RefreshDriveInfo = _refreshDriveCommand;
 
             _loadRawValuesCommand = new RelayCommand(LoadRawValuesCommand_Execute);
             _viewModel.RefreshRawValues = _loadRawValuesCommand;            
@@ -48,6 +48,7 @@ namespace SSD_Status.WPF.Controllers
         {            
             if (_drive != null)
             {
+                _drive = _drives.FirstOrDefault(x => x.Name == _viewModel.SelectedDrive) ?? _drives.FirstOrDefault();
                 _viewModel.SelectedDrive = _drive.Name;
 
                 _viewModel.DriveInfo.Clear();

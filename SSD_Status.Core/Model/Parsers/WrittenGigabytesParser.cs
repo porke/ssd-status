@@ -5,7 +5,7 @@ namespace SSD_Status.Core.Model.Parsers
 {
     internal class WrittenGigabytesParser : IRecordParser
     {
-        public const byte AttributeId = 0xF6;
+        public byte AttributeId => 0xF6;
 
         public bool CanParse(byte id)
         {

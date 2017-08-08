@@ -20,7 +20,11 @@ namespace SSD_Status.WPF.ViewModels
         public DriveInfoViewModel()
         {
             _refreshDriveBinding = this.WhenAnyValue(x => x.SelectedDrive)
-                                       .Subscribe(_ => RefreshDriveInfoCommand?.Execute(null));
+                                       .Subscribe(_ =>
+                                            {
+                                                RefreshDriveInfo?.Execute(null);
+                                                RefreshRawValues?.Execute(null);
+                                            });
 
             _lastRefreshedCaption = this.ObservableForProperty(vm => vm.LastRefreshed, skipInitial: false)
                                         .Select(x => string.Format(Resources.RawValues,
@@ -60,6 +64,6 @@ namespace SSD_Status.WPF.ViewModels
         public ObservableCollection<string> Drives { get; set; } = new ObservableCollection<string>();
 
         public ICommand RefreshRawValues { get; set; }
-        public ICommand RefreshDriveInfoCommand { get; set; }
+        public ICommand RefreshDriveInfo { get; set; }
     }
 }

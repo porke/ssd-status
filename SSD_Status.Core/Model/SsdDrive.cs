@@ -1,5 +1,6 @@
 ﻿using SSD_Status.Core.Model.Parsers;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Management;
 
@@ -29,32 +30,34 @@ namespace SSD_Status.Core.Model
                 Scope = new ManagementScope(@"\root\wmi"),
                 Query = new ObjectQuery("Select * from MSStorageDriver_FailurePredictData")
             };
-
-            var outputEntries = new Dictionary<byte, double>();
+            
+            Dictionary<byte, double> outputEntries = _recordParsers.ToDictionary(x => x.AttributeId, x => 0.0);
             foreach (ManagementObject data in searcher.Get())
             {
                 uint length = (uint)data.Properties["Length"].Value;
                 byte[] bytes = (byte[])data.Properties["VendorSpecific"].Value;
                 for (int i = 0; i * 12 + 2 < length; ++i)
                 {
-                    int id = bytes[i * 12 + 2];
+                    byte id = bytes[i * 12 + 2];
                     foreach (var parser in _recordParsers)
                     {
-                        if (parser.CanParse((byte)id))
+                        if (parser.CanParse(id))
                         {
                             var record = parser.Parse(bytes, i);
-                            outputEntries.Add((byte)id, record);
+                            outputEntries[id] = record;
                         }
                     }
                 }
             }
 
+            Func<Type, byte> findAttributeIdFromParserType = parserType => _recordParsers.First(x => x.GetType() == parserType).AttributeId;
+
             return new SmartDataEntry(DateTime.Now,
-                                 outputEntries[WrittenGigabytesParser.AttributeId],
-                                 (int)outputEntries[PowerOnHoursParser.AttributeId],
-                                 (int)outputEntries[PercentLifetimeLeftParser.AttributeId],
-                                 (int)outputEntries[WearLevellingParser.AttributeId],
-                                 (int)outputEntries[PowerCycleCountParser.AttributeId]);
+                                 outputEntries[findAttributeIdFromParserType(typeof(WrittenGigabytesParser))],
+                                 (int)outputEntries[findAttributeIdFromParserType(typeof(PowerOnHoursParser))],
+                                 (int)outputEntries[findAttributeIdFromParserType(typeof(PercentLifetimeLeftParser))],
+                                 (int)outputEntries[findAttributeIdFromParserType(typeof(WearLevellingParser))],
+                                 (int)outputEntries[findAttributeIdFromParserType(typeof(PowerCycleCountParser))]);
         }
     }
 }

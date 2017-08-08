@@ -4,7 +4,7 @@ namespace SSD_Status.Core.Model.Parsers
 {
     internal class PowerCycleCountParser : IRecordParser
     {
-        public const byte AttributeId = 0x0C;
+        public byte AttributeId => 0x0C;
 
         public bool CanParse(byte id)
         {

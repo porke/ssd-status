@@ -4,7 +4,7 @@ namespace SSD_Status.Core.Model.Parsers
 {
     internal class PercentLifetimeLeftParser : IRecordParser
     {
-        public const byte AttributeId = 0xCA;
+        public byte AttributeId => 0xCA;
 
         public bool CanParse(byte id)
         {
